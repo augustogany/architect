@@ -1,0 +1,1 @@
+<button type="submit" class="btn btn-light" formtarget="_blank"><i class="fas fa-paper-plane"></i> Generar Reporte</button>
