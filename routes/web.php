@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+	\Iseed::generateSeed('personas');
     return view('welcome');
 });
 
