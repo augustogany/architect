@@ -1,7 +1,5 @@
 <?php
 
-namespace Database\Seeders;
-
 use Illuminate\Database\Seeder;
 
 class RoleUserTableSeeder extends Seeder
@@ -29,27 +27,19 @@ class RoleUserTableSeeder extends Seeder
             ),
             1 => 
             array (
-                'id' => 3,
-                'role_id' => 3,
-                'user_id' => 3,
+                'id' => 2,
+                'role_id' => 2,
+                'user_id' => 2,
                 'created_at' => '2021-04-18 14:54:27',
                 'updated_at' => '2021-04-18 14:54:27',
             ),
             2 => 
             array (
-                'id' => 4,
+                'id' => 3,
                 'role_id' => 3,
-                'user_id' => 4,
+                'user_id' => 3,
                 'created_at' => '2021-04-18 14:54:33',
                 'updated_at' => '2021-04-18 14:54:33',
-            ),
-            3 => 
-            array (
-                'id' => 5,
-                'role_id' => 5,
-                'user_id' => 2,
-                'created_at' => '2022-04-03 21:25:48',
-                'updated_at' => '2022-04-03 21:25:48',
             ),
         ));
         

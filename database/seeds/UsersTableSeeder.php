@@ -1,7 +1,5 @@
 <?php
 
-namespace Database\Seeders;
-
 use Illuminate\Database\Seeder;
 
 class UsersTableSeeder extends Seeder
@@ -33,7 +31,7 @@ class UsersTableSeeder extends Seeder
             ),
             2 => 
             array (
-                'id' => 3,
+                'id' => 2,
                 'name' => 'escritorTrinidad',
                 'email' => 'escritortrinidad@gmail.com',
                 'email_verified_at' => NULL,
@@ -45,7 +43,7 @@ class UsersTableSeeder extends Seeder
             ),
             3 => 
             array (
-                'id' => 4,
+                'id' => 3,
                 'name' => 'escritorRiberalta',
                 'email' => 'escritorriberalta@gmail.com',
                 'email_verified_at' => NULL,
