@@ -58,7 +58,7 @@
                 $numeroitems = 0;
                 $cuotas_restantes = 0; 
             ?>
-            @foreach($deudores as $deudor)
+            @forelse($deudores as $deudor)
             @foreach ($deudor->deudas as $deuda)
                 <?php 
                     if ($deuda->montorestante > 0) {
@@ -73,7 +73,9 @@
                 <td>{{$deudor->numeroregistro}}</td>
                 <td>{{$cuotas_restantes}}</td>
             </tr>
-            @endforeach 
+            @empty
+                <p>Sin registros.</p>
+            @endforelse
         </table>
     </div>
 
