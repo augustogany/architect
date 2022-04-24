@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\TipoPago;
+use App\Tipopago;
 class TipoPagoTableSeeder extends Seeder
 {
     /**
@@ -11,7 +11,7 @@ class TipoPagoTableSeeder extends Seeder
      */
     public function run()
     {
-        TipoPago::create([
+        Tipopago::create([
             'user_id' => 1,
             'sucursal_id' => 1,
             'nombrepago' => 'ATRASADOS',
