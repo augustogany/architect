@@ -133,4 +133,7 @@ Route::middleware(['auth'])->group(function () {
 
 	//ruta para los arquitectos deudores deudores
 	Route::get('deudores','PerfilusuarioController@deudores_pdf')->name('deudores_pdf');
+
+	//Ruta para agregar pagos atrasados
+	Route::post('addpayment/{id}','DeudaarquitectoController@addpayment')->name('add.payment');
 });

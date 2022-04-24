@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use App\Documentation;
 use App\Experiencia;
 use App\Persona;
@@ -31,30 +32,34 @@ class DocumentacionController extends Controller
     public function guardar($request,$documento){
        
         $file=$request->file("urlpdf");
-
+       
         if($file->guessExtension()=="pdf"){
             $customFileName = uniqid() . '_.' . $file->extension();
             $nombre_original = $file->getClientOriginalName();
             $request->file('urlpdf')->storeAs('public/kardex', $customFileName);
-            $imageName = $documento->archivo['url'];
-
-            if ($imageName != null) {
-                $documento->archivo()->update([
-                    'name'=> $nombre_original,
-                    'url' => $customFileName
-                ]);
-            }else {
-                $documento->archivo()->create([
-                    'name'=> $nombre_original,
-                    'url' => $customFileName
-                ]);
-            }
-            if ($imageName != null) {
-                if (file_exists('storage/kardex/' . $imageName)) {
-                     unlink('storage/kardex/' . $imageName);
+            $imageName = $documento->archivo ? $documento->archivo['url'] : null;
+            DB::beginTransaction();
+            try {
+                if ($imageName != null) {
+                    $documento->archivo()->update([
+                        'name'=> $nombre_original,
+                        'url' => $customFileName
+                    ]);
+                }else {
+                    $documento->archivo()->create([
+                        'name'=> $nombre_original,
+                        'url' => $customFileName
+                    ]);
                 }
+                if ($imageName != null) {
+                    if (file_exists('storage/kardex/' . $imageName)) {
+                        unlink('storage/kardex/' . $imageName);
+                    }
+                }
+                DB::commit();
+            } catch (\Exception $e) {
+                DB::rollback();
             }
-
             return response()->json([
                 'documento' => Documentation::find($documento->id),
                 'message' => 'Archivo guardado correctamente'
@@ -93,7 +98,7 @@ class DocumentacionController extends Controller
         $data = null;
         try {
             $documento = Documentation::where('id', request('id'))->first();
- 
+            
             if ($documento !== null) {
                 $documento->update([
                     'curriculo' => $request->curriculo,

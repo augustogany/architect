@@ -21,4 +21,14 @@ class Proyectourbanizacion extends Model
     	if($this->archivo)
     		return url("storage/$this->archivo");
     }
+
+    protected function getVisadoSusCategoriaAttribute($value)
+    {
+        return number_format($value,2,",",".");
+    }
+
+    protected function getVisadoBsCategoriaAttribute($value)
+    {
+        return number_format($value,2,",",".");
+    }
 }

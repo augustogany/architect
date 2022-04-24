@@ -57,14 +57,21 @@
             <div class="row">
                 <div class="col-sm-12">
                       <div class="form-group">
-                          <div class="form-line">                        
+                          <div class="form-line">
+                            <?php
+                            $archivo = '';
+                            if ($persona->documentation()->exists()) {
+                              $archivo = $persona->documentation->archivo ? \Storage::url($documentacion->curriculo) : '';
+                            }
+                             
+                            ?>                        
                                 <div style="padding-bottom: 2%">
                                   <input type="file" name="urlpdf">
                                   <input type="hidden" name="id" value="{{$documentacion->id ?? null}}">
                                   <input type="hidden" name="persona_id" value="{{$persona->id ?? null}}">
                                     <a 
                                       id="pdfImage"
-                                      href="{{$persona->documentation()->exists() ? \Storage::url($documentacion->curriculo) : ''}}" 
+                                      href="{{ $archivo }}" 
                                       target="_blank">
                                       <img src="/theme/dist/img/pdf.png"  target="_blank" width="50">
                                     </a>
@@ -118,9 +125,7 @@
           <i class="fas fa-th-list"></i>
           Experiencia Laboral
             <div class="card-tools">
-              @can('tipopago.create')
               <button type="button" data-toggle="modal" data-target="#addModal" class="btn btn-outline-success btn-lg" title="Crear nuevo"><i class="fas fa-plus"></i></button>
-              @endcan
               <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
             </div>
         </div>
@@ -438,13 +443,13 @@
             type: 'post',
             cache: false,
             data: new FormData(form),
-                processData: false, // Recuerde agregar estos dos, de lo contrario puede haber errores
+            processData: false, // Recuerde agregar estos dos, de lo contrario puede haber errores
             contentType: false,    //
             success: function(result)
             {
               console.log(result);
               if (result.documento) {
-                $pdfImage.attr('href', result.documento.curriculo);
+                $pdfImage.attr('href', 'storage/'+result.documento.curriculo);
               }
                alert(result.message);
             },

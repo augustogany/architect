@@ -44,6 +44,7 @@
                 <th>Estado</th>
                 <th></th>
                 <th></th>
+                <th></th>
               </tr>
             </thead>
           </table>
@@ -59,6 +60,36 @@
     </div>
   </div>
 </div>
+<!-- Add Modal start -->
+<div class="modal fade modal-slide-in-right" id="modal-addpayment">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Agregar Pago</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hiden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>Monto:</label>
+                  <input type="number" class="form-control" id="monto">
+                </div>
+              </div>
+            </div>
+            <button id="store_action" type="button" class="tn btn-outline-info">Guarda</button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      <!-- End Modal content-->
+    </div>
+  </div>
+  <!-- add code ends -->
 @endsection
 
 @push ('styles')
@@ -82,6 +113,7 @@
 
 
     <script>
+      var stId = null;
       $(document).ready(function() {
         //$.noConflict();
         $('#deudasTable').DataTable({
@@ -103,19 +135,20 @@
               { data: 'persona.amaterno', name: 'persona.amaterno' },
               { data: 'gestion', name: 'gestion' },
               { data: 'tipopago.nombrepago', name: 'tipopago.nombrepago' },
-              { data: 'montopagado', name: 'montopagado' },
+              { data: 'detalledeudas', name: 'detalledeudas' },
               { data: 'cuotas', name: 'cuotas' },
               { data: 'cuotasrestantes', name: 'cuotasrestantes' },
               { data: 'montorestante',
               render: function (data, type, row)
                 {
-                  if (data == "0.00") {
+                  if (row.montodeuda == row.detalledeudas) {
                     return '<span class="badge bg-success"><i class="far fa-bell"></i> CANCELADO</span>';
                   }
                     return '<span class="badge bg-danger"><i class="far fa-bell"></i> ADEUDO</span>';
                 }
               },
               { data: 'btn_edit', name: 'btn_edit'},
+              { data: 'btn_add_payment', name: 'btn_add_payment'},
               { data: 'btn_pdfdetalledeuda', name: 'btn_pdfdetalledeuda'}
           ],
           "columnDefs": [
@@ -136,7 +169,45 @@
             }
           }
         });
+
+        //augusto
+        
+        function getPagoId() {
+           $('#modal-addpayment').on('show.bs.modal', function (event) {
+               var button = $(event.relatedTarget) // Button that triggered the modal
+               var id = button.data('pagoid'); // Extract info from data-* attributes
+               stId = id;
+           });
+
+       }
+       getPagoId();
       }); 
+      $('#modal-addpayment').on('click', '#store_action', function(e) {
+          e.preventDefault();
+          var token = $("meta[name='csrf-token']").attr("content");
+          
+          var monto = $("#monto").val();
+          $.ajax({
+              type: 'POST',
+              url: "{{route('add.payment', '')}}"+"/"+stId,
+              data: {
+                  'id': stId,
+                  'monto': monto,
+                  "_token": token,
+              },
+              success: function (data) {
+                if (data.deuda) {
+                  $("#modal-addpayment").modal('hide');
+                  alert(data.message);
+                  $('#deudasTable').DataTable().ajax.reload();
+                }else{
+                  alert(data.message);
+                }
+                
+                  // $('.item' + $('.id').text()).remove();
+              }
+          });
+    });
     </script>
 @endpush
 

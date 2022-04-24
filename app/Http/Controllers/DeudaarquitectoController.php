@@ -34,8 +34,11 @@ class DeudaarquitectoController extends Controller
            $id_sucursales[] = $value->id;
         }
 
-        return datatables()->eloquent(Deuda::with('tipopago','persona')
+        return datatables()->eloquent(Deuda::with('tipopago','persona','detalledeudas')
             ->whereIn('sucursal_id',$id_sucursales))
+            ->addColumn('detalledeudas', function($row){
+                return $row->detalledeudas()->sum('totalbs');
+            })
             ->addColumn('btn_edit', function($row)
             {
                 if ($row->montorestante != 0) 
@@ -50,7 +53,14 @@ class DeudaarquitectoController extends Controller
             {
                 return '<a href="'.route('pdfdetalledeuda', $row->id).'" title="Imprimir Detalle de Pago" target="_blank" class="btn btn-outline-success"><i class="fas fa-print"></i></a>';
             })
-            ->rawColumns(['btn_edit','btn_pdfdetalledeuda'])
+            ->addColumn('btn_add_payment', function($row)
+            {
+                if (!$row->cuotas > 0 && $row->montodeuda != $row->detalledeudas()->sum('totalbs')) {
+                    return '<a data-target="#modal-addpayment" data-pagoid='.$row->id.' data-toggle="modal" title="Agregar pago atrasado." type="button" class="btn btn-outline-success"><i class="fas fa-clipboard"></i></a>';
+                }
+                
+            })
+            ->rawColumns(['btn_edit','btn_pdfdetalledeuda','btn_add_payment'])
             ->toJson();
             
     }
@@ -59,16 +69,7 @@ class DeudaarquitectoController extends Controller
     {
         $deudas = Deuda::with('tipopago','persona','detalledeudas.mes','sucursal')->findOrFail($id);
 
-        $cuotaspagadas = Detalledeuda::where('deuda_id',$id)
-            ->count();
-
-        $montopagados = DB::table('detalledeudas as detdeuda')
-            ->select(DB::raw('sum(preciomes) as montopagado'),'detdeuda.deuda_id')
-            ->groupBy('deuda_id')
-            ->where('detdeuda.deuda_id',$id)
-            ->get();
-
-        $pdf = \PDF::loadview('pdf.comprobantepago',compact('deudas','cuotaspagadas','montopagados'));
+        $pdf = \PDF::loadview('pdf.comprobantepago',compact('deudas'));
         return $pdf->stream('COMPROBANTE DE PAGO.pdf');
     }
 
@@ -299,5 +300,28 @@ class DeudaarquitectoController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function addpayment(Request $request, $id){
+        $deuda = Deuda::findOrFail($id);
+
+        $montopago = $deuda->montodeuda - $deuda->detalledeudas()->sum('totalbs');
+
+        if ($request->monto <= $montopago) {
+            $deuda->detalledeudas()->create([
+                'totalbs' => $request->monto,
+                'fechapagomes'=> Carbon::now()
+            ]);
+
+            return response()->json([
+                'deuda' => $deuda,
+                'message' =>'Registro con exito'
+            ]);
+        } else {
+            return response()->json([
+                'deuda' => null,
+                'message' =>'El monto es mayor a la deuda'
+            ]);
+        }
     }
 }

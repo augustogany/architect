@@ -153,8 +153,7 @@ class ProyectourbanizacionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //dd($request);
-        $monto_inicial = $request->visado_bs;
+        $monto_inicial = str_replace(',','.',$request->visado_bs);
         $descuento = $request->descuento;
 
         $resultado_totalbs = $monto_inicial - $descuento;
@@ -166,8 +165,8 @@ class ProyectourbanizacionController extends Controller
         $proyectourbanizacion->arancelcategoria = $request->arancel;
         $proyectourbanizacion->costo_pu_categoria = $request->costo_pu;
         $proyectourbanizacion->porcentaje_cab_categoria = $request->porcentaje_cab;
-        $proyectourbanizacion->visado_sus_categoria = $request->visado_sus;
-        $proyectourbanizacion->visado_bs_categoria = $request->visado_bs;
+        $proyectourbanizacion->visado_sus_categoria = str_replace(',','.',$request->visado_sus);
+        $proyectourbanizacion->visado_bs_categoria = str_replace(',','.',$request->visado_bs);
         $proyectourbanizacion->proyecto = $request->proyecto;
         $proyectourbanizacion->propietario = $request->propietario;
         $proyectourbanizacion->superficiemts2 = $request->superficiemts2;

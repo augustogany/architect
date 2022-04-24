@@ -16,13 +16,13 @@ class CreateDetalledeudasTable extends Migration
         Schema::create('detalledeudas', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('deuda_id')->unsigned();
-            $table->unsignedBigInteger('mese_id')->unsigned();
-            $table->decimal('preciomes', 11, 2);
+            $table->unsignedBigInteger('mese_id')->unsigned()->nullable();
+            $table->decimal('preciomes', 11, 2)->nullable();
             $table->string('observacioncuota', 812)->nullable();
             $table->date('fechapagomes');
             $table->decimal('totalbs', 11, 2);
-            $table->string('clientIP', 15);
-            $table->string('clientIP_update', 15);
+            $table->string('clientIP', 15)->nullable();
+            $table->string('clientIP_update', 15)->nullable();
             $table->boolean('condicion')->default(1);
             $table->timestamps();
 

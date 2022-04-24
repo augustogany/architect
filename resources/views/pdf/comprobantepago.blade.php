@@ -63,18 +63,19 @@
         </thead>
         <tbody>
             <?php $cuotasrestantes = 0;?>
-            <?php $cuotasrestantes += $deudas->tipopago->cuotas-$cuotaspagadas; ?>
+            <?php 
+                $cuotaspagadas = $deudas->detalledeudas()->count();
+                $cuotasrestantes += $deudas->cuotas-$cuotaspagadas; 
+                $monto_pagado = $deudas->detalledeudas()->sum('totalbs');
+                $monto_deuda = $deudas->montodeuda - $monto_pagado; 
+            ?>
             <tr>
-                <td>{{$deudas->tipopago->monto}} Bs.</td>
-                @foreach($montopagados as $montopagado)
-                <?php $montorestante = 0;?>
-                <?php $montorestante += $deudas->tipopago->monto-$montopagado->montopagado; ?>
-                    <td>{{$montopagado->montopagado}} Bs.</td>
-                    <td>{{$montorestante}} Bs.</td>
-                @endforeach
+                <td>{{$deudas->montodeuda}} Bs.</td>
+                <td>{{$monto_pagado}} Bs.</td>
+                <td>{{$monto_deuda}} Bs.</td>
                 <td>{{$deudas->tipopago->cuotas}}</td>
-                <td>{{$cuotaspagadas}}</td>
-                <td>{{$cuotasrestantes}}</td>
+                <td>{{$deudas->detalledeudas()->count()}}</td>
+                <td>{{$cuotasrestantes > 0 ? $cuotasrestantes : 0}}</td>
             </tr>
         </tbody>
     </table>
@@ -88,7 +89,7 @@
             <tr>
                 <th scope="col">Item</th>
                 <th>Mes de Pago</th>
-                <th>Monto Mes</th>
+                <th>Monto</th>
                 <th>Observación</th>
                 <th>Fecha Pago</th>
             </tr>
@@ -99,8 +100,8 @@
             <?php $numeroitems++ ?>
             <tr>
                 <td>{{$numeroitems}}</td>
-                <td>{{$det_deuda->mes->nombre}}</td>
-                <td>{{$det_deuda->preciomes}}</td>
+                <td>{{$det_deuda->mes()->exists() ? $det_deuda->mes->nombre : '--'}}</td>
+                <td>{{$det_deuda->preciomes ?? $det_deuda->totalbs}}</td>
                 <td>{{$det_deuda->observacioncuota}}.</td>
                 <td>{{$det_deuda->fechapagomes}}</td>
             </tr>

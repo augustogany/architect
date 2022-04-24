@@ -136,7 +136,7 @@
                         <div class="col-sm-2">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="number" step="0.01" name="superficiemts2" class="form-control form-control-sm" required placeholder="SUPERFICIE." autocomplete="off">
+                                    <input type="number" step="0.01" id="superficiemts2" name="superficiemts2" class="form-control form-control-sm" required placeholder="SUPERFICIE." autocomplete="off">
                                 </div>
                                 <small>Superficie - M2.</small>
                             </div>
@@ -260,6 +260,22 @@
                 return false;
             }
         }
+        var formatterUSD = new Intl.NumberFormat('en-US');
+        $("#superficiemts2").keypress(function(event) {
+            if ( event.which == 13 ) {
+                event.preventDefault();
+                costo_pu = event.currentTarget.value * $("#arancel").val();
+                vi_dolar = $("#porcentaje_cab").val() * costo_pu;
+                console.log(formatterUSD.format(vi_dolar));
+                $dolar = 6.89;
+                // const options2 = { style: 'currency', currency: 'USD' };
+                // const numberFormat2 = new Intl.NumberFormat('en-US', options2);
+
+                $("#costo_pu").val(costo_pu);
+                $("#visado_sus").val(formatterUSD.format((vi_dolar * $dolar)/100));
+                $("#visado_bs").val(formatterUSD.format(vi_dolar));
+            }
+        });
 
         $('#form').on('submit', function(e) {
             $('.loader').css('display', 'block')
