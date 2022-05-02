@@ -15,6 +15,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PersonasExport;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
 use DB;
 
 class PersonaController extends Controller
@@ -64,6 +65,13 @@ class PersonaController extends Controller
      */
     public function store(Request $request)
     {
+        $rules = [
+            'email' => ['string', 'max:255', 'unique:users']
+        ];
+        $messages = [
+            'email.unique' => 'Este nombre de usuario ya a sido utlizado.'
+        ];
+        $this->validate($request, $rules, $messages);
         $persona = new Persona;
         $persona->nombre = $request->nombre;
         $persona->apaterno = $request->apaterno;
@@ -75,6 +83,7 @@ class PersonaController extends Controller
         $persona->direccion = $request->direccion;
         $persona->correo = $request->correo;
         $persona->save();
+        
         
         if ($request->get('usuario')) {
             $user = new User;
@@ -123,6 +132,14 @@ class PersonaController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $rules = [
+            'email' => ['string', 'max:255', 'unique:users']
+        ];
+        $messages = [
+            'email.unique' => 'Este nombre ya a sido utlizado.'
+        ];
+        $this->validate($request, $rules, $messages);
+        
         $persona = Persona::findOrFail($id);
         $persona->nombre = $request->nombre;
         $persona->apaterno = $request->apaterno;

@@ -31,7 +31,9 @@ class CreateProyectogeneralsTable extends Migration
             $table->string('archivo', 999)->nullable();
             $table->boolean('condicion')->default(1);
             $table->boolean('condicion_aux')->default(1);
-            $table->string('estado')->default('pendiente');
+            $table->string('estado')
+                    ->nullable()
+                    ->default('pendiente');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

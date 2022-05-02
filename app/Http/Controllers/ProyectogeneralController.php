@@ -86,7 +86,7 @@ class ProyectogeneralController extends Controller
         $proyectogeneral->totalbs_inicial = $calcular_mts2_costo;
         $proyectogeneral->totalbs = $request->costo_parcial;
         //$proyectogeneral->totalbs_aux = $calcular_descuento;
-        $proyectogeneral->descuento = $var_descuento;
+        $proyectogeneral->descuento = $request->descuento;
         $proyectogeneral->fecharegistro = $request->fecharegistro;
         $proyectogeneral->estado = $request->estado;
 

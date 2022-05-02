@@ -11,7 +11,15 @@
 				<div class="card-header">
 					Registrar Nueva Persona
 				</div>
-
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 				<div class="card-body">
                     <div class="row">
                         <!-- === -->
@@ -103,7 +111,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" class="form-control form-control-sm" name="usuario" placeholder="usuario." autocomplete="off">
+                                    <input type="text" class="form-control form-control-sm" name="email" placeholder="usuario." autocomplete="off" value="{{ old('email') }}">
                                 </div>
                                 <small>Nombre de Usuario.</small>
                             </div>
