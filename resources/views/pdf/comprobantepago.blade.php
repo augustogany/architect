@@ -49,12 +49,13 @@
    <table cellspacing="0" width="100%" align="center" border="1" style="font-size: 8pt">
         <thead>
             <tr>
-                <th colspan="3">Arquitecto: {{$deudas->persona->nombre}} {{$deudas->persona->apaterno}} {{$deudas->persona->amaterno}}</th>
+                <th colspan="4">Arquitecto: {{$deudas->persona->nombre}} {{$deudas->persona->apaterno}} {{$deudas->persona->amaterno}}</th>
                 <th colspan="3">Tipo Pago: {{$deudas->tipopago->nombrepago}}</th>
             </tr>
             <tr>
                 <th scope="col">Monto Global</th>
                 <th>Monto Pagado</th>
+                <th>Descuento</th>
                 <th>Monto Restantes</th>
                 <th>Total Cuotas</th>
                 <th>Cuotas Pagadas</th>
@@ -67,11 +68,12 @@
                 $cuotaspagadas = $deudas->detalledeudas()->count();
                 $cuotasrestantes += $deudas->cuotas-$cuotaspagadas; 
                 $monto_pagado = $deudas->detalledeudas()->sum('totalbs');
-                $monto_deuda = $deudas->montodeuda - $monto_pagado; 
+                $monto_deuda = $deudas->montodeuda - $monto_pagado - $deudas->desc_total; 
             ?>
             <tr>
                 <td>{{$deudas->montodeuda}} Bs.</td>
                 <td>{{$monto_pagado}} Bs.</td>
+                <td>{{$deudas->desc_total}} Bs.</td>
                 <td>{{$monto_deuda}} Bs.</td>
                 <td>{{$deudas->tipopago->cuotas}}</td>
                 <td>{{$deudas->detalledeudas()->count()}}</td>

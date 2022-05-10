@@ -120,7 +120,7 @@
                                 <div class="form-line">
                                     <input type="text" readonly id="visado_sus" name="visado_sus" class="form-control form-control-sm" required placeholder="VISADO $US." autocomplete="off">
                                 </div>
-                                <small>Visado $US.</small>
+                                <small>Visado $US. precio a 6.86</small>
                             </div>
                         </div>
                         <!-- === -->
@@ -136,7 +136,7 @@
                         <div class="col-sm-2">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="number" step="0.01" id="superficiemts2" name="superficiemts2" class="form-control form-control-sm" required placeholder="SUPERFICIE." autocomplete="off">
+                                    <input type="number" step="0.01" id="superficiemts2" name="superficiemts2" class="form-control form-control-sm" required placeholder="SUPERFICIE." onkeyup="validar_precio(this)">
                                 </div>
                                 <small>Superficie - M2.</small>
                             </div>
@@ -261,22 +261,32 @@
             }
         }
         var formatterUSD = new Intl.NumberFormat('en-US');
-        $("#superficiemts2").keypress(function(event) {
-            if ( event.which == 13 ) {
-                event.preventDefault();
-                costo_pu = event.currentTarget.value * $("#arancel").val();
+        $("#superficiemts22").keypress(function(event) {
+            //if ( event.which == 13 ) {
+            //    event.preventDefault();
+                console.log(event.currentTarget.value);
+                costo_pu = parseFloat(event.currentTarget.value) * parseFloat($("#arancel").val());
+               
                 vi_dolar = $("#porcentaje_cab").val() * costo_pu;
-                console.log(formatterUSD.format(vi_dolar));
-                $dolar = 6.89;
+                //console.log(formatterUSD.format(vi_dolar));
+                $dolar = 6.86;
                 // const options2 = { style: 'currency', currency: 'USD' };
                 // const numberFormat2 = new Intl.NumberFormat('en-US', options2);
 
                 $("#costo_pu").val(costo_pu);
                 $("#visado_sus").val(formatterUSD.format((vi_dolar * $dolar)/100));
                 $("#visado_bs").val(formatterUSD.format(vi_dolar));
-            }
+            //}
         });
 
+        function validar_precio(numero){
+            const dolar = 6.86;
+            costo_pu = parseFloat(numero.value) * parseFloat($("#arancel").val());
+            vi_dolar =  parseFloat($("#porcentaje_cab").val()) * costo_pu;
+            $("#costo_pu").val(costo_pu);
+            $("#visado_sus").val(formatterUSD.format((vi_dolar * dolar)/100));
+            $("#visado_bs").val(formatterUSD.format(vi_dolar));
+        }
         $('#form').on('submit', function(e) {
             $('.loader').css('display', 'block')
             document.getElementById("btn_guardar").disabled = true;

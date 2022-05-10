@@ -137,11 +137,19 @@
               { data: 'tipopago.nombrepago', name: 'tipopago.nombrepago' },
               { data: 'detalledeudas', name: 'detalledeudas' },
               { data: 'cuotas', name: 'cuotas' },
-              { data: 'cuotasrestantes', name: 'cuotasrestantes' },
+              { data: 'cuotasrestantes',
+                render: function (data, type, row)
+                {
+                  if (row.montodeuda == (parseFloat(row.detalledeudas) + parseFloat(row.desc_total))) {
+                    return 0;
+                  }
+                    return row.cuotasrestantes;
+                }
+              },
               { data: 'montorestante',
               render: function (data, type, row)
                 {
-                  if (row.montodeuda == row.detalledeudas) {
+                  if (row.montodeuda == (parseFloat(row.detalledeudas) + parseFloat(row.desc_total))) {
                     return '<span class="badge bg-success"><i class="far fa-bell"></i> CANCELADO</span>';
                   }
                     return '<span class="badge bg-danger"><i class="far fa-bell"></i> ADEUDO</span>';

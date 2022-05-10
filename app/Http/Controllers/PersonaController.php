@@ -15,7 +15,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PersonasExport;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use DB;
 
 class PersonaController extends Controller
@@ -131,9 +131,11 @@ class PersonaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
+    { 
+        $user = auth()->user();
         $rules = [
-            'email' => ['string', 'max:255', 'unique:users']
+            'email' => 'required', 
+            Rule::unique('users', 'email')->ignore($user->id)
         ];
         $messages = [
             'email.unique' => 'Este nombre ya a sido utlizado.'

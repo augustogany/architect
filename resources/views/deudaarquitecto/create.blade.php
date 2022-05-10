@@ -105,7 +105,7 @@
                         <div class="col-sm-2">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" required readonly id="descuentoporcentaje" class="form-control form-control-sm" placeholder="DESCUENTO %.">
+                                    <input type="text" required readonly id="descuentoporcentaje" name="descuentoporcentaje" class="form-control form-control-sm" placeholder="DESCUENTO %.">
                                 </div>
                                 <small>Descuento %.</small>
                             </div>
@@ -114,7 +114,7 @@
                         <div class="col-sm-2">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" readonly id="descuentobs" class="form-control form-control-sm"  placeholder="DESCUENTO BS.">
+                                    <input type="text" readonly id="descuentobs" name="descuentobs" class="form-control form-control-sm"  placeholder="DESCUENTO BS.">
                                 </div>
                                 <small>Descuento Bs.</small>
                             </div>
@@ -173,7 +173,7 @@
                         <div class="col-sm-2">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="number"  id="preciomes" class="form-control form-control-sm" placeholder="PRECIO MES." onkeyup="validar_monto()">
+                                    <input type="number"  id="preciomes" class="form-control form-control-sm" placeholder="PRECIO MES." onkeyup="validar_monto(this)">
                                 </div>
                                 <small>Precio Mes.</small>
                             </div>
@@ -357,15 +357,28 @@
         }
 
         // Validacion de monto de deuda
-        function validar_monto()
+        function validar_monto(numero)
         {
             let monto_deudaglobal = parseFloat($('#monto').val());
-            let monto_pagomes = parseFloat($('#preciomes').val());
-
-            if(monto_deudaglobal<monto_pagomes) {
-                $('#preciomes').val('');
-                alert('Error, El monto de las cuotas por pagar excede el monto global de la deuda del arquitecto.');
+            let desc = parseFloat($('#descuentobs').val());
+            let cuots = $('#cuotas').val();
+            let monto_pagomes = parseFloat(numero.value);
+            monto_pago = monto_deudaglobal - desc;
+            if(cuots == 1) {
+                if (numero.value.length >= 3) {
+                    numero.focus();
+                    numero.select();
+                    if (monto_pagomes != monto_pago) {
+                        $('#preciomes').val('');
+                        alert("Error, El monto de las cuotas deve ser igual a: "+monto_pago+" ya que la cuota es 1");
+                    }
+                }
+            }else if(monto_pagomes > monto_pago){
+                    $('#preciomes').val('');
+                    alert("Error, El monto de las cuotas deve ser menor a: "+monto_pago);
             }
+           
+        
         }
 
         //funcion agregar datos a la tabla.
@@ -436,6 +449,10 @@
             }else {
               alert("** Error, Revisar el Formulario **\n- Debe seleccionar un Arquitecto del CADBENI o Tipo de Pago.\n- Debe seleccionar Mes a Pagar.\n- Debe Introducir Precio Mes (El monto debe der mayor que cero).");
               }
+        }
+        //funcion para validar con el monto a pagar al agregar cuotas si tiene desc
+        function validar_cuota(){
+
         }
 
         $('#form').on('submit', function(e) {

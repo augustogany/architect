@@ -31,6 +31,9 @@ class CreateDeudasTable extends Migration
             $table->decimal('montorestante', 11, 2);
             $table->boolean('condicion')->default(1);
             $table->boolean('condicion_aux')->default(1);
+
+            $table->decimal('desc_porcent', 11, 2)->nullable();
+            $table->decimal('desc_total', 11, 2)->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

@@ -110,14 +110,14 @@
 @push('script')
 <script>
 $("#descuentoporcentaje").keypress(function(event) {
-    if ( event.which == 13 ) {
-        event.preventDefault();
+    //if ( event.which == 13 ) {
+        //event.preventDefault();
         if ($("#monto").val() == '') {
             return alert('Ingrese el monto de pago porfavor');
         }
         let descuento = ($("#monto").val() * $("#descuentoporcentaje").val()) / 100;
         $("#descuentobs").val(descuento);
-    }
+    //}
 });
 </script>
 @endpush

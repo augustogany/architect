@@ -104,7 +104,7 @@
                         <div class="col-sm-2">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" readonly value="{{$deudas->tipopago->descuentoporcentaje}}" class="form-control form-control-sm">
+                                    <input type="text" id="descuentoporcentaje" readonly value="{{$deudas->desc_porcent}}" class="form-control form-control-sm">
                                 </div>
                                 <small>Descuento %.</small>
                             </div>
@@ -113,7 +113,7 @@
                         <div class="col-sm-2">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" readonly value="{{$deudas->tipopago->descuentobs}}" class="form-control form-control-sm">
+                                    <input type="text" id="descuentobs" readonly value="{{$deudas->desc_total}}" class="form-control form-control-sm">
                                 </div>
                                 <small>Descuento Bs.</small>
                             </div>

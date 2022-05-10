@@ -56,14 +56,16 @@
             </tr>
             <?php 
                 $numeroitems = 0;
-                $cuotas_restantes = 0; 
+                $cuotas_restantes = 0;
+                $monto_pagado = 0; 
             ?>
             @forelse($deudores as $deudor)
             @foreach ($deudor->deudas as $deuda)
+            $monto_pagado = $deuda->detalledeudas()->sum('totalbs');
                 <?php 
-                    if ($deuda->montorestante > 0) {
-                        $cuotas_restantes = $cuotas_restantes + $deuda->cuotasrestantes;
-                    }
+                if ($deuda->montodeuda != ($monto_pagado + $deuda->desc_total)) {
+                   $cuotas_restantes =  $deuda->cuotasrestantes;
+                  }
                 ?>
             @endforeach
             <?php $numeroitems++ ?>

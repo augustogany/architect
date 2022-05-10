@@ -41,7 +41,7 @@ class DeudaarquitectoController extends Controller
             })
             ->addColumn('btn_edit', function($row)
             {
-                if ($row->montorestante != 0) 
+                if ($row->montodeuda != $row->detalledeudas()->sum('totalbs') + $row->desc_total) 
                 {
                     if(auth()->user()->hasPermissionTo('deudapersona.edit')){ return '<a href="'.route('deudaarquitectos.edit', $row->id).'" title="Editar deuda" class="btn btn-outline-success"><i class="fas fa-edit"></i></a>';
                     }else{
@@ -143,6 +143,8 @@ class DeudaarquitectoController extends Controller
             $deuda->cuotasrestantes = $operacion_cuotas;
             $deuda->montopagado = $monto_parcialPagado;
             $deuda->montorestante = $operacion_montorestante;
+            $deuda->desc_porcent = $request->descuentoporcentaje;
+            $deuda->desc_total = $request->descuentobs;
             $deuda->save();
 
             //registra datos de la tabla detalledeudas
