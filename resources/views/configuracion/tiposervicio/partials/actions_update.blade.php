@@ -1,0 +1,2 @@
+<button type="submit" class="btn btn-light" title="Actualizar tipo de servicio."><i class="fas fa-save"></i> Actualizar</button>
+<a href="{{route('tiposervicios.index')}}" class="btn btn-light" title="Volver a la lista de tipos de servicios."><i class="fas fa-history"></i> Volver a la Lista</a>

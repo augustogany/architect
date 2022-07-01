@@ -1,0 +1,2 @@
+<button type="submit" class="btn btn-outline-success"><i class="fas fa-save"></i> Guardar</button>
+<a href="{{route('personas.index')}}" class="btn btn-outline-success"><i class="fas fa-history"></i> Volver a la Lista</a>
