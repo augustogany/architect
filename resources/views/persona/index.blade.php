@@ -27,7 +27,7 @@
 
         <div class="card-body">
           <table id="personasTable" class="table table-striped"  style="font-size: 9pt">
-            <thead>
+            {{-- <thead>
               <tr>
                 <th>Nombre</th>
                 <th>A. Paterno</th>
@@ -38,10 +38,11 @@
                 <th>Tel. Celular</th>
                 <th>Dirección</th>
                 <th>E-Mail</th>
+                <th>Fecha de afiliación</th>
                 <th>Estado</th>
                 <th>Acciones</th>
               </tr>
-            </thead>
+            </thead> --}}
           </table>
         </div>
         <div class="card-footer">
@@ -80,16 +81,20 @@
                   } ,
           ajax: '{!! route('getPersona') !!}',
           columns: [
-              { data: 'nombre', name: 'nombre' },
-              { data: 'apaterno', name: 'apaterno' },
-              { data: 'amaterno', name: 'amaterno' },
-              { data: 'numeroregistro', name: 'numeroregistro' },
-              { data: 'telefonodomicilio', name: 'telefonodomicilio' },
-              { data: 'telefonooficina', name: 'telefonooficina' },
-              { data: 'telefonocelular', name: 'telefonocelular' },
-              { data: 'direccion', name: 'direccion' },
-              { data: 'correo', name: 'correo' },
-              { data: "condicion",
+              { data: 'nombre_completo', title: 'Nombre completo' },
+              // { data: 'apaterno', title: 'A. paterno' },
+              // { data: 'amaterno', title: 'A. materno' },
+              { data: 'numeroregistro', title: 'Nro. Registro' },
+              { data: 'telefonos', title: 'Telefonos', css: 'text-align: right' },
+              // { data: 'telefonooficina', title: 'Tel. Oficina' },
+              // { data: 'telefonocelular', title: 'Tel. Celular' },
+              { data: 'direccion', title: 'Dirección' },
+              { data: 'correo', title: 'Email' },
+              { data: 'fecha_afiliacion', title: 'Fecha de afiliación' },
+              // { data: 'ultimo_pago', title: 'Último pago' },
+              { data: 'deuda_historica', title: 'Deuda histórica Bs.' },
+              { data: 'deuda_actual', title: 'Deuda actual Bs.' },
+              { data: "condicion", title : 'Estado', 
               render: function (data, type, row)
                 {
                   if (data == "1") {
@@ -99,6 +104,12 @@
                 }
               },
               { data: 'btn_actions'}
+          ],
+          columnDefs: [
+            {
+                targets: 2,
+                className: 'text-left'
+            }
           ]
         });
     </script>

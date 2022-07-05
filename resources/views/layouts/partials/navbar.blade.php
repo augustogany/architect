@@ -158,6 +158,9 @@
                                 <li><a href="{{route('tiposervicios.index')}}" class="dropdown-item"><i class="fas fa-user-cog"></i> Tipos de Servicios</a></li>
                                 @endcan
                                 <!-- == -->
+                                {{-- @can('tiposervicio.index') --}}
+                                <li><a href="{{route('gestiones.index')}}" class="dropdown-item"><i class="fas fa-calendar"></i> Gestiones</a></li>
+                                {{-- @endcan --}}
                             </ul>
                         </li>
                         @endcan

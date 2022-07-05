@@ -15,15 +15,17 @@ class CreatePersonasTable extends Migration
     {
         Schema::create('personas', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre', 312);
-            $table->string('apaterno', 312);
-            $table->string('amaterno', 312);
+            $table->string('nombre');
+            $table->string('apaterno');
+            $table->string('amaterno');
             $table->string('numeroregistro', 20);
             $table->string('telefonodomicilio', 50)->nullable();
             $table->string('telefonooficina', 50)->nullable();
             $table->string('telefonocelular', 50)->nullable();
-            $table->string('direccion', 312)->nullable();
-            $table->string('correo', 312)->nullable();
+            $table->string('direccion')->nullable();
+            $table->string('correo')->nullable();
+            $table->date('fecha_afiliacion')->nullable();
+            $table->string('ultimo_pago', 10)->nullable();
             $table->boolean('condicion')->default(1);
             $table->string('estado', 13)->default('ACTIVO');
             $table->timestamps();

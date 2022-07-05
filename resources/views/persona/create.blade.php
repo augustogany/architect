@@ -23,7 +23,7 @@
 				<div class="card-body">
                     <div class="row">
                         <!-- === -->
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div class="form-group">
                                 <div class="form-line">
                                     <input type="text" class="form-control form-control-sm" required name="nombre" placeholder="Nombres." style="text-transform:uppercase;" onkeyup ="this.value=this.value.toUpperCase()" autocomplete="off">
@@ -32,7 +32,7 @@
                             </div>
                         </div>
                         <!-- === -->
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div class="form-group">
                                 <div class="form-line">
                                     <input type="text" class="form-control form-control-sm" required name="apaterno" placeholder="Apellido Paterno." style="text-transform:uppercase;" onkeyup ="this.value=this.value.toUpperCase()" autocomplete="off">
@@ -41,7 +41,7 @@
                             </div>
                         </div>
                         <!-- === -->
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div class="form-group">
                                 <div class="form-line">
                                     <input type="text" class="form-control form-control-sm" required name="amaterno" placeholder="Apellido Materno." style="text-transform:uppercase;" onkeyup ="this.value=this.value.toUpperCase()" autocomplete="off">
@@ -50,7 +50,7 @@
                             </div>
                         </div>
                         <!-- === -->
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div class="form-group">
                                 <div class="form-line">
                                     <input type="number" class="form-control form-control-sm" required name="numeroregistro" placeholder="NUMERO DE REGISTRO." autocomplete="off">
@@ -59,7 +59,7 @@
                             </div>
                         </div>
                         <!-- === -->
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div class="form-group">
                                 <div class="form-line">
                                     <input type="number" class="form-control form-control-sm" name="telefonodomicilio"placeholder="TELEFONO DOMICILIO." autocomplete="off">
@@ -68,7 +68,7 @@
                             </div>
                         </div>
                         <!-- === -->
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div class="form-group">
                                 <div class="form-line">
                                     <input type="number" class="form-control form-control-sm" name="telefonooficina"placeholder="TELEFONO OFICINA." autocomplete="off">
@@ -77,7 +77,7 @@
                             </div>
                         </div>
                         <!-- === -->
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div class="form-group">
                                 <div class="form-line">
                                     <input type="number" class="form-control form-control-sm" name="telefonocelular" placeholder="TELEFONO CELULAR." autocomplete="off">
@@ -86,7 +86,7 @@
                             </div>
                         </div>
                         <!-- === -->
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div class="form-group">
                                 <div class="form-line">
                                     <input type="email" class="form-control form-control-sm" name="correo" placeholder="E-MAIL." autocomplete="off">
@@ -95,10 +95,28 @@
                             </div>
                         </div>
                         <!-- === -->
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="date" class="form-control form-control-sm" name="fecha_afiliacion" required>
+                                </div>
+                                <small>Fecha de afiliación</small>
+                            </div>
+                        </div>
+                        <!-- === -->
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="month" class="form-control form-control-sm" name="ultimo_pago" required>
+                                </div>
+                                <small>Último mes pagado</small>
+                            </div>
+                        </div>
+                        <!-- === -->
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" class="form-control form-control-sm" name="direccion" placeholder="Direccion." style="text-transform:uppercase;" onkeyup ="this.value=this.value.toUpperCase()" autocomplete="off">
+                                    <textarea class="form-control form-control-sm" name="direccion" placeholder="Direccion." style="text-transform:uppercase;" onkeyup ="this.value=this.value.toUpperCase()" rows="3"></textarea>
                                 </div>
                                 <small>Dirección.</small>
                             </div>

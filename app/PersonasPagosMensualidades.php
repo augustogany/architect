@@ -17,4 +17,8 @@ class PersonasPagosMensualidades extends Model
     public function pago(){
         return $this->belongsTo(PersonasPago::class, 'personas_pago_id');
     }
+
+    public function gestion(){
+        return $this->belongsTo(Gestion::class, 'gestion_id');
+    }
 }

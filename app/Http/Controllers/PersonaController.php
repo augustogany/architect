@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use DB;
+use Carbon\Carbon;
 
 // Models
 use App\Persona;
@@ -21,6 +22,7 @@ use App\Detalledeuda;
 use App\Sucursal;
 use App\PersonasPago;
 use App\PersonasPagosMensualidades;
+use App\Gestion;
 
 class PersonaController extends Controller
 {
@@ -45,9 +47,123 @@ class PersonaController extends Controller
     public function getPersona()
     {
         return datatables()
-            ->eloquent(Persona::query())
+            ->eloquent(Persona::query()->orderBy('nombre'))
             ->addColumn('btn_actions', 'persona.partials.btn_actions')
-            ->rawColumns(['btn_actions'])
+            ->addColumn('telefonos', function($row){
+                return '<small><b>Domicilio:</b></small> '.$row->telefonodomicilio.'<br><small><b>Oficina:</b></small> '.$row->telefonooficina.'<br><small><b>Personal:</b></small> '.$row->telefonocelular;
+            })
+            ->addColumn('nombre_completo', function($row){
+                return $row->nombre.' '.$row->apaterno.' '.$row->amaterno;
+            })
+            ->addColumn('fecha_afiliacion', function($row){
+                if(!$row->fecha_afiliacion) return null;
+                return '
+                    '.date('d/M/Y', strtotime($row->fecha_afiliacion)).' <br>
+                    <small>'.\Carbon\Carbon::parse($row->fecha_afiliacion)->diffForHumans().'</small>
+                ';
+            })
+            // ->addColumn('ultimo_pago', function($row){
+            //     if(!$row->ultimo_pago) return null;
+
+            //     $ultimo_pago = Carbon::parse($row->ultimo_pago)->floorMonth();
+            //     $fecha_actual = Carbon::parse('2021-12-01')->floorMonth();
+            //     $anios = intval($ultimo_pago->diffInMonths($fecha_actual) / 12);
+            //     $meses = $ultimo_pago->diffInMonths($fecha_actual) % 12;
+            //     return '
+            //         '.date('M \d\e Y', strtotime($row->ultimo_pago)).' <br>
+            //         <small> Hace '.($anios ? $anios.' año(s)' : '').($anios && $meses ? ' y ' : ' ').($meses ? $meses.' meses' : '').'</small>
+            //     ';
+            // })
+            ->addColumn('deuda_historica', function($row){
+                if(!$row->ultimo_pago) return null;
+                $ultimo_pago = $row->ultimo_pago.'-01';
+
+                // Obtener las gestiones entre el ultimo pago y el año actual
+                $gestiones = Gestion::where('gestion', '>', date('Y', strtotime($ultimo_pago)))->where('gestion', '<', 2021)->where('deleted_at', NULL)->get();
+                $monto = 0;
+                $cantidad_meses = 0;
+                foreach ($gestiones as $gestion) {
+                    $monto += $gestion->mensualidad *12;
+                    $cantidad_meses += 12;
+                }
+
+                $gestion_inicio = Gestion::where('gestion', date('Y', strtotime($ultimo_pago)))->where('deleted_at', NULL)->first();
+                if($gestion_inicio){
+                    if($gestion_inicio->gestion != 2021){
+                        $meses = 12 - date('m', strtotime($ultimo_pago));
+                        $monto += $gestion_inicio->mensualidad *$meses;
+                        $cantidad_meses += $meses;
+                    }
+                }
+
+                $gestion_actual = Gestion::where('gestion', 2021)->where('deleted_at', NULL)->first();
+                if($gestion_actual){
+                    $meses = 12;
+                    $monto += $gestion_actual->mensualidad *$meses;
+                    $cantidad_meses += $meses;
+
+                    if($gestion_actual->gestion == date('Y', strtotime($ultimo_pago))){
+                        $meses = date('m', strtotime($ultimo_pago));
+                        $monto -= $gestion_inicio->mensualidad *$meses;
+                        $cantidad_meses -= $meses;
+                    }
+                }
+
+                return '
+                    '.number_format($monto, 2, ',', '.').' <br>
+                    <small> Debe '.$cantidad_meses.' meses</small>
+                ';
+            })
+            ->addColumn('deuda_actual', function($row){
+                if(!$row->ultimo_pago) return null;
+
+                $pago = PersonasPagosMensualidades::whereHas('pago', function($q) use($row){
+                    $q->where('persona_id', $row->id);
+                })->orderBy('id', 'DESC')->first();
+                $ultimo_pago = $pago ? $pago->gestion->gestion.'-'.str_pad($pago->mes, 2, "0", STR_PAD_LEFT).'-01' : '2021-12-01';
+
+                // Obtener las gestiones entre el ultimo pago y el año actual
+                $gestiones = Gestion::where('gestion', '>', date('Y', strtotime($ultimo_pago)))->where('gestion', '<', date('Y'))->where('deleted_at', NULL)->get();
+                $monto = 0;
+                $cantidad_meses = 0;
+                foreach ($gestiones as $gestion) {
+                    $monto += $gestion->mensualidad *12;
+                    $cantidad_meses += 12;
+                }
+
+                $gestion_inicio = Gestion::where('gestion', date('Y', strtotime($ultimo_pago)))->where('deleted_at', NULL)->first();
+                if($gestion_inicio){
+                    if($gestion_inicio->gestion != date('Y')){
+                        $meses = 12 - date('m', strtotime($ultimo_pago));
+                        $monto += $gestion_inicio->mensualidad *$meses;
+                        $cantidad_meses += $meses;
+                    }
+                }
+
+                $gestion_actual = Gestion::where('gestion', date('Y'))->where('deleted_at', NULL)->first();
+                if($gestion_actual){
+                    $meses = date('m');
+                    $monto += $gestion_actual->mensualidad *$meses;
+                    $cantidad_meses += $meses;
+
+                    if($gestion_actual->gestion == date('Y', strtotime($ultimo_pago))){
+                        $meses = date('m', strtotime($ultimo_pago));
+                        $monto -= $gestion_inicio->mensualidad *$meses;
+                        $cantidad_meses -= $meses;
+                    }
+                }
+
+                $fecha_ultimo_pago = '';
+                if($ultimo_pago != '2021-12-01'){
+                    $fecha_ultimo_pago = date('M \d\e Y', strtotime($ultimo_pago));
+                }
+
+                return '
+                    '.number_format($monto, 2, ',', '.').' <br>
+                    <small> Debe '.$cantidad_meses.' meses '.($fecha_ultimo_pago ? '<br><b>Pagado hasta '.$fecha_ultimo_pago.'</b>' : '').'</small>
+                ';
+            })
+            ->rawColumns(['nombre_completo', 'telefonos', 'fecha_afiliacion', 'ultimo_pago', 'deuda_historica', 'deuda_actual', 'btn_actions'])
             ->toJson();
     }
 
@@ -84,6 +200,8 @@ class PersonaController extends Controller
         $persona->telefonodomicilio = $request->telefonodomicilio;
         $persona->telefonooficina = $request->telefonooficina;
         $persona->telefonocelular = $request->telefonocelular;
+        $persona->fecha_afiliacion = $request->fecha_afiliacion;
+        $persona->ultimo_pago = $request->ultimo_pago;
         $persona->direccion = $request->direccion;
         $persona->correo = $request->correo;
         $persona->save();
@@ -155,6 +273,10 @@ class PersonaController extends Controller
         $persona->telefonodomicilio = $request->telefonodomicilio;
         $persona->telefonooficina = $request->telefonooficina;
         $persona->telefonocelular = $request->telefonocelular;
+        $persona->fecha_afiliacion = $request->fecha_afiliacion;
+        if ($request->ultimo_pago) {
+            $persona->ultimo_pago = $request->ultimo_pago;
+        }
         $persona->direccion = $request->direccion;
         $persona->correo = $request->correo;
         $persona->update();

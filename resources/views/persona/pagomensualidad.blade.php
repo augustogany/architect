@@ -68,7 +68,7 @@
                                 <label for="gestion_id">Gestión</label>
                                 <select name="gestion_id" id="select-gestion_id" class="form-control">
                                     <option value="">Seleccione la gestión</option>
-                                    @foreach (App\Gestion::where('deleted_at', null)->get() as $item)
+                                    @foreach (App\Gestion::where('gestion', '>=', 2022)->where('deleted_at', null)->get() as $item)
                                     <option value="{{ $item->id }}" data-mensualidad="{{ $item->mensualidad }}">{{ $item->gestion }} - Bs. {{ $item->mensualidad }}</option>
                                     @endforeach
                                 </select>

@@ -46,6 +46,9 @@ Route::middleware(['auth'])->group(function () {
 	Route::resource('categoriaurbanizacion','CategoriaurbanizacionController');
 	Route::get('print_categoria_urbanizacion','CategoriaurbanizacionController@print_categoria_urbanizacion')->name('print_categoria_urbanizacion');
 
+	// Gestiones
+	Route::resource('gestiones','GestionesController');
+
 	//Proyectos Generales
 	Route::resource('proyectogeneral','ProyectogeneralController');
 	Route::get('getProyectogeneral','ProyectogeneralController@getProyectogeneral')->name('getProyectogeneral');
