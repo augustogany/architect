@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card-group mb-0">
-                <div class="card p-4">
+                <div class="card p-4" style="margin-bottom: 0px">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
                         <div class="card-body">
@@ -61,7 +61,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="card text-white bg-success py-5 d-md-down-none" style="width:44%">
+                <div class="card text-white bg-success py-5 d-md-down-none">
                     <div class="card-body text-center">
                       <div>
                         <h2>Colegio de Arquitectos del Beni - CADBENI</h2>

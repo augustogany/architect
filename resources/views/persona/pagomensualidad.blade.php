@@ -68,8 +68,8 @@
                                 <label for="gestion_id">Gestión</label>
                                 <select name="gestion_id" id="select-gestion_id" class="form-control">
                                     <option value="">Seleccione la gestión</option>
-                                    @foreach (App\Gestion::where('gestion', '>=', 2022)->where('deleted_at', null)->get() as $item)
-                                    <option value="{{ $item->id }}" data-mensualidad="{{ $item->mensualidad }}">{{ $item->gestion }} - Bs. {{ $item->mensualidad }}</option>
+                                    @foreach (App\Gestion::where('gestion', '>=', date('Y', strtotime($persona->ultimo_pago.'-01')))->where('deleted_at', null)->get() as $item)
+                                    <option value="{{ $item->id }}" data-item='@json($item)'>{{ $item->gestion }} - Bs. {{ $item->mensualidad }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -153,11 +153,15 @@
         $('#dataTable').DataTable({"order":[],"language":{"sEmptyTable":"No hay datos disponibles en la tabla","sInfo":"Mostrando _START_ a _END_ de _TOTAL_ entradas","sInfoEmpty":"Mostrando 0 a 0 de 0 entradas","sInfoFiltered":"(Filtrada de _MAX_ entradas totales)","sInfoPostFix":"","sInfoThousands":",","sLengthMenu":"Mostrar _MENU_ entradas","sLoadingRecords":"Cargando...","sProcessing":"Procesando...","sSearch":"Buscar:","sZeroRecords":"No se encontraron registros coincidentes","oPaginate":{"sFirst":"Primero","sLast":"\u00daltimo","sNext":"Siguiente","sPrevious":"Anterior"},"oAria":{"sSortAscending":": Activar para ordenar la columna ascendente","sSortDescending":": Activar para ordenar la columna descendente"}},"columnDefs":[{"targets":"dt-not-orderable","searchable":false,"orderable":false}]});
         
         $(document).ready(function(){
+            var item;
             var mensualidad = 0;
             var personId = "{{ $id }}";
+            var ultimoPago = new Date("{{ $persona->ultimo_pago.'-01' }}T00:00:00");
+
             $('#select-gestion_id').change(function(){
                 let gestionId = $('#select-gestion_id option:selected').val();
-                mensualidad = $('#select-gestion_id option:selected').data('mensualidad');
+                item = $('#select-gestion_id option:selected').data('item');
+                mensualidad = item.mensualidad;
                 $('.td-mensualidad').text(mensualidad);
                 
                 let url = "{{ url('') }}";
@@ -171,7 +175,15 @@
                         $(`.checkbox-mes`).removeAttr('disabled');
                         $(`.td-estado`).empty();
                     }
-                    
+
+                    // Inhabilitar meses que se hayan pagado del año actual (solo en caso de iniciar con los pagos)
+                    if(ultimoPago.getFullYear() == item.gestion){
+                        for (let index = 1; index <= ultimoPago.getMonth() +1; index++) {
+                            $(`#checkbox-mes-${index}`).attr('disabled', 'disabled');
+                            $(`#td-estado-${index}`).html('<span class="badge bg-success"><i class="far fa-money-bill-alt"></i> Pagado</span>');
+                            
+                        }
+                    }
                 });
             });
 

@@ -48,7 +48,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <div class="form-line">
-                                        <input type="number" name="gestion" min="2015" step="1" placeholder="{{ date('Y') }}" value="{{ isset($gestion) ? $gestion->gestion : date('Y') }}" class="form-control form-control-sm" required>
+                                        <input type="number" name="gestion" min="2000" step="1" placeholder="{{ date('Y') }}" value="{{ isset($gestion) ? $gestion->gestion : date('Y') }}" class="form-control form-control-sm" required>
                                     </div>
                                     <small>Gestión</small>
                                 </div>

@@ -57,78 +57,30 @@ class PersonaController extends Controller
             })
             ->addColumn('fecha_afiliacion', function($row){
                 if(!$row->fecha_afiliacion) return null;
+                return date('d/M/Y', strtotime($row->fecha_afiliacion));
+            })
+            ->addColumn('ultimo_pago', function($row){
+                if(!$row->ultimo_pago) return null;
+
+                $ultimo_pago = Carbon::parse($row->ultimo_pago)->floorMonth();
+                $fecha_actual = Carbon::now()->floorMonth();
+                $anios = intval($ultimo_pago->diffInMonths($fecha_actual) / 12);
+                $meses = $ultimo_pago->diffInMonths($fecha_actual) % 12;
                 return '
-                    '.date('d/M/Y', strtotime($row->fecha_afiliacion)).' <br>
-                    <small>'.\Carbon\Carbon::parse($row->fecha_afiliacion)->diffForHumans().'</small>
+                    '.date('M \d\e Y', strtotime($row->ultimo_pago)).' <br>
+                    <small> Hace '.($anios ? $anios.' año(s)' : '').($anios && $meses ? ' y ' : ' ').($meses ? $meses.' meses' : '').'</small>
                 ';
             })
-            // ->addColumn('ultimo_pago', function($row){
-            //     if(!$row->ultimo_pago) return null;
-
-            //     $ultimo_pago = Carbon::parse($row->ultimo_pago)->floorMonth();
-            //     $fecha_actual = Carbon::parse('2021-12-01')->floorMonth();
-            //     $anios = intval($ultimo_pago->diffInMonths($fecha_actual) / 12);
-            //     $meses = $ultimo_pago->diffInMonths($fecha_actual) % 12;
-            //     return '
-            //         '.date('M \d\e Y', strtotime($row->ultimo_pago)).' <br>
-            //         <small> Hace '.($anios ? $anios.' año(s)' : '').($anios && $meses ? ' y ' : ' ').($meses ? $meses.' meses' : '').'</small>
-            //     ';
-            // })
-            ->addColumn('deuda_historica', function($row){
+            ->addColumn('deuda', function($row){
                 if(!$row->ultimo_pago) return null;
+
                 $ultimo_pago = $row->ultimo_pago.'-01';
-
-                // Obtener las gestiones entre el ultimo pago y el año actual
-                $gestiones = Gestion::where('gestion', '>', date('Y', strtotime($ultimo_pago)))->where('gestion', '<', 2021)->where('deleted_at', NULL)->get();
-                $monto = 0;
-                $cantidad_meses = 0;
-                foreach ($gestiones as $gestion) {
-                    $monto += $gestion->mensualidad *12;
-                    $cantidad_meses += 12;
-                }
-
-                $gestion_inicio = Gestion::where('gestion', date('Y', strtotime($ultimo_pago)))->where('deleted_at', NULL)->first();
-                if($gestion_inicio){
-                    if($gestion_inicio->gestion != 2021){
-                        $meses = 12 - date('m', strtotime($ultimo_pago));
-                        $monto += $gestion_inicio->mensualidad *$meses;
-                        $cantidad_meses += $meses;
-                    }
-                }
-
-                $gestion_actual = Gestion::where('gestion', 2021)->where('deleted_at', NULL)->first();
-                if($gestion_actual){
-                    $meses = 12;
-                    $monto += $gestion_actual->mensualidad *$meses;
-                    $cantidad_meses += $meses;
-
-                    if($gestion_actual->gestion == date('Y', strtotime($ultimo_pago))){
-                        $meses = date('m', strtotime($ultimo_pago));
-                        $monto -= $gestion_inicio->mensualidad *$meses;
-                        $cantidad_meses -= $meses;
-                    }
-                }
-
-                return '
-                    '.number_format($monto, 2, ',', '.').' <br>
-                    <small> Debe '.$cantidad_meses.' meses</small>
-                ';
-            })
-            ->addColumn('deuda_actual', function($row){
-                if(!$row->ultimo_pago) return null;
-
-                $pago = PersonasPagosMensualidades::whereHas('pago', function($q) use($row){
-                    $q->where('persona_id', $row->id);
-                })->orderBy('id', 'DESC')->first();
-                $ultimo_pago = $pago ? $pago->gestion->gestion.'-'.str_pad($pago->mes, 2, "0", STR_PAD_LEFT).'-01' : '2021-12-01';
 
                 // Obtener las gestiones entre el ultimo pago y el año actual
                 $gestiones = Gestion::where('gestion', '>', date('Y', strtotime($ultimo_pago)))->where('gestion', '<', date('Y'))->where('deleted_at', NULL)->get();
                 $monto = 0;
-                $cantidad_meses = 0;
                 foreach ($gestiones as $gestion) {
                     $monto += $gestion->mensualidad *12;
-                    $cantidad_meses += 12;
                 }
 
                 $gestion_inicio = Gestion::where('gestion', date('Y', strtotime($ultimo_pago)))->where('deleted_at', NULL)->first();
@@ -136,7 +88,6 @@ class PersonaController extends Controller
                     if($gestion_inicio->gestion != date('Y')){
                         $meses = 12 - date('m', strtotime($ultimo_pago));
                         $monto += $gestion_inicio->mensualidad *$meses;
-                        $cantidad_meses += $meses;
                     }
                 }
 
@@ -144,26 +95,16 @@ class PersonaController extends Controller
                 if($gestion_actual){
                     $meses = date('m');
                     $monto += $gestion_actual->mensualidad *$meses;
-                    $cantidad_meses += $meses;
 
                     if($gestion_actual->gestion == date('Y', strtotime($ultimo_pago))){
                         $meses = date('m', strtotime($ultimo_pago));
                         $monto -= $gestion_inicio->mensualidad *$meses;
-                        $cantidad_meses -= $meses;
                     }
                 }
 
-                $fecha_ultimo_pago = '';
-                if($ultimo_pago != '2021-12-01'){
-                    $fecha_ultimo_pago = date('M \d\e Y', strtotime($ultimo_pago));
-                }
-
-                return '
-                    '.number_format($monto, 2, ',', '.').' <br>
-                    <small> Debe '.$cantidad_meses.' meses '.($fecha_ultimo_pago ? '<br><b>Pagado hasta '.$fecha_ultimo_pago.'</b>' : '').'</small>
-                ';
+                return '<small>Bs.</small> '.number_format($monto, 2, ',', '.');
             })
-            ->rawColumns(['nombre_completo', 'telefonos', 'fecha_afiliacion', 'ultimo_pago', 'deuda_historica', 'deuda_actual', 'btn_actions'])
+            ->rawColumns(['nombre_completo', 'telefonos', 'fecha_afiliacion', 'ultimo_pago', 'deuda', 'btn_actions'])
             ->toJson();
     }
 
@@ -336,9 +277,10 @@ class PersonaController extends Controller
 
     // ===================================
     function pagomensualidad_index($id){
+        $persona = Persona::find($id);
         $pagos = PersonasPago::where('persona_id', $id)
                     ->where('deleted_at', NULL)->get();
-        return view('persona.pagomensualidad', compact('id', 'pagos'));
+        return view('persona.pagomensualidad', compact('id', 'persona', 'pagos'));
     }
 
     function pagomensualidad_list($id, $gestion_id){
@@ -361,6 +303,7 @@ class PersonaController extends Controller
                 'observacion' => $request->observacion
             ]);
 
+            $ultimo_mes = 0;
             for ($i=0; $i < count($request->mes); $i++) { 
                 PersonasPagosMensualidades::create([
                     'personas_pago_id' => $personas_pago->id,
@@ -369,7 +312,14 @@ class PersonaController extends Controller
                     'monto_pagado' => $request->monto_pagado[$i],
                     'monto_descuento' => $request->monto_descuento
                 ]);
+                $ultimo_mes = $request->mes[$i];
             }
+
+            // actualizar último pago de la persona
+            $gestion_pagada = Gestion::find($request->gestion_id);
+            Persona::where('id', $id)->update([
+                'ultimo_pago' => $gestion_pagada->gestion.'-'.str_pad($ultimo_mes, 2, "0", STR_PAD_LEFT)
+            ]);
 
             DB::commit();
 
