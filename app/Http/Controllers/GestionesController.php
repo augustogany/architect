@@ -41,13 +41,13 @@ class GestionesController extends Controller
      */
     public function store(Request $request)
     {
-        $gestion = Gestion::where('gestion', $request->gestion)
-                        // ->where('sucursal_id', $request->sucursal_id)
-                        ->where('deleted_at', NULL)->first();
-        if($gestion){
-            toast('La gestión ya está registrada','warning');
-            return redirect()->back();
-        }
+        // $gestion = Gestion::where('gestion', $request->gestion)
+        //                 // ->where('sucursal_id', $request->sucursal_id)
+        //                 ->where('deleted_at', NULL)->first();
+        // if($gestion){
+        //     toast('La gestión ya está registrada','warning');
+        //     return redirect()->back();
+        // }
 
         try {
             Gestion::create([
@@ -99,14 +99,14 @@ class GestionesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $gestion = Gestion::where('id', '<>', $id)
-                        // ->where('sucursal_id', $request->sucursal_id)
-                        ->where('gestion', $request->gestion)
-                        ->where('deleted_at', NULL)->first();
-        if($gestion){
-            toast('La gestión ya está registrada','warning');
-            return redirect()->back();
-        }
+        // $gestion = Gestion::where('id', '<>', $id)
+        //                 // ->where('sucursal_id', $request->sucursal_id)
+        //                 ->where('gestion', $request->gestion)
+        //                 ->where('deleted_at', NULL)->first();
+        // if($gestion){
+        //     toast('La gestión ya está registrada','warning');
+        //     return redirect()->back();
+        // }
 
         try {
             Gestion::where('id', $id)->update([

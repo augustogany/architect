@@ -5,8 +5,13 @@
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
       
         <title>CADBENI | Bienvenido</title>
-        <meta content="" name="description">
-        <meta content="" name="keywords">
+        <meta name="description" content="Colegio de Arquitectos del Beni">
+
+        <meta property="og:url"           content="{{ url('') }}" />
+        <meta property="og:title"         content="CADBENI | Bienvenido" />
+        <meta property="og:description"   content="Colegio de Arquitectos del Beni" />
+        <meta property="og:image"         content="{{ asset('theme/dist/img/logo.png') }}" />
+        <meta name="keywords" content="cadbeni, colegio, arquitecto, beni">
       
         <!-- Favicons -->
         <link rel="shortcut icon" href="{{ asset('theme/dist/img/logo.png') }}" type="image/x-icon">

@@ -28,8 +28,8 @@
             <table id="dataTable" class="table table-striped" style="font-size: 10pt">
               <thead>
                 <tr>
-                  <th>Sucursal</th>
                   <th>Gestión</th>
+                  <th>Sucursal</th>
                   <th>Mensualidad</th>
                   <th>Observaciones</th>
                   <th>Acciones</th>
@@ -38,8 +38,8 @@
               <tbody>
                 @forelse($gestiones as $item)
                   <tr>
-                    <td>{{$item->sucursal->sucursal}}</td>
                     <td>{{$item->gestion}}</td>
+                    <td>{{$item->sucursal->sucursal}}</td>
                     <td>{{$item->mensualidad}}</td>
                     <td>{{$item->observacion}}</td>
                     <td>
@@ -83,7 +83,7 @@
 
     $(document).ready(function(){
 
-        $('#dataTable').DataTable({"order":[],"language":{"sEmptyTable":"No hay datos disponibles en la tabla","sInfo":"Mostrando _START_ a _END_ de _TOTAL_ entradas","sInfoEmpty":"Mostrando 0 a 0 de 0 entradas","sInfoFiltered":"(Filtrada de _MAX_ entradas totales)","sInfoPostFix":"","sInfoThousands":",","sLengthMenu":"Mostrar _MENU_ entradas","sLoadingRecords":"Cargando...","sProcessing":"Procesando...","sSearch":"Buscar:","sZeroRecords":"No se encontraron registros coincidentes","oPaginate":{"sFirst":"Primero","sLast":"\u00daltimo","sNext":"Siguiente","sPrevious":"Anterior"},"oAria":{"sSortAscending":": Activar para ordenar la columna ascendente","sSortDescending":": Activar para ordenar la columna descendente"}},"columnDefs":[{"targets":"dt-not-orderable","searchable":false,"orderable":false}]});
+        $('#dataTable').DataTable({"order":[[0, 'desc']],"language":{"sEmptyTable":"No hay datos disponibles en la tabla","sInfo":"Mostrando _START_ a _END_ de _TOTAL_ entradas","sInfoEmpty":"Mostrando 0 a 0 de 0 entradas","sInfoFiltered":"(Filtrada de _MAX_ entradas totales)","sInfoPostFix":"","sInfoThousands":",","sLengthMenu":"Mostrar _MENU_ entradas","sLoadingRecords":"Cargando...","sProcessing":"Procesando...","sSearch":"Buscar:","sZeroRecords":"No se encontraron registros coincidentes","oPaginate":{"sFirst":"Primero","sLast":"\u00daltimo","sNext":"Siguiente","sPrevious":"Anterior"},"oAria":{"sSortAscending":": Activar para ordenar la columna ascendente","sSortDescending":": Activar para ordenar la columna descendente"}},"columnDefs":[{"targets":"dt-not-orderable","searchable":false,"orderable":false}]});
 
     });
   </script>

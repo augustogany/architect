@@ -79,7 +79,7 @@
         $('#tiposervicioTable').DataTable({
           "responsive": true, "autoWidth": true,
           "order": [[ 0, "asc" ]],
-          "scrollY":        "280px",
+          // "scrollY":        "280px",
           "scrollCollapse": true,
           //"pagingType": "full_numbers",
           processing: true,

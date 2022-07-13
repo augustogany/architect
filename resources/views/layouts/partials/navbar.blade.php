@@ -1,34 +1,23 @@
 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        <!-- == -->
-                        @can('users.index')
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('users.index')}}">Usuarios</a>
+
+                        <li class="nav-item dropdown">
+                            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Sucursales</a>
+                            <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="background-color: #BBDEBF">
+                                @can('sucursales.index')
+                                <li><a href="{{ route('sucursales.index') }}" class="dropdown-item"><i class="fas fa-list-alt"></i> Lista</a></li>
+                                @endcan
+                                @can('sucursal_usuario.index')
+                                <li><a href="{{ route('sucursales_usuarios.index') }}" class="dropdown-item"><i class="fas fa-list-alt"></i> Asignación</a></li>
+                                @endcan
+                            </ul>
                         </li>
-                        @endcan
-                        <!-- == -->
-                        @can('roles.index')
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('roles.index')}}">Roles</a>
-                        </li>
-                        @endcan
-                        <!-- == -->
-                        @can('sucursales.index')
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('sucursales.index')}}">Sucursales</a>
-                        </li>
-                        @endcan
-                        <!-- == -->
-                        @can('sucursal_usuario.index')
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('sucursales_usuarios.index')}}">Asignación Sucursales</a>
-                        </li>
-                        @endcan
+
                         <!-- == -->
                         @can('dropdown.categorias')
                         <li class="nav-item dropdown">
-                            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Categorias</a>
+                            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Categorías</a>
                             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="background-color: #BBDEBF">
                                 <!-- == -->
                                 @can('categoria_general.index')
@@ -149,15 +138,12 @@
                          <li class="nav-item dropdown">
                             <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Configuraciones</a>
                             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="background-color: #BBDEBF">
-                                <!-- == -->
-                                @can('tipopago.index')
+                                {{-- @can('tipopago.index')
                                 <li><a href="{{route('tipopagos.index')}}" class="dropdown-item"><i class="fas fa-user-cog"></i> Tipos de Pago</a></li>
                                 @endcan
-                                <!-- == -->
                                 @can('tiposervicio.index')
                                 <li><a href="{{route('tiposervicios.index')}}" class="dropdown-item"><i class="fas fa-user-cog"></i> Tipos de Servicios</a></li>
-                                @endcan
-                                <!-- == -->
+                                @endcan --}}
                                 {{-- @can('tiposervicio.index') --}}
                                 <li><a href="{{route('gestiones.index')}}" class="dropdown-item"><i class="fas fa-calendar"></i> Gestiones</a></li>
                                 {{-- @endcan --}}
@@ -176,6 +162,18 @@
                                 <!-- == -->
                                 <li class="dropdown-divider"></li>
                                 <li><a href="{{route('deudas')}}" class="dropdown-item"><i class="fas fa-folder-open"></i>Deudas Pendientes</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Seguridad</a>
+                            <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="background-color: #BBDEBF">
+                                @can('users.index')
+                                <li><a href="{{ route('users.index') }}" class="dropdown-item"><i class="fas fa-list-alt"></i> Usuarios</a></li>
+                                @endcan
+                                @can('roles.index')
+                                <li><a href="{{ route('roles.index') }}" class="dropdown-item"><i class="fas fa-list-alt"></i> Roles</a></li>
+                                @endcan
                             </ul>
                         </li>
                     </ul>

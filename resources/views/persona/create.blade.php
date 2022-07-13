@@ -131,7 +131,7 @@
                                 <div class="form-line">
                                     <input type="text" class="form-control form-control-sm" name="email" placeholder="usuario." autocomplete="off" value="{{ old('email') }}">
                                 </div>
-                                <small>Nombre de Usuario.</small>
+                                <small>Nombre de Usuario</small>
                             </div>
                         </div>
                         <!-- === -->
@@ -141,14 +141,15 @@
                                 <div class="form-line">
                                     <input type="password" class="form-control form-control-sm" name="password" placeholder="password." autocomplete="off">
                                 </div>
-                                <small>Password.</small>
+                                <small>Password</small>
                             </div>
                         </div>
                         <!-- === -->
                     </div>
 				</div>
-				<div class="card-footer">
-                    @include('persona.partials.actions')
+				<div class="card-footer text-right">
+                    <a href="{{route('personas.index')}}" class="btn btn-outline-dark"><i class="fas fa-times"></i> Cancelar</a>
+                    <button type="submit" class="btn btn-outline-success"><i class="fas fa-save"></i> Guardar</button>
 				</div>
 
 			</div>

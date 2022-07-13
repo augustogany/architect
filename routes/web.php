@@ -62,6 +62,7 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('personas/{id}/pagomensualidad','PersonaController@pagomensualidad_index')->name('personas.pagomensualidad.index');
 	Route::get('personas/{id}/pagomensualidad/list/{gestion_id}','PersonaController@pagomensualidad_list');
 	Route::post('personas/{id}/pagomensualidad/store','PersonaController@pagomensualidad_store')->name('personas.pagomensualidad.store');
+	Route::get('personas/pagomensualidad/{id}/print','PersonaController@pagomensualidad_print')->name('personas.pagomensualidad.print');
 	
 	Route::get('getPersona','PersonaController@getPersona')->name('getPersona');
 	Route::get('persona-list-excel','PersonaController@exportExcel')->name('exportExcel');

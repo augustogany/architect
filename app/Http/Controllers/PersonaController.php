@@ -68,7 +68,7 @@ class PersonaController extends Controller
                 $meses = $ultimo_pago->diffInMonths($fecha_actual) % 12;
                 return '
                     '.date('M \d\e Y', strtotime($row->ultimo_pago)).' <br>
-                    <small> Hace '.($anios ? $anios.' año(s)' : '').($anios && $meses ? ' y ' : ' ').($meses ? $meses.' meses' : '').'</small>
+                    <small> Debe '.($anios ? $anios.' año(s)' : '').($anios && $meses ? ' y ' : ' ').($meses ? $meses.' meses' : '').'</small>
                 ';
             })
             ->addColumn('deuda', function($row){
@@ -293,6 +293,11 @@ class PersonaController extends Controller
 
     function pagomensualidad_store($id, Request $request){
         // dd($request->all());
+        if(!$request->mes){
+            toast('Debe seleccionar al menos una mensualidad','warning');
+            return redirect()->route('personas.pagomensualidad.index', $id);
+        }
+
         DB::beginTransaction();
         try {
             $personas_pago = PersonasPago::create([
@@ -300,6 +305,7 @@ class PersonaController extends Controller
                 'sucursal_id' => $request->sucursal_id,
                 'persona_id' => $id,
                 'fecha_pago' => $request->fecha_pago,
+                'descuento' => $request->descuento,
                 'observacion' => $request->observacion
             ]);
 
@@ -310,7 +316,6 @@ class PersonaController extends Controller
                     'gestion_id' => $request->gestion_id,
                     'mes' => $request->mes[$i],
                     'monto_pagado' => $request->monto_pagado[$i],
-                    'monto_descuento' => $request->monto_descuento
                 ]);
                 $ultimo_mes = $request->mes[$i];
             }
@@ -332,6 +337,14 @@ class PersonaController extends Controller
             return redirect()->route('personas.pagomensualidad.index', $id);
         }
     }
+
+    public function pagomensualidad_print($id){
+        $pago = PersonasPago::find($id);
+        // return view('persona.pagomensualidad-print', compact('pago'));
+        $pdf = \PDF::loadview('persona.pagomensualidad-print', compact('pago'));
+        return $pdf->stream('Recibo de pago de mensualidad.pdf');
+    }
+
     // ===================================
 
     //Proyectos generales

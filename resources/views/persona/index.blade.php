@@ -20,8 +20,8 @@
           <i class="fas fa-th-list"></i>
           Lista de Arquitectos del CADBENI
           <div class="card-tools">
-            <a href="{{ route('personas.create') }}" class="btn btn-outline-success btn-lg" title="Crear nueva persona."><i class="fas fa-plus"></i></a>
-            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+            <a href="{{ route('personas.create') }}" class="btn btn-outline-success" title="Crear nueva persona"><span>Agregar <i class="fas fa-plus"></i></span></a>
+            {{-- <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button> --}}
           </div>
         </div>
 
@@ -70,8 +70,9 @@
 
     <script>
         $('#personasTable').DataTable({
-          "responsive": true, "autoWidth": true,
-          "scrollY":        "280px",
+          // "responsive": true,
+          "autoWidth": true,
+          // "scrollY":        "280px",
           "scrollCollapse": true,
           //"pagingType": "full_numbers",
           processing: true,
@@ -81,7 +82,9 @@
                   } ,
           ajax: '{!! route('getPersona') !!}',
           columns: [
-              { data: 'nombre_completo', title: 'Nombre completo' },
+              { data: 'nombre', title: 'Nombre(s)' },
+              { data: 'apaterno', title: 'A. paterno' },
+              { data: 'amaterno', title: 'A. materno' },
               { data: 'numeroregistro', title: 'Nro. Registro' },
               { data: 'telefonos', title: 'Telefonos', css: 'text-align: right' },
               { data: 'direccion', title: 'Dirección' },

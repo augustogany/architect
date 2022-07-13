@@ -81,7 +81,7 @@
         $('#proyectogeneralTable').DataTable({
           "responsive": true, "autoWidth": true,
           "order": [[ 0, "desc" ]],
-          "scrollY":        "280px",
+          // "scrollY":        "280px",
           "scrollCollapse": true,
           //"pagingType": "full_numbers",
           processing: true,

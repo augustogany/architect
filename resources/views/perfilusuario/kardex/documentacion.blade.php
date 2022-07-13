@@ -314,7 +314,7 @@
       function initDataTable() {
         YajraDataTable = $('#experienciasTable').DataTable({
             "responsive": true,
-            "scrollY":   "300px",
+            // "scrollY":   "300px",
             "processing": true,
             "serverSide": true,
             "scrollCollapse": true,

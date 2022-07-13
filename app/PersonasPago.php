@@ -11,11 +11,16 @@ class PersonasPago extends Model
         'sucursal_id',
         'persona_id',
         'fecha_pago',
+        'descuento',
         'observacion'
     ];
 
     public function sucursal(){
         return $this->belongsTo(Sucursal::class, 'sucursal_id');
+    }
+
+    public function persona(){
+        return $this->belongsTo(Persona::class, 'persona_id');
     }
 
     public function mensualidades(){

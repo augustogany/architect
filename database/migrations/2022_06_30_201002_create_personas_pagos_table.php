@@ -19,6 +19,7 @@ class CreatePersonasPagosTable extends Migration
             $table->foreignId('sucursal_id')->nullable()->constrained('sucursals');
             $table->foreignId('persona_id')->nullable()->constrained('personas');
             $table->string('fecha_pago')->nullable();
+            $table->decimal('descuento', 10, 2)->nullable();
             $table->string('observacion')->nullable();
             $table->timestamps();
             $table->softDeletes();

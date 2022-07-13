@@ -106,7 +106,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="month" class="form-control form-control-sm" name="ultimo_pago" value="{{$persona->ultimo_pago}}" required>
+                                    <input type="month" class="form-control form-control-sm" name="ultimo_pago" value="{{ $persona->ultimo_pago }}" @if($persona->ultimo_pago) readonly @endif required>
                                 </div>
                                 <small>Último mes pagado</small>
                             </div>
@@ -153,8 +153,9 @@
                         <!-- === -->
                     </div>
 				</div>
-				<div class="card-footer">
-                    @include('persona.partials.actions')
+				<div class="card-footer text-right">
+                    <a href="{{route('personas.index')}}" class="btn btn-outline-dark"><i class="fas fa-times"></i> Cancelar</a>
+                    <button type="submit" class="btn btn-outline-success"><i class="fas fa-save"></i> Guardar</button>
 				</div>
 
 			</div>
