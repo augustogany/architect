@@ -17,13 +17,12 @@ class CreateDetalleventaserviciosTable extends Migration
             $table->id();
             $table->unsignedBigInteger('ventaservicio_id')->unsigned();
             $table->unsignedBigInteger('servicio_id')->unsigned();
-            $table->decimal('precioservicio', 11, 2);
+            $table->decimal('precio', 11, 2);
             $table->decimal('cantidad', 11, 2);
-            $table->string('observacionventa', 812)->nullable();
-            $table->date('fechapagoservicio');
-            $table->decimal('totalbs', 11, 2);
-            $table->boolean('condicion')->default(1);
+            $table->decimal('descuento', 10, 2);
+            $table->string('observacion', 812)->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('ventaservicio_id')->references('id')->on('ventaservicios');
             $table->foreign('servicio_id')->references('id')->on('servicios');

@@ -23,6 +23,9 @@ use App\Sucursal;
 use App\PersonasPago;
 use App\PersonasPagosMensualidades;
 use App\Gestion;
+use App\Ventaservicio;
+use App\Detalleventaservicio;
+use App\Categoriaurbanizacion;
 
 class PersonaController extends Controller
 {
@@ -49,9 +52,6 @@ class PersonaController extends Controller
         return datatables()
             ->eloquent(Persona::query()->orderBy('nombre'))
             ->addColumn('btn_actions', 'persona.partials.btn_actions')
-            ->addColumn('telefonos', function($row){
-                return '<small><b>Domicilio:</b></small> '.$row->telefonodomicilio.'<br><small><b>Oficina:</b></small> '.$row->telefonooficina.'<br><small><b>Personal:</b></small> '.$row->telefonocelular;
-            })
             ->addColumn('nombre_completo', function($row){
                 return $row->nombre.' '.$row->apaterno.' '.$row->amaterno;
             })
@@ -68,7 +68,7 @@ class PersonaController extends Controller
                 $meses = $ultimo_pago->diffInMonths($fecha_actual) % 12;
                 return '
                     '.date('M \d\e Y', strtotime($row->ultimo_pago)).' <br>
-                    <small> Debe '.($anios ? $anios.' año(s)' : '').($anios && $meses ? ' y ' : ' ').($meses ? $meses.' meses' : '').'</small>
+                    '.(date('Ym', strtotime($row->ultimo_pago)) < date('Ym') ? '<small> Debe '.($anios ? $anios.' año(s)' : '').($anios && $meses ? ' y ' : ' ').($meses ? $meses.' meses' : '').'</small>' : '').'
                 ';
             })
             ->addColumn('deuda', function($row){
@@ -102,9 +102,9 @@ class PersonaController extends Controller
                     }
                 }
 
-                return '<small>Bs.</small> '.number_format($monto, 2, ',', '.');
+                return '<small>Bs.</small> '.number_format($monto > 0 ? $monto : 0, 2, ',', '.');
             })
-            ->rawColumns(['nombre_completo', 'telefonos', 'fecha_afiliacion', 'ultimo_pago', 'deuda', 'btn_actions'])
+            ->rawColumns(['nombre_completo', 'fecha_afiliacion', 'ultimo_pago', 'deuda', 'btn_actions'])
             ->toJson();
     }
 
@@ -138,9 +138,9 @@ class PersonaController extends Controller
         $persona->apaterno = $request->apaterno;
         $persona->amaterno = $request->amaterno;
         $persona->numeroregistro = $request->numeroregistro;
-        $persona->telefonodomicilio = $request->telefonodomicilio;
-        $persona->telefonooficina = $request->telefonooficina;
-        $persona->telefonocelular = $request->telefonocelular;
+        $persona->telefono = $request->telefonodomicilio;
+        // $persona->telefonooficina = $request->telefonooficina;
+        // $persona->telefonocelular = $request->telefonocelular;
         $persona->fecha_afiliacion = $request->fecha_afiliacion;
         $persona->ultimo_pago = $request->ultimo_pago;
         $persona->direccion = $request->direccion;
@@ -148,10 +148,10 @@ class PersonaController extends Controller
         $persona->save();
         
         
-        if ($request->get('usuario')) {
+        if ($request->email) {
             $user = new User;
             $user->name = Str::lower($persona->nombre);
-            $user->email = $request->get('usuario');
+            $user->email = $request->email;
             if ($request->get('password')) {
                 $user->password = Hash::make($request->get('password'));
             }
@@ -195,25 +195,13 @@ class PersonaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    { 
-        $user = auth()->user();
-        $rules = [
-            'email' => 'required', 
-            Rule::unique('users', 'email')->ignore($user->id)
-        ];
-        $messages = [
-            'email.unique' => 'Este nombre ya a sido utlizado.'
-        ];
-        $this->validate($request, $rules, $messages);
-        
+    {
         $persona = Persona::findOrFail($id);
         $persona->nombre = $request->nombre;
         $persona->apaterno = $request->apaterno;
         $persona->amaterno = $request->amaterno;
         $persona->numeroregistro = $request->numeroregistro;
-        $persona->telefonodomicilio = $request->telefonodomicilio;
-        $persona->telefonooficina = $request->telefonooficina;
-        $persona->telefonocelular = $request->telefonocelular;
+        $persona->telefono = $request->telefonodomicilio;
         $persona->fecha_afiliacion = $request->fecha_afiliacion;
         if ($request->ultimo_pago) {
             $persona->ultimo_pago = $request->ultimo_pago;
@@ -226,19 +214,36 @@ class PersonaController extends Controller
 
         $useravailable = User::where('persona_id', $persona->id)->first();
         $user = $useravailable ? $useravailable : null;
-        if ($request->get('usuario')) {
+        if ($request->email) {
             if (!$user) {
+
+                $rules = ['email' => 'required|unique:users'];
+                $messages = [
+                    'email.unique' => 'Este email ya ha sido utilizado.'
+                ];
+                $this->validate($request, $rules, $messages);
+
                 $newuser = new User;
                 $newuser->name = Str::lower($persona->nombre);
-                $newuser->email = $request->get('usuario');
+                $newuser->email = $request->email;
                 $newuser->persona_id = $persona->id;
                 if ($request->get('password')) {
                     $newuser->password = Hash::make($request->get('password'));
                 }
                 $newuser->save();
+
+                // Asiganr rol de arquitecto
+                $newuser->roles()->sync([5]);
             }else{
+
+                $rules = ['email' => "required|unique:users,email,{$user->id}"];
+                $messages = [
+                    'email.unique' => 'Este nombre ya a sido utlizado.'
+                ];
+                $this->validate($request, $rules, $messages);
+
                 $user->name = Str::lower($persona->nombre);
-                $user->email = $request->get('usuario');
+                $user->email = $request->email;
                 $user->persona_id = $persona->id;
                 if ($request->get('password')) {
                     $user->password = Hash::make($request->get('password'));
@@ -332,7 +337,7 @@ class PersonaController extends Controller
             return redirect()->route('personas.pagomensualidad.index', $id);
         } catch (\Throwable $th) {
             DB::rollback();
-            throw $th;
+            // throw $th;
             toast('Ocurrió un error','error');
             return redirect()->route('personas.pagomensualidad.index', $id);
         }
@@ -343,6 +348,254 @@ class PersonaController extends Controller
         // return view('persona.pagomensualidad-print', compact('pago'));
         $pdf = \PDF::loadview('persona.pagomensualidad-print', compact('pago'));
         return $pdf->stream('Recibo de pago de mensualidad.pdf');
+    }
+
+    // ====================================================
+
+    function ventaservicio_index($id){
+        $persona = Persona::find($id);
+        $ventas = Ventaservicio::where('persona_id', $id)
+                    ->where('deleted_at', NULL)->get();
+        return view('persona.ventaservicio', compact('id', 'persona', 'ventas'));
+    }
+
+    function ventaservicio_store($id, Request $request){
+        // dd($request->all());
+        DB::beginTransaction();
+        try {
+            $venta = Ventaservicio::create([
+                'user_id' => Auth::user()->id,
+                'sucursal_id' => $request->sucursal_id,
+                'persona_id' => $id,
+                'fecharegistro' => $request->fecharegistro,
+                'observacion'  => $request->observacion,
+            ]);
+
+            if($request->servicio_id){
+                for ($i=0; $i < count($request->servicio_id); $i++) { 
+                    Detalleventaservicio::create([
+                        'ventaservicio_id' => $venta->id,
+                        'servicio_id' => $request->servicio_id[$i],
+                        'precio' => $request->precio[$i],
+                        'cantidad' => $request->cantidad[$i],
+                        'descuento' => 0
+                    ]);
+                }
+            }
+
+            // En caso de pagar alguna gestion en la compra de servicios
+            if($request->gestion_id){
+                $persona = Persona::find($id);
+                $personas_pago = PersonasPago::create([
+                    'user_id' => Auth::user()->id,
+                    'sucursal_id' => $request->sucursal_id,
+                    'persona_id' => $id,
+                    'ventaservicio_id' => $venta->id,
+                    'fecha_pago' => $request->fecharegistro,
+                    'descuento' => 0,
+                    'observacion' => 'Pago al momento de pagar servicios.'
+                ]);
+    
+                $ultimo_mes = $request->gestion_mes;
+                for ($i=0; $i < $request->gestion_cantidad; $i++) { 
+                    PersonasPagosMensualidades::create([
+                        'personas_pago_id' => $personas_pago->id,
+                        'gestion_id' => $request->gestion_id,
+                        'mes' => $ultimo_mes,
+                        'monto_pagado' => $request->gestion_precio,
+                    ]);
+                    $ultimo_mes++;
+                }
+    
+                // actualizar último pago de la persona
+                $gestion_pagada = Gestion::find($request->gestion_id);
+                Persona::where('id', $id)->update([
+                    // Se quita un mes porque el bucle for lo recorre 1 vez de mas
+                    'ultimo_pago' => $gestion_pagada->gestion.'-'.str_pad($ultimo_mes -1, 2, "0", STR_PAD_LEFT)
+                ]);
+            }
+
+            DB::commit();
+
+            toast('Venta registrada con éxito!','success');
+            return redirect()->route('personas.ventaservicio.index', $id);
+
+        } catch (\Throwable $th) {
+            DB::rollback();
+            // dd($th);
+            toast('Ocurrió un error!','error');
+            return redirect()->route('personas.ventaservicio.index', $id);
+        }
+    }
+
+    public function ventaservicio_print($id){
+        $venta = Ventaservicio::find($id);
+        // return view('persona.ventaservicio-print', compact('venta'));
+        $pdf = \PDF::loadview('persona.ventaservicio-print', compact('venta'));
+        return $pdf->stream('Recibo de pago de servicio.pdf');
+    }
+
+    // ===================================
+
+    function proyectogenerales_index($id){
+        $persona = Persona::find($id);
+        $proyectos = Proyectogeneral::where('persona_id', $id)
+                    ->where('deleted_at', NULL)->get();
+        return view('persona.proyectogenerales', compact('id', 'persona', 'proyectos'));
+    }
+
+    function proyectogenerales_store($id, Request $request){
+        // dd($request->all());
+        DB::beginTransaction();
+        try {
+
+            $proyecto = Proyectogeneral::create([
+                'user_id' => Auth::user()->id,
+                'sucursal_id' => $request->sucursal_id,
+                'persona_id' => $id,
+                'categoriageneral_id' => $request->categoriageneral_id,
+                'costocategoria' => $request->costocategoria,
+                'proyecto' => $request->proyecto,
+                'propietario' => $request->propietario,
+                'superficiemts2' => $request->superficiemts2,
+                'totalbs' => floatval($request->costocategoria) * $request->superficiemts2,
+                'descuento' => 0,
+                'fecharegistro' => $request->fecharegistro,
+                // 'archivo',
+            ]);
+
+            // En caso de pagar alguna gestion en el registro de proyecto
+            if($request->gestion_cantidad){
+                $persona = Persona::find($id);
+                $personas_pago = PersonasPago::create([
+                    'user_id' => Auth::user()->id,
+                    'sucursal_id' => $request->sucursal_id,
+                    'persona_id' => $id,
+                    'proyectogeneral_id' => $proyecto->id,
+                    'fecha_pago' => $request->fecharegistro,
+                    'descuento' => 0,
+                    'observacion' => 'Pago al momento de registrar proyecto.'
+                ]);
+    
+                $ultimo_mes = $request->gestion_mes;
+                for ($i=0; $i < $request->gestion_cantidad; $i++) { 
+                    PersonasPagosMensualidades::create([
+                        'personas_pago_id' => $personas_pago->id,
+                        'gestion_id' => $request->gestion_id,
+                        'mes' => $ultimo_mes,
+                        'monto_pagado' => $request->gestion_precio,
+                    ]);
+                    $ultimo_mes++;
+                }
+    
+                // actualizar último pago de la persona
+                $gestion_pagada = Gestion::find($request->gestion_id);
+                Persona::where('id', $id)->update([
+                    // Se quita un mes porque el bucle for lo recorre 1 vez de mas
+                    'ultimo_pago' => $gestion_pagada->gestion.'-'.str_pad($ultimo_mes -1, 2, "0", STR_PAD_LEFT)
+                ]);
+            }
+
+            DB::commit();
+
+            toast('Proyecto registrado con éxito!','success');
+            return redirect()->route('personas.proyectogenerales.index', $id);
+
+        } catch (\Throwable $th) {
+            DB::rollback();
+            // throw $th;
+            toast('Ocurrió un error','error');
+            return redirect()->route('personas.proyectogenerales.index', $id);
+        }
+    }
+
+    public function proyectogenerales_print($id){
+        $proyecto = Proyectogeneral::find($id);
+        // return view('persona.proyectogenerales-print', compact('proyecto'));
+        $pdf = \PDF::loadview('persona.proyectogenerales-print', compact('proyecto'));
+        return $pdf->stream('Recibo de registro de proyecto.pdf');
+    }
+
+    // ===================================
+
+    function proyectourbanizacions_index($id){
+        $persona = Persona::find($id);
+        $proyectos = Proyectourbanizacion::where('persona_id', $id)
+                    ->where('deleted_at', NULL)->get();
+        $categorias = Categoriaurbanizacion::where('condicion', 1)->get();
+        return view('persona.proyectourbanizacions', compact('id', 'persona', 'proyectos', 'categorias'));
+    }
+
+    function proyectourbanizacions_store($id, Request $request){
+        // dd($request->all());
+        DB::beginTransaction();
+        try {
+
+            $proyecto = Proyectourbanizacion::create([
+                'user_id' => Auth::user()->id,
+                'sucursal_id' => $request->sucursal_id,
+                'persona_id' => $id,
+                'categoriaurbanizacion_id' => $request->categoriaurbanizacion_id,
+                'costo_pu_categoria' => $request->costo_pu_categoria,
+                'proyecto' => $request->proyecto,
+                'propietario' => $request->propietario,
+                'superficiemts2' => $request->superficiemts2,
+                'totalbs' => floatval($request->costo_pu_categoria) * $request->superficiemts2,
+                'descuento' => 0,
+                'fecharegistro' => $request->fecharegistro,
+                // 'archivo',
+            ]);
+
+            // En caso de pagar alguna gestion en el registro de proyecto
+            if($request->gestion_cantidad){
+                $persona = Persona::find($id);
+                $personas_pago = PersonasPago::create([
+                    'user_id' => Auth::user()->id,
+                    'sucursal_id' => $request->sucursal_id,
+                    'persona_id' => $id,
+                    'proyectourbanizacion_id' => $proyecto->id,
+                    'fecha_pago' => $request->fecharegistro,
+                    'descuento' => 0,
+                    'observacion' => 'Pago al momento de registrar proyecto.'
+                ]);
+    
+                $ultimo_mes = $request->gestion_mes;
+                for ($i=0; $i < $request->gestion_cantidad; $i++) { 
+                    PersonasPagosMensualidades::create([
+                        'personas_pago_id' => $personas_pago->id,
+                        'gestion_id' => $request->gestion_id,
+                        'mes' => $ultimo_mes,
+                        'monto_pagado' => $request->gestion_precio,
+                    ]);
+                    $ultimo_mes++;
+                }
+    
+                // actualizar último pago de la persona
+                $gestion_pagada = Gestion::find($request->gestion_id);
+                Persona::where('id', $id)->update([
+                    // Se quita un mes porque el bucle for lo recorre 1 vez de mas
+                    'ultimo_pago' => $gestion_pagada->gestion.'-'.str_pad($ultimo_mes -1, 2, "0", STR_PAD_LEFT)
+                ]);
+            }
+
+            DB::commit();
+
+            toast('Proyecto registrado con éxito!','success');
+            return redirect()->route('personas.proyectourbanizacions.index', $id);
+
+        } catch (\Throwable $th) {
+            DB::rollback();
+            throw $th;
+            toast('Ocurrió un error','error');
+            return redirect()->route('personas.proyectourbanizacions.index', $id);
+        }
+    }
+
+    public function proyectourbanizacions_print($id){
+        $proyecto = Proyectourbanizacion::find($id);
+        // return view('persona.proyectogenerales-print', compact('proyecto'));
+        $pdf = \PDF::loadview('persona.proyectogenerales-print', compact('proyecto'));
+        return $pdf->stream('Recibo de registro de proyecto.pdf');
     }
 
     // ===================================
@@ -393,7 +646,7 @@ class PersonaController extends Controller
     public function exportPDF()
     {
         $personas = Persona::orderBy('nombre','asc')->get();
-        //return $personas;
+        // return $personas;
         $pdf = \PDF::loadview('pdf.personas-list', compact('personas'))->setPaper('A4','landscape');
         return $pdf->stream('ARQUITECTOS - '.date('d-m-Y').'.pdf');
     }

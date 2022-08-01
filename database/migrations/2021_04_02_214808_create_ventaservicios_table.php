@@ -19,14 +19,10 @@ class CreateVentaserviciosTable extends Migration
             $table->unsignedBigInteger('sucursal_id')->unsigned();
             $table->unsignedBigInteger('persona_id')->unsigned();
             $table->date('fecharegistro');
-            $table->string('gestion', 4);
-            $table->string('clientIP', 15);
-            $table->decimal('totalbs', 11, 2);
-            $table->string('observacion', 812)->nullable();
-            $table->boolean('condicion')->default(1);
-            $table->boolean('condicion_aux')->default(1);
+            $table->text('observacion')->nullable();
             $table->string('estado', 13)->default('ACTIVO');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('sucursal_id')->references('id')->on('sucursals');

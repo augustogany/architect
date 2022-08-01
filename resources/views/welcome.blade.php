@@ -59,6 +59,7 @@
                 <li><a href="#alt-services">Acerca de</a></li>
                 <li><a href="#services">Servicios</a></li>
                 <li><a href="#projects">Proyectos</a></li>
+                <li><a href="{{ url('home') }}">Administración</a></li>
                 </ul>
             </nav><!-- .navbar -->
 

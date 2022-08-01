@@ -10,6 +10,9 @@ class PersonasPago extends Model
         'user_id',
         'sucursal_id',
         'persona_id',
+        'ventaservicio_id',
+        'proyectogeneral_id',
+        'proyectourbanizacion_id',
         'fecha_pago',
         'descuento',
         'observacion'

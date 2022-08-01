@@ -18,8 +18,9 @@ class CreateServiciosTable extends Migration
             $table->string('nombre', 50);
             $table->decimal('precio', 11, 2);
             $table->boolean('condicion')->default(1);
-            $table->string('estado', 13)->default('ACTIVO');
+            $table->string('estado', 13)->default('activo');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

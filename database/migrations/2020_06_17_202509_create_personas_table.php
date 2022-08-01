@@ -20,9 +20,7 @@ class CreatePersonasTable extends Migration
             $table->string('amaterno');
             $table->string('ci');
             $table->string('numeroregistro', 20);
-            $table->string('telefonodomicilio', 50)->nullable();
-            $table->string('telefonooficina', 50)->nullable();
-            $table->string('telefonocelular', 50)->nullable();
+            $table->string('telefono', 50)->nullable();
             $table->string('direccion')->nullable();
             $table->string('correo')->nullable();
             $table->date('fecha_afiliacion')->nullable();
@@ -30,6 +28,7 @@ class CreatePersonasTable extends Migration
             $table->boolean('condicion')->default(1);
             $table->string('estado', 13)->default('ACTIVO');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

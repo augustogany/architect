@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    Bienvenid@s!
+                    Bienvenido!
                     <hr>
                     
                   {{--   <!-- Small boxes (Stat box) -->
@@ -78,46 +78,69 @@
                     </div>
                     <!-- /.row --> --}}
 
-                    <div class="card">
-                      <div class="card-header">
-                        <h3 class="card-title">Tabla Informativa</h3>
+                    @if (Auth::user()->roles->where('id', 5)->count() > 0)
+                        
+                    @else
+                      <div class="card">
+                        <div class="card-header">
+                          <h3 class="card-title">Tabla Informativa</h3>
 
-                        <div class="card-tools">
-                          <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                          </button>
+                          <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                            </button>
+                          </div>
                         </div>
+                        @php
+                          $sucursales = Auth::user()->sucursales;
+                          foreach ($sucursales as $key => $value) {
+                            $id_sucursales[] = $value->id;
+                          }
+
+                          $personas = App\Persona::count();
+
+                          $count_viviendas = App\Proyectogeneral::where('categoriageneral_id','=','1')
+                              ->whereIn('sucursal_id',$id_sucursales)
+                              ->count();
+
+                          $count_oficinas = App\Proyectogeneral::where('categoriageneral_id','=','3')
+                              ->whereIn('sucursal_id',$id_sucursales)
+                              ->count();
+
+                          $count_urbanizacion = App\Proyectourbanizacion::where('condicion','=','1')
+                              ->whereIn('sucursal_id',$id_sucursales)
+                              ->count();
+                        @endphp 
+                        <div class="card-body p-0">
+                          <ul class="nav nav-pills flex-column">
+                            <li class="nav-item active">
+                              <a href="{{route('personas.index')}}" class="nav-link">
+                                <i class="fas fa-users"></i> Arquitectos
+                                <span class="badge bg-primary float-right">{{$personas}}</span>
+                              </a>
+                            </li>
+                            <li class="nav-item">
+                              <a href="{{route('proyectogeneral.index')}}" class="nav-link">
+                                <i class="fas fa-home"></i> Viviendas
+                                <span class="badge bg-primary float-right">{{$count_viviendas}}</span>
+                              </a>
+                            </li>
+                            <li class="nav-item">
+                              <a href="{{route('proyectogeneral.index')}}" class="nav-link">
+                                <i class="far fa-building"></i> Comercio y Oficinas
+                                <span class="badge bg-primary float-right">{{$count_oficinas}}</span>
+                              </a>
+                            </li>
+                            <li class="nav-item">
+                              <a href="{{route('proyectourbanizacion.index')}}" class="nav-link">
+                                <i class="fas fa-map-marked-alt"></i> Urbanizaciones
+                                <span class="badge bg-primary float-right">{{$count_urbanizacion}}</span>
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                        <!-- /.card-body -->
                       </div>
-                      <div class="card-body p-0">
-                        <ul class="nav nav-pills flex-column">
-                          <li class="nav-item active">
-                            <a href="{{route('personas.index')}}" class="nav-link">
-                              <i class="fas fa-users"></i> Arquitectos.
-                              <span class="badge bg-primary float-right">{{$personas}}</span>
-                            </a>
-                          </li>
-                          <li class="nav-item">
-                            <a href="{{route('proyectogeneral.index')}}" class="nav-link">
-                              <i class="fas fa-home"></i> Viviendas.
-                              <span class="badge bg-primary float-right">{{$count_viviendas}}</span>
-                            </a>
-                          </li>
-                          <li class="nav-item">
-                            <a href="{{route('proyectogeneral.index')}}" class="nav-link">
-                              <i class="far fa-building"></i> Comercio y Oficinas.
-                              <span class="badge bg-primary float-right">{{$count_oficinas}}</span>
-                            </a>
-                          </li>
-                          <li class="nav-item">
-                            <a href="{{route('proyectourbanizacion.index')}}" class="nav-link">
-                              <i class="fas fa-map-marked-alt"></i> Urbanizaciones.
-                              <span class="badge bg-primary float-right">{{$count_urbanizacion}}</span>
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                      <!-- /.card-body -->
-                    </div>
-                 
+                    @endif
                  </div>
             </div>
         </div>

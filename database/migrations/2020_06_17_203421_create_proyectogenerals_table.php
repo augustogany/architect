@@ -35,6 +35,7 @@ class CreateProyectogeneralsTable extends Migration
                     ->nullable()
                     ->default('pendiente');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('sucursal_id')->references('id')->on('sucursals');

@@ -49,7 +49,7 @@
                     <p>Santísima Trinidad - Beni - Bolivia</p>
                 </td>
                 <td style="text-align: right">
-                    <h2 style="margin: 0px">RECIBO DE PAGO</h2>
+                    <h3 style="margin: 0px">RECIBO DE PAGO</h3>
                     <span style="color: red">N&deg; {{ str_pad($pago->id, 5, "0", STR_PAD_LEFT) }}</span> <br>
                     <small>Impreso {{ date('d/m/Y H:i') }}</small>
                 </td>
@@ -70,7 +70,7 @@
             </tr>
             <tr>
                 <td style="width: 200px"><b><small>Cédula de identidad:</small></b></td>
-                <td>{{ $pago->persona->ci }}</td>
+                <td>{{ $pago->persona->ci ?? '' }}</td>
             </tr>
         </table>
     </div>
@@ -88,7 +88,7 @@
                     <td>1</td>
                     <td>
                         @php
-                            $mes = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+                            $mes = ['', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
                             $detalles = '';
                             if($pago->mensualidades->count() == 1){
                                 $detalles = 'mensualidad ('.$mes[$pago->mensualidades->first()->mes].' de '.$pago->mensualidades->last()->gestion->gestion.')';

@@ -82,7 +82,7 @@
                                                 $gestiones = App\Gestion::where('deleted_at', null)
                                                                 ->whereRaw('((gestion >= '.date('Y', strtotime($persona->ultimo_pago.'-01')).' and 12 <> '.date('m', strtotime($persona->ultimo_pago.'-01')).') or gestion > '.date('Y', strtotime($persona->ultimo_pago.'-01')).')')
                                                                 ->limit(1)->orderBy('gestion')->get()
-                                            @endphp     
+                                            @endphp
                                             @foreach ($gestiones as $item)
                                             <option value="{{ $item->id }}" data-item='@json($item)'>{{ $item->gestion }} - Bs. {{ $item->mensualidad }}</option>
                                             @endforeach

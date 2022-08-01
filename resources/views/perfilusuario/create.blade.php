@@ -125,16 +125,16 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input 
-                                        type="text" 
+                                    <textarea
                                         class="form-control form-control-sm" 
                                         required name="direccion" 
                                         placeholder="Dirección" 
                                         style="text-transform:uppercase;" 
                                         onkeyup ="this.value=this.value.toUpperCase()" 
-                                        autocomplete="off"
-                                        value="{{$persona->direccion ?? ''}}"
+                                        rows="3"
                                     >
+                                    {{$persona->direccion ?? ''}}
+                                    </textarea>
                                 </div>
                                 <small>Direccion.</small>
                             </div>
@@ -154,7 +154,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-footer">
+                <div class="card-footer text-right">
                     @include('perfilusuario.partials.actions')
                 </div>
             </div>

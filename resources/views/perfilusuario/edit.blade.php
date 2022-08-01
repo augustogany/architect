@@ -63,7 +63,14 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" class="form-control form-control-sm" required name="direccion" value="{{$perfil->direccion}}" style="text-transform:uppercase;" onkeyup ="this.value=this.value.toUpperCase()" autocomplete="off">
+                                    <textarea
+                                        class="form-control form-control-sm" 
+                                        required name="direccion" 
+                                        placeholder="Dirección" 
+                                        style="text-transform:uppercase;" 
+                                        onkeyup ="this.value=this.value.toUpperCase()" 
+                                        rows="3"
+                                    >{{ $perfil->direccion ?? '' }}</textarea>
                                 </div>
                                 <small>Dirección.</small>
                             </div>
@@ -71,7 +78,7 @@
                         <!-- === -->
                     </div>
                 </div>
-                <div class="card-footer">
+                <div class="card-footer text-right">
                     @include('perfilusuario.partials.actions')
                 </div>
             </div>

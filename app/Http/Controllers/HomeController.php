@@ -27,26 +27,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $sucursales = Auth::user()->sucursales;
-        foreach ($sucursales as $key => $value) {
-           $id_sucursales[] = $value->id;
-        }
-
-        $personas = Persona::count();
-
-        $count_viviendas = Proyectogeneral::where('categoriageneral_id','=','1')
-            ->whereIn('sucursal_id',$id_sucursales)
-            ->count();
-
-        $count_oficinas = Proyectogeneral::where('categoriageneral_id','=','3')
-            ->whereIn('sucursal_id',$id_sucursales)
-            ->count();
-
-        $count_urbanizacion = Proyectourbanizacion::where('condicion','=','1')
-            ->whereIn('sucursal_id',$id_sucursales)
-            ->count();
-
-        return view('home', compact('count_viviendas','count_oficinas','count_urbanizacion','personas'));
+        return view('home');
     }
 
     public function visitante()

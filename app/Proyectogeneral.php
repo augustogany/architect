@@ -6,6 +6,28 @@ use Illuminate\Database\Eloquent\Model;
 
 class Proyectogeneral extends Model
 {
+
+    protected $fillable = [
+        'user_id',
+        'sucursal_id',
+        'persona_id',
+        'categoriageneral_id',
+        'costocategoria',
+        'proyecto',
+        'propietario',
+        'superficiemts2',
+        'totalbs',
+        'descuento',
+        'fecharegistro',
+        'archivo',
+        'condicion',
+        'condicion_aux'
+    ];
+
+    public function sucursal(){
+        return $this->belongsTo(Sucursal::class, 'sucursal_id');
+    }
+
     public function categoriageneral()
     {
         return $this->belongsTo(Categoriageneral::class);
@@ -20,5 +42,9 @@ class Proyectogeneral extends Model
     {
     	if($this->archivo)
     		return url("storage/$this->archivo");
+    }
+
+    public function persona_pago(){
+        return $this->hasOne(PersonasPago::class, 'proyectogeneral_id');
     }
 }

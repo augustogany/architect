@@ -132,7 +132,7 @@
                                     <input type="text" 
                                            class="form-control form-control-sm" 
                                            name="email" 
-                                           placeholder="usuario....." 
+                                           placeholder="ejemplo@cadbeni.com" 
                                            autocomplete="off"
                                            value="{{$user->email ?? ''}}"
                                     >
@@ -145,7 +145,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="password" class="form-control form-control-sm" name="password" placeholder="password...." autocomplete="off">
+                                    <input type="password" class="form-control form-control-sm" name="password" placeholder="password" autocomplete="off">
                                 </div>
                                 <small>Password.</small>
                             </div>

@@ -19,11 +19,11 @@ class CreateProyectourbanizacionsTable extends Migration
             $table->unsignedBigInteger('sucursal_id')->unsigned();
             $table->unsignedBigInteger('persona_id')->unsigned();
             $table->unsignedBigInteger('categoriaurbanizacion_id')->unsigned();
-            $table->decimal('arancelcategoria', 11, 3);
+            $table->decimal('arancelcategoria', 11, 3)->nullable();
             $table->decimal('costo_pu_categoria', 11, 3);
-            $table->decimal('porcentaje_cab_categoria', 11, 3);
-            $table->decimal('visado_sus_categoria', 11, 2);
-            $table->decimal('visado_bs_categoria', 11, 3);
+            $table->decimal('porcentaje_cab_categoria', 11, 3)->nullable();
+            $table->decimal('visado_sus_categoria', 11, 2)->nullable();
+            $table->decimal('visado_bs_categoria', 11, 3)->nullable();
             $table->string('proyecto', 512);
             $table->string('propietario', 812);
             $table->decimal('superficiemts2', 11, 2);
@@ -34,6 +34,7 @@ class CreateProyectourbanizacionsTable extends Migration
             $table->boolean('condicion')->default(1);
             $table->string('estado',50)->default('pendiente');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('sucursal_id')->references('id')->on('sucursals');

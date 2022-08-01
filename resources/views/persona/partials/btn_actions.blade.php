@@ -1,6 +1,13 @@
-{{-- @can('personas.edit') --}}
-<a href="{{ route('personas.pagomensualidad.index', $id) }}" title="Pagar mensualidad" class="btn btn-outline-success btn-sm"><i class="fas fa-calendar"></i></a>
-{{-- @endcan --}}
+<div class="dropdown" style="display:inline-block;">
+    <button class="btn btn-outline-success btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-plus"></i></button>
+    <div class="dropdown-menu">
+        <a href="{{ route('personas.pagomensualidad.index', $id) }}" title="Pagos de mensualidad" class="dropdown-item">Pagos de mensualidad</a>
+        <a href="{{ route('personas.proyectogenerales.index', $id) }}" title="Proyectos generales" class="dropdown-item">Proyectos generales</a>
+        <a href="{{ route('personas.proyectourbanizacions.index', $id) }}" title="Proyectos de urbanización" class="dropdown-item">Proyectos de urbanización</a>
+        <a href="{{ route('personas.ventaservicio.index', $id) }}" title="Pagos de servicios" class="dropdown-item">Pagos de servicios</a>
+    </div>
+</div>
+
 @can('personas.show')
 <a href="{{ route('personas.show', $id) }}" title="Ver persona" class="btn btn-outline-success btn-sm"><i class="fas fa-eye"></i></a>
 @endcan

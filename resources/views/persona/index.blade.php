@@ -60,6 +60,12 @@
 @push ('styles')
     <link href="{{ asset('theme/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
     <link href="{{ asset('theme/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}" rel="stylesheet">
+
+    <style>
+      .btn-sm{
+        margin: 2px 0px !important;
+      }
+    </style>
 @endpush
 
 @push ('script')
@@ -86,10 +92,10 @@
               { data: 'apaterno', title: 'A. paterno' },
               { data: 'amaterno', title: 'A. materno' },
               { data: 'numeroregistro', title: 'Nro. Registro' },
-              { data: 'telefonos', title: 'Telefonos', css: 'text-align: right' },
+              { data: 'telefono', title: 'Telefono', css: 'text-align: right' },
               { data: 'direccion', title: 'Dirección' },
               { data: 'correo', title: 'Email' },
-              { data: 'fecha_afiliacion', title: 'Afiliación' },
+              { data: 'fecha_afiliacion', title: 'Fecha de afiliación' },
               { data: 'ultimo_pago', title: 'Último pago' },
               { data: 'deuda', title: 'Deuda'},
               { data: "condicion", title : 'Estado', 

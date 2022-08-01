@@ -45,7 +45,7 @@
                                 <li class="dropdown-divider"></li>
                                 <li><a href="{{route('exportExcel')}}" class="dropdown-item"><i class="fas fa-file-excel"></i> Arqtutectos.Excel</a></li>
                                 <li><a href="{{route('exportPDF')}}" class="dropdown-item" target="_blank"><i class="fas fa-file-pdf"></i> Arqtutectos.PDF</a></li>
-                                <li><a href="{{route('deudaarquitectos.index')}}" class="dropdown-item"><i class="fas fa-cash-register"></i> Deuda Arquitecto</a></li>
+                                {{-- <li><a href="{{route('deudaarquitectos.index')}}" class="dropdown-item"><i class="fas fa-cash-register"></i> Deuda Arquitecto</a></li> --}}
                                 <li><a href="{{route('ventaservicio.index')}}" class="dropdown-item"><i class="fas fa-cash-register"></i> Venta de Servicios</a></li>
                                 <!-- == -->
                             </ul>

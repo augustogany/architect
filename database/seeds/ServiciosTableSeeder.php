@@ -23,9 +23,10 @@ class ServiciosTableSeeder extends Seeder
                 'nombre' => 'VISACION PROYECTO ARQUITECTONICO',
                 'precio' => '120.00',
                 'condicion' => 1,
-                'estado' => 'ACTIVO',
+                'estado' => 'activo',
                 'created_at' => '2021-04-03 06:37:11',
                 'updated_at' => '2021-06-01 16:43:29',
+                'deleted_at' => NULL
             ),
             1 => 
             array (
@@ -33,9 +34,10 @@ class ServiciosTableSeeder extends Seeder
                 'nombre' => 'VISACION PROYECTO URBANIZACION',
                 'precio' => '70.00',
                 'condicion' => 1,
-                'estado' => 'ACTIVO',
+                'estado' => 'activo',
                 'created_at' => '2021-04-03 06:37:11',
                 'updated_at' => '2022-02-19 19:18:05',
+                'deleted_at' => NULL
             ),
             2 => 
             array (
@@ -43,9 +45,10 @@ class ServiciosTableSeeder extends Seeder
                 'nombre' => 'CERTIFICADO DE REGISTRO',
                 'precio' => '70.00',
                 'condicion' => 1,
-                'estado' => 'ACTIVO',
+                'estado' => 'activo',
                 'created_at' => '2021-04-03 06:37:11',
                 'updated_at' => '2021-04-03 06:37:11',
+                'deleted_at' => NULL
             ),
             3 => 
             array (
@@ -53,9 +56,10 @@ class ServiciosTableSeeder extends Seeder
                 'nombre' => 'CERTIFICADO DE PROPIEDAD INTELECTUAL',
                 'precio' => '70.00',
                 'condicion' => 1,
-                'estado' => 'ACTIVO',
+                'estado' => 'activo',
                 'created_at' => '2021-04-03 06:37:11',
                 'updated_at' => '2021-04-03 06:37:11',
+                'deleted_at' => NULL
             ),
             4 => 
             array (
@@ -63,9 +67,10 @@ class ServiciosTableSeeder extends Seeder
             'nombre' => 'VALORES (TIMBRES, CONTRATO)',
                 'precio' => '80.00',
                 'condicion' => 1,
-                'estado' => 'ACTIVO',
+                'estado' => 'activo',
                 'created_at' => '2021-04-03 06:37:11',
                 'updated_at' => '2021-04-03 06:37:11',
+                'deleted_at' => NULL
             ),
             5 => 
             array (
@@ -73,19 +78,10 @@ class ServiciosTableSeeder extends Seeder
                 'nombre' => 'CARPETA PARA TRANSFERENCIA',
                 'precio' => '90.00',
                 'condicion' => 1,
-                'estado' => 'ACTIVO',
+                'estado' => 'activo',
                 'created_at' => '2021-04-03 06:37:11',
                 'updated_at' => '2022-02-19 19:18:00',
-            ),
-            6 => 
-            array (
-                'id' => 7,
-                'nombre' => 'OTROS',
-                'precio' => '0.00',
-                'condicion' => 1,
-                'estado' => 'ACTIVO',
-                'created_at' => '2021-04-03 06:37:11',
-                'updated_at' => '2022-02-19 19:18:15',
+                'deleted_at' => NULL
             ),
         ));
         
