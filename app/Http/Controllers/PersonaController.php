@@ -138,9 +138,8 @@ class PersonaController extends Controller
         $persona->apaterno = $request->apaterno;
         $persona->amaterno = $request->amaterno;
         $persona->numeroregistro = $request->numeroregistro;
-        $persona->telefono = $request->telefonodomicilio;
-        // $persona->telefonooficina = $request->telefonooficina;
-        // $persona->telefonocelular = $request->telefonocelular;
+        $persona->ci = $request->ci;
+        $persona->telefono = $request->telefono;
         $persona->fecha_afiliacion = $request->fecha_afiliacion;
         $persona->ultimo_pago = $request->ultimo_pago;
         $persona->direccion = $request->direccion;
@@ -201,7 +200,8 @@ class PersonaController extends Controller
         $persona->apaterno = $request->apaterno;
         $persona->amaterno = $request->amaterno;
         $persona->numeroregistro = $request->numeroregistro;
-        $persona->telefono = $request->telefonodomicilio;
+        $persona->ci = $request->ci;
+        $persona->telefono = $request->telefono;
         $persona->fecha_afiliacion = $request->fecha_afiliacion;
         if ($request->ultimo_pago) {
             $persona->ultimo_pago = $request->ultimo_pago;

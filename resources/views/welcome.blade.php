@@ -74,7 +74,7 @@
                 <div class="row justify-content-center">
                 <div class="col-lg-6 text-center">
                     <h2 data-aos="fade-down">Colegio de Arquitectos <span>del Beni</span></h2>
-                    <p data-aos="fade-up">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    <p data-aos="fade-up">El Colegio de Arquitectos del Beni (CAD-BENI.) es una institución que agrupa y representa a sus afiliados a nivel departamental; controla y certifica el ejercicio profesional, generando ámbitos de participación orientado al diseño de políticas públicas de planificación participativa y construcción del hábitat.</p>
                     <a data-aos="fade-up" data-aos-delay="200" href="#alt-services" class="btn-get-started">Iniciar ahora</a>
                 </div>
                 </div>
@@ -108,52 +108,37 @@
                 <div class="container" data-aos="fade-up">
 
                     <div class="row justify-content-around gy-4">
-                    <div class="col-lg-6 img-bg" style="background-image: url(assets/img/alt-services.jpg);" data-aos="zoom-in" data-aos-delay="100"></div>
+                        <div class="col-lg-3 img-bg" style="background-image: url(assets/img/alt-services.jpg);" data-aos="zoom-in" data-aos-delay="100"></div>
 
-                    <div class="col-lg-5 d-flex flex-column justify-content-center">
-                        <h3>Quienes somos?</h3>
-                        <p>Esse voluptas cumque vel exercitationem. Reiciendis est hic accusamus. Non ipsam et sed minima temporibus laudantium. Soluta voluptate sed facere corporis dolores excepturi</p>
+                        <div class="col-lg-9 d-flex flex-column justify-content-center">
+                            <h3>Quienes somos?</h3>
+                            <p>El Colegio de Arquitectos del Beni (CAD-BENI.) es una institución que agrupa y representa a sus afiliados a nivel departamental; controla y certifica el ejercicio profesional, generando ámbitos de participación orientado al diseño de políticas públicas de planificación participativa y construcción del hábitat, a través del control social que le corresponde desarrollar como organización social de los profesionales del ramo.
+                                Asimismo, posibilita el perfeccionamiento profesional especializado, otorgando servicios y protección a sus asociados.</p>
 
-                        <div class="icon-box d-flex position-relative" data-aos="fade-up" data-aos-delay="100">
-                        <i class="bi bi-easel flex-shrink-0"></i>
-                        <div>
-                            <h4><a href="" class="stretched-link">Lorem Ipsum</a></h4>
-                            <p>Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>
+                            <div class="icon-box d-flex position-relative" data-aos="fade-up" data-aos-delay="100">
+                            <i class="bi bi-easel flex-shrink-0"></i>
+                            <div>
+                                <h4><a href="" class="stretched-link">Misión</a></h4>
+                                <p>Es una institución que agrupa y representa a sus afiliados en el territorio nacional; controla y certifica el ejercicio profesional, generando ámbitos de participación orientado al diseño de políticas públicas de planificación participativa y construcción del hábitat, a través del control social que le corresponde desarrollar como organización social de los profesionales del ramo. <br> Asimismo, posibilita el perfeccionamiento profesional especializado, otorgando servicios y protección a sus asociados.</p>
+                            </div>
+                            </div><!-- End Icon Box -->
+
+                            <div class="icon-box d-flex position-relative" data-aos="fade-up" data-aos-delay="200">
+                            <i class="bi bi-patch-check flex-shrink-0"></i>
+                            <div>
+                                <h4><a href="" class="stretched-link">Visión</a></h4>
+                                <p>Lideriza la gestión de políticas públicas en el ámbito de su competencia, fortaleciendo el ejercicio profesional del Arquitecto con equidad, transparencia, solidaridad y respaldo legal, en un escenario autónomo con compromiso social, en el marco intercultural de la organización del Estado. <br> Servir a la sociedad civil e instituciones del Estado por medio del correcto ejercicio profesional de la Arquitectura. <br> Contribuir a la fiscalización del ejercicio profesional</p>
+                            </div>
+                            </div><!-- End Icon Box -->
+
                         </div>
-                        </div><!-- End Icon Box -->
-
-                        <div class="icon-box d-flex position-relative" data-aos="fade-up" data-aos-delay="200">
-                        <i class="bi bi-patch-check flex-shrink-0"></i>
-                        <div>
-                            <h4><a href="" class="stretched-link">Nemo Enim</a></h4>
-                            <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque</p>
-                        </div>
-                        </div><!-- End Icon Box -->
-
-                        <div class="icon-box d-flex position-relative" data-aos="fade-up" data-aos-delay="300">
-                        <i class="bi bi-brightness-high flex-shrink-0"></i>
-                        <div>
-                            <h4><a href="" class="stretched-link">Dine Pad</a></h4>
-                            <p>Explicabo est voluptatum asperiores consequatur magnam. Et veritatis odit. Sunt aut deserunt minus aut eligendi omnis</p>
-                        </div>
-                        </div><!-- End Icon Box -->
-
-                        <div class="icon-box d-flex position-relative" data-aos="fade-up" data-aos-delay="400">
-                        <i class="bi bi-brightness-high flex-shrink-0"></i>
-                        <div>
-                            <h4><a href="" class="stretched-link">Tride clov</a></h4>
-                            <p>Est voluptatem labore deleniti quis a delectus et. Saepe dolorem libero sit non aspernatur odit amet. Et eligendi</p>
-                        </div>
-                        </div><!-- End Icon Box -->
-
-                    </div>
                     </div>
 
                 </div>
             </section><!-- End Alt Services Section -->
 
             <!-- ======= Constructions Section ======= -->
-            <section id="constructions" class="constructions">
+            {{-- <section id="constructions" class="constructions">
                 <div class="container" data-aos="fade-up">
 
                     <div class="section-header">
@@ -230,10 +215,11 @@
                     </div>
 
                 </div>
-            </section><!-- End Constructions Section -->
+            </section> --}}
+            <!-- End Constructions Section -->
 
             <!-- ======= Services Section ======= -->
-            <section id="services" class="services section-bg">
+            {{-- <section id="services" class="services section-bg">
                 <div class="container" data-aos="fade-up">
 
                     <div class="section-header">
@@ -312,10 +298,11 @@
                     </div>
 
                 </div>
-            </section><!-- End Services Section -->
+            </section> --}}
+            <!-- End Services Section -->
 
             <!-- ======= Features Section ======= -->
-            <section id="features" class="features section-bg">
+            {{-- <section id="features" class="features section-bg">
                 <div class="container" data-aos="fade-up">
 
                     <ul class="nav nav-tabs row  g-2 d-flex">
@@ -431,7 +418,31 @@
                     </div>
 
                 </div>
-            </section><!-- End Features Section -->
+            </section> --}}
+            <!-- End Features Section -->
+
+            <!-- ======= Clients Section ======= -->
+            <section id="clients" class="clients mt-5">
+                {{-- <div class="section-header">
+                    <h2>Our Customers</h2>
+                    <p>Architecto nobis eos vel nam quidem vitae temporibus voluptates qui hic deserunt iusto omnis nam voluptas asperiores sequi tenetur dolores incidunt enim voluptatem magnam cumque fuga.</p>
+                </div> --}}
+                <div class="container" data-aos="zoom-out">
+                    <div class="clients-slider swiper">
+                        <div class="swiper-wrapper align-items-center">
+                            <div class="swiper-slide"><img src="assets/img/clients/client-1.png" class="img-fluid" alt="img"></div>
+                            <div class="swiper-slide"><img src="assets/img/clients/client-2.png" class="img-fluid" alt="img"></div>
+                            <div class="swiper-slide"><img src="assets/img/clients/client-3.png" class="img-fluid" alt="img"></div>
+                            <div class="swiper-slide"><img src="assets/img/clients/client-4.png" class="img-fluid" alt="img"></div>
+                            <div class="swiper-slide"><img src="assets/img/clients/client-5.png" class="img-fluid" alt="img"></div>
+                            <div class="swiper-slide"><img src="assets/img/clients/client-6.png" class="img-fluid" alt="img"></div>
+                            <div class="swiper-slide"><img src="assets/img/clients/client-7.png" class="img-fluid" alt="img"></div>
+                            <div class="swiper-slide"><img src="assets/img/clients/client-8.png" class="img-fluid" alt="img"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- End Clients Section -->
 
             <!-- ======= Our Projects Section ======= -->
             <section id="projects" class="projects">
@@ -606,7 +617,7 @@
             </section><!-- End Our Projects Section -->
 
             <!-- ======= Testimonials Section ======= -->
-            <section id="testimonials" class="testimonials section-bg">
+            {{-- <section id="testimonials" class="testimonials section-bg">
                 <div class="container" data-aos="fade-up">
 
                     <div class="section-header">
@@ -712,10 +723,11 @@
                     </div>
 
                 </div>
-            </section><!-- End Testimonials Section -->
+            </section> --}}
+            <!-- End Testimonials Section -->
 
             <!-- ======= Recent Blog Posts Section ======= -->
-            <section id="recent-blog-posts" class="recent-blog-posts">
+            {{-- <section id="recent-blog-posts" class="recent-blog-posts">
                 <div class="container" data-aos="fade-up">
                     <div class=" section-header">
                         <h2>Blog de noticias</h2>
@@ -820,7 +832,7 @@
                     </div>
 
                 </div>
-            </section>
+            </section> --}}
             <!-- End Recent Blog Posts Section -->
 
         

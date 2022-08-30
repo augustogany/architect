@@ -28,7 +28,7 @@
                                 <div class="form-line">
                                     <input type="text" class="form-control form-control-sm" name="nombre" value="{{$persona->nombre}}" required placeholder="Nombres." style="text-transform:uppercase;" onkeyup ="this.value=this.value.toUpperCase()" autocomplete="off">
                                 </div>
-                                <small>Nombres.</small>
+                                <small>Nombre(s)</small>
                             </div>
                         </div>
                         <!-- === -->
@@ -37,7 +37,7 @@
                                 <div class="form-line">
                                     <input type="text" class="form-control form-control-sm" name="apaterno" value="{{$persona->apaterno}}" required placeholder="Apellido Paterno." style="text-transform:uppercase;" onkeyup ="this.value=this.value.toUpperCase()" autocomplete="off">
                                 </div>
-                                <small>Apellido Paterno.</small>
+                                <small>Apellido Paterno</small>
                             </div>
                         </div>
                         <!-- === -->
@@ -46,7 +46,7 @@
                                 <div class="form-line">
                                     <input type="text" class="form-control form-control-sm" name="amaterno" value="{{$persona->amaterno}}" required placeholder="Apellido Materno." style="text-transform:uppercase;" onkeyup ="this.value=this.value.toUpperCase()" autocomplete="off">
                                 </div>
-                                <small>Apellido Materno.</small>
+                                <small>Apellido Materno</small>
                             </div>
                         </div>
                         <!-- === -->
@@ -55,34 +55,25 @@
                                 <div class="form-line">
                                     <input type="number" class="form-control form-control-sm" name="numeroregistro" value="{{$persona->numeroregistro}}" required placeholder="NUMERO DE REGISTRO." autocomplete="off">
                                 </div>
-                                <small>Número de Registro.</small>
+                                <small>Número de Registro</small>
                             </div>
                         </div>
                         <!-- === -->
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="number" class="form-control form-control-sm" name="telefonodomicilio" value="{{$persona->telefonodomicilio}}" placeholder="TELEFONO DOMICILIO." autocomplete="off">
+                                    <input type="number" class="form-control form-control-sm" name="ci" value="{{$persona->ci}}" placeholder="CI" autocomplete="off">
                                 </div>
-                                <small>Teléfono Domicilio.</small>
+                                <small>Cédula de Identidad</small>
                             </div>
                         </div>
                         <!-- === -->
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="number" class="form-control form-control-sm" name="telefonooficina" value="{{$persona->telefonooficina}}" placeholder="TELEFONO OFICINA." autocomplete="off">
+                                    <input type="number" class="form-control form-control-sm" name="telefono" value="{{$persona->telefono}}" placeholder="TELEFONO" autocomplete="off">
                                 </div>
-                                <small>Teléfono Oficina.</small>
-                            </div>
-                        </div>
-                        <!-- === -->
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <div class="form-line">
-                                    <input type="number" class="form-control form-control-sm" name="telefonocelular" value="{{$persona->telefonocelular}}" placeholder="TELEFONO CELULAR." autocomplete="off">
-                                </div>
-                                <small>Teléfono Celular.</small>
+                                <small>Teléfono</small>
                             </div>
                         </div>
                         <!-- === -->
@@ -91,7 +82,7 @@
                                 <div class="form-line">
                                     <input type="email" class="form-control form-control-sm" name="correo" value="{{$persona->correo}}" placeholder="Correo Electrónico." autocomplete="off">
                                 </div>
-                                <small>Correo Electrónico.</small>
+                                <small>Correo Electrónico</small>
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -137,7 +128,7 @@
                                            value="{{$user->email ?? ''}}"
                                     >
                                 </div>
-                                <small>Nombre de Usuario.</small>
+                                <small>Nombre de Usuario</small>
                             </div>
                         </div>
                         <!-- === -->
@@ -147,7 +138,7 @@
                                 <div class="form-line">
                                     <input type="password" class="form-control form-control-sm" name="password" placeholder="password" autocomplete="off">
                                 </div>
-                                <small>Password.</small>
+                                <small>Password</small>
                             </div>
                         </div>
                         <!-- === -->
