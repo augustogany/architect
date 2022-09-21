@@ -17,12 +17,14 @@ class CreatePerfilsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('expedicion_id')->unsigned();
-            $table->string('nombre', 100);
+            $table->string('imagen', 100)->nullable();
+            $table->string('nombre', 100)->nullable();
             $table->string('apaterno', 50)->nullable();
             $table->string('amaterno', 50)->nullable();
             $table->string('ci', 15);
             $table->string('telefono', 10);
             $table->string('direccion', 100)->nullable();
+            $table->text('cv')->nullable();
             $table->boolean('condicion')->default(1);
             $table->timestamps();
 

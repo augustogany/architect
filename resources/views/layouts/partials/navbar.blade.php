@@ -152,16 +152,11 @@
                         @endcan
                         <!-- == -->
                         <li class="nav-item dropdown">
-                            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Consultas</a>
+                            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Reportes</a>
                             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="background-color: #BBDEBF">
-                                <!-- == -->
-                                <li><a href="{{route('consult_general')}}" class="dropdown-item"><i class="fas fa-folder-open"></i>Proyectos General Pendientes</a></li>
-                                <!-- == -->
-                                <li class="dropdown-divider"></li>
-                                <li><a href="{{route('consult_urb')}}" class="dropdown-item"><i class="fas fa-folder-open"></i>Proyectos Urbanizaciones Pendientes</a></li>
-                                <!-- == -->
-                                <li class="dropdown-divider"></li>
-                                <li><a href="{{route('deudas')}}" class="dropdown-item"><i class="fas fa-folder-open"></i>Deudas Pendientes</a></li>
+                                <li><a href="{{route('reportes.proyectos')}}" class="dropdown-item"><i class="fas fa-folder-open"></i> Proyectos</a></li>
+                                <li><a href="{{route('reportes.ventas')}}" class="dropdown-item"><i class="fas fa-folder-open"></i> Ventas de carpeta</a></li>
+                                <li><a href="{{route('reportes.mensualidades')}}" class="dropdown-item"><i class="fas fa-folder-open"></i> Pago de mensualidades</a></li>
                             </ul>
                         </li>
 

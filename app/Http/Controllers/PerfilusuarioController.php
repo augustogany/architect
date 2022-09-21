@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Hash;
 use App\Perfil;
 use App\Persona;
 use DB;
+use Intervention\Image\ImageManagerStatic as Image;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class PerfilusuarioController extends Controller
 {
@@ -21,9 +24,9 @@ class PerfilusuarioController extends Controller
     {
         //x = Perfil::with('user')->get();
         //return $x;
-        $perfils = Perfil::with('user','expedicion')->where('user_id',auth()->user()->id)->get();
+        $perfil = Perfil::with('user','expedicion')->where('user_id',auth()->user()->id)->first();
         //return $perfils;
-        return view('perfilusuario.index', compact('perfils'));
+        return view('perfilusuario.index', compact('perfil'));
     }
 
     /**
@@ -59,6 +62,13 @@ class PerfilusuarioController extends Controller
             $perfil->expedicion_id = $request->expedicion_id;
             $perfil->telefono = $request->telefono;
             $perfil->direccion = $request->direccion;
+            $perfil->email = $request->email;
+            if($request->imagen){
+                $perfil->imagen = $this->agregar_imagenes($request->imagen);
+            }
+            if($request->cv){
+                $perfil->cv = $this->agregar_archivo($request->cv);
+            }
             $perfil->update();
         }else{
             $perfil = new Perfil;
@@ -69,6 +79,13 @@ class PerfilusuarioController extends Controller
             $perfil->expedicion_id = $request->expedicion_id;
             $perfil->telefono = $request->telefono;
             $perfil->direccion = $request->direccion;
+            $perfil->email = $request->email;
+            if($request->imagen){
+                $perfil->imagen = $this->agregar_imagenes($request->imagen);
+            }
+            if($request->cv){
+                $perfil->cv = $this->agregar_archivo($request->cv);
+            }
             $perfil->user_id = Auth::user()->id;
             $perfil->save(); 
         }
@@ -147,5 +164,44 @@ class PerfilusuarioController extends Controller
 
         $pdf = \PDF::loadview('pdf.deudores', compact('deudores'));
         return $pdf->stream('LISTA DEUDORES - '.date('d-m-Y').'.pdf');
+    }
+
+    public function agregar_imagenes($file){
+        Storage::makeDirectory('/public/perfil/'.date('F').date('Y'));
+        $base_name = Str::random(20);
+
+        // imagen normal
+        $filename = $base_name.'.'.$file->getClientOriginalExtension();
+        $image_resize = Image::make($file->getRealPath())->orientate();
+        $image_resize->resize(1000, null, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+        $path =  'perfil/'.date('F').date('Y').'/'.$filename;
+        $image_resize->save(public_path('storage/'.$path));
+        $imagen = $path;
+
+        // imagen pequeña
+        $filename_small = $base_name.'_small.'.$file->getClientOriginalExtension();
+        $image_resize = Image::make($file->getRealPath())->orientate();
+        $image_resize->resize(256, 256, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+        $path_small = 'perfil/'.date('F').date('Y').'/'.$filename_small;
+        $image_resize->save(public_path('storage/'.$path_small));
+
+        return $imagen;
+    }
+
+    public function agregar_archivo($file){
+        Storage::makeDirectory('/public/cv/'.date('F').date('Y'));
+        $base_name = Str::random(20).'.'.$file->getClientOriginalExtension();
+
+        $path = $file->storeAs(
+            'cv/'.date('F').date('Y'), $base_name
+        );
+
+        return $path;
     }
 }

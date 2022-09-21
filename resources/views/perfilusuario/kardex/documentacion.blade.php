@@ -1,49 +1,12 @@
 @extends('layouts.app')
 @section('title','Kardex Personal')
 
-<style>
-    table th {
-      text-align: center;
-    }
-
-    table td {
-      text-align: center;
-    }
-    .barra{
-      background-color: #f3f3f3;
-      border-radius: 5px;
-      box-shadow: inset 0px 0px 5px rgba(0,0,0,.2);
-      height: 15px;
-      margin-bottom: 2%;
-    }
-    .barra_azul{
-      background-color: #247CC0;
-      border-radius: 5px;
-      display: block;
-      height: 15px;
-      line-height: 15px;
-      text-align: center;
-      width: 0%;
-    }
-    .barra_verde{
-      background-color: #2EA265 !important
-    }
-    .barra_roja{
-      background-color: #DE3152 !important
-    }
-    #barra_estado span{
-      color: #fff;
-      font-weight: bold;
-      line-height: 15px;
-    }
-</style>
-
 @section('content')
 
 <div class="container-fluid">
   <div class="row justify-content-center">
-    <div class="col-md-8">
-      <form id="FileForm" enctype="multipart/form-data" >
+    <div class="col-md-10">
+      {{-- <form id="FileForm" enctype="multipart/form-data" >
        @csrf
         <div class="card">
           <div class="card-header">
@@ -119,18 +82,19 @@
             </div>
           </div>
         </div>
-      </form>
+      </form> --}}
+      
       <div class="card">
         <div class="card-header">
           <i class="fas fa-th-list"></i>
-          Experiencia Laboral
+            Experiencia Laboral
             <div class="card-tools">
-              <button type="button" data-toggle="modal" data-target="#addModal" class="btn btn-outline-success btn-lg" title="Crear nuevo"><i class="fas fa-plus"></i></button>
+              {{-- <button type="button" data-toggle="modal" data-target="#addModal" class="btn btn-outline-success btn-lg" title="Crear nuevo"><i class="fas fa-plus"></i></button> --}}
               <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
             </div>
         </div>
         <div class="card-body">
-          <table id="experienciasTable" class="table table-striped"  style="font-size: 9pt">
+          {{-- <table id="experienciasTable" class="table table-striped"  style="font-size: 9pt">
             <thead>
               <tr>
                 <th></th>
@@ -141,7 +105,8 @@
                 <th>Options</th>
               </tr>
             </thead>
-          </table>
+          </table> --}}
+          <textarea id="mytextarea">Hello, World!</textarea>
         </div>
         <div class="card-footer">
           <div class="float-right d-none d-sm-block">
@@ -152,10 +117,10 @@
       </div>
     </div>
   </div>
+  
   <!-- Add Modal start -->
-  <div class="modal fade modal-slide-in-right" id="addModal" role="dialog">
+  {{-- <div class="modal fade modal-slide-in-right" id="addModal" role="dialog">
     <div class="modal-dialog">
-      <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">Añadir Experiencia</h4>
@@ -200,14 +165,12 @@
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
-      <!-- End Modal content-->
     </div>
-  </div>
-  <!-- add code ends -->
+  </div> --}}
+
   <!-- Add Modal start -->
-  <div class="modal fade modal-slide-in-right" id="modal_edit">
+  {{-- <div class="modal fade modal-slide-in-right" id="modal_edit">
     <div class="modal-dialog">
-      <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">Editar Experiencia</h4>
@@ -248,11 +211,11 @@
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
-      <!-- End Modal content-->
     </div>
-  </div>
-  <!-- add code ends -->
-  <div class="modal modal-danger fade" id="modal_delete">
+  </div> --}}
+  
+  
+  {{-- <div class="modal modal-danger fade" id="modal_delete">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -270,24 +233,60 @@
             </div>
         </div>
     </div>
-</div>
-  <input type="hidden" id="item_id" value="0" />
+  </div> --}}
+  {{-- <input type="hidden" id="item_id" value="0" /> --}}
 </div>
 
 @endsection
 
 @push ('styles')
-    <link href="{{ asset('theme/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('theme/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('theme/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('theme/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}" rel="stylesheet"> --}}
 
     {{-- <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css"> --}}
+    <style>
+      table th {
+        text-align: center;
+      }
+  
+      table td {
+        text-align: center;
+      }
+      .barra{
+        background-color: #f3f3f3;
+        border-radius: 5px;
+        box-shadow: inset 0px 0px 5px rgba(0,0,0,.2);
+        height: 15px;
+        margin-bottom: 2%;
+      }
+      .barra_azul{
+        background-color: #247CC0;
+        border-radius: 5px;
+        display: block;
+        height: 15px;
+        line-height: 15px;
+        text-align: center;
+        width: 0%;
+      }
+      .barra_verde{
+        background-color: #2EA265 !important
+      }
+      .barra_roja{
+        background-color: #DE3152 !important
+      }
+      #barra_estado span{
+        color: #fff;
+        font-weight: bold;
+        line-height: 15px;
+      }
+    </style>
 @endpush
 
 @push ('script')
-    <script src="{{asset('theme/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+    {{-- <script src="{{asset('theme/plugins/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('theme/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
     <script src="{{asset('theme/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
-    <script src="{{asset('theme/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('theme/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script> --}}
 
     {{-- <script src="https://cdn.datatables.net/buttons/1.6.4/js/dataTables.buttons.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
@@ -296,7 +295,7 @@
     <script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.html5.min.js"></script> --}}
 
 
-    <script>
+    {{-- <script>
       var YajraDataTable;
       function delete_action(item_id){
           $('#item_id').val(item_id);
@@ -465,7 +464,15 @@
         // });
       }
     
-    </script>
+    </script> --}}
+
+  <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+	<script>
+    tinymce.init({
+        selector: '#mytextarea',
+        language: "es"
+      });
+	</script>
 @endpush
 
 

@@ -1,8 +1,8 @@
 @extends('layouts.app')
-@section('title','Crear Perfil Usuario')
+@section('title','Crear perfil usuario')
 
 @section('content')
-<form id="form" action="{{route('perfilusuario.store')}}" method="POST">
+<form id="form" action="{{route('perfilusuario.store')}}" method="POST" enctype="multipart/form-data">
 @csrf
 
 <div class="container">
@@ -10,12 +10,12 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    Registrar Datos Adicionales del Usuario.
+                    Registrar datos adicionales del usuario
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <!-- === -->
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div class="form-group">
                                 <div class="form-line">
                                     <input 
@@ -30,11 +30,11 @@
                                         value="{{$persona->nombre ?? ''}}"
                                     >
                                 </div>
-                                <small>Nombres.</small>
+                                <small>Nombre(s)</small>
                             </div>
                         </div>
                         <!-- === -->
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div class="form-group">
                                 <div class="form-line">
                                     <input 
@@ -48,11 +48,11 @@
                                         value="{{$persona->apaterno ?? ''}}"
                                     >
                                 </div>
-                                <small>Apellido Paterno.</small>
+                                <small>Apellido paterno</small>
                             </div>
                         </div>
                         <!-- === -->
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div class="form-group">
                                 <div class="form-line">
                                     <input type="text" 
@@ -65,11 +65,11 @@
                                            value="{{$persona->amaterno ?? ''}}"
                                         >
                                 </div>
-                                <small>Apellido Materno.</small>
+                                <small>Apellido materno</small>
                             </div>
                         </div>
                         <!-- === -->
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div class="form-group">
                                 <div class="form-line">
                                     <input 
@@ -82,11 +82,11 @@
                                     value="{{$persona->ci ?? ''}}"
                                 >
                                 </div>
-                                <small>Carnet Identidad.</small>
+                                <small>Carnet Identidad</small>
                             </div>
                         </div>
                         <!-- === -->
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div class="form-group">
                                 <div class="form-line">
                                     <?php 
@@ -103,11 +103,11 @@
                                         @endforeach
                                       </select>
                                 </div>
-                                <small>Expedición de Carnet.</small>
+                                <small>Expedición de Carnet</small>
                             </div>
                         </div>
                         <!-- === -->
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div class="form-group">
                                 <div class="form-line">
                                     <input 
@@ -116,9 +116,52 @@
                                         required name="telefono" 
                                         placeholder="TELEFONO" 
                                         autocomplete="off"
-                                        value="{{$persona->telefono ?? ''}}">
+                                        value="{{ $persona->telefono }}">
                                 </div>
-                                <small>Teléfono.</small>
+                                <small>Teléfono</small>
+                            </div>
+                        </div>
+                        <!-- === -->
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input 
+                                        type="email" 
+                                        class="form-control form-control-sm" 
+                                        name="email" 
+                                        placeholder="Email" 
+                                        autocomplete="off"
+                                        value="{{ $persona->email }}">
+                                </div>
+                                <small>Email de contacto</small>
+                            </div>
+                        </div>
+                        <!-- === -->
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input 
+                                        type="file" 
+                                        class="form-control form-control-sm" 
+                                        name="imagen"
+                                        accept="image/*"
+                                    >
+                                </div>
+                                <small>Fotografía</small>
+                            </div>
+                        </div>
+                        <!-- === -->
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input 
+                                        type="file" 
+                                        class="form-control form-control-sm" 
+                                        name="cv"
+                                        accept="application/pdf"
+                                    >
+                                </div>
+                                <small>Curriculún vitae</small>
                             </div>
                         </div>
                         <!-- === -->
@@ -129,19 +172,19 @@
                                         class="form-control form-control-sm" 
                                         required name="direccion" 
                                         placeholder="Dirección" 
-                                        style="text-transform:uppercase;" 
+                                        style="text-transform:uppercase;"
                                         onkeyup ="this.value=this.value.toUpperCase()" 
                                         rows="3"
                                     >
-                                    {{$persona->direccion ?? ''}}
+                                    {{ $persona->direccion }}
                                     </textarea>
                                 </div>
-                                <small>Direccion.</small>
+                                <small>Dirección</small>
                             </div>
                         </div>
                         <!-- === -->
                         <div class="col-sm-12" align="center">
-                            <label for="">Caambiar Password</label>
+                            <label for="">Cambiar contraseña</label>
                         </div>
                         <!-- === -->
                         <div class="col-sm-12">

@@ -1,0 +1,12 @@
+agregar campo imagen y cv, email  a la tabla de pefiles
+
+
+**Cambios**
+1.- Restriccion de salto de meses
+2.- eliminar cuota
+3.- eliminar item de detalle de venta
+4.- lista de aquitectos *
+5.- q el administrador pueda editar la fecha de ultimo pago *
+6.- reporte de venta de carpetas (fecha, tipo, afiliado) *
+7.- reporte de proyectos (fecha, tipo, afiliado) *
+8.- reporte de mensualidades (fecha, tipo, afiliado) *

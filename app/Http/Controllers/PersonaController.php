@@ -50,7 +50,7 @@ class PersonaController extends Controller
     public function getPersona()
     {
         return datatables()
-            ->eloquent(Persona::query()->orderBy('nombre'))
+            ->eloquent(Persona::query()->orderBy('apaterno'))
             ->addColumn('btn_actions', 'persona.partials.btn_actions')
             ->addColumn('nombre_completo', function($row){
                 return $row->nombre.' '.$row->apaterno.' '.$row->amaterno;

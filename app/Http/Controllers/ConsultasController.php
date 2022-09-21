@@ -3,82 +3,58 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Proyectogeneral;
-use App\Proyectourbanizacion;
-use App\Deuda;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
+
+// Modelos
+use App\Proyectogeneral;
+use App\Proyectourbanizacion;
+use App\Ventaservicio;
+use App\PersonasPago;
 
 class ConsultasController extends Controller
 {
     public function proyectos_index(){
-        return view('consultas.proyectos.general_index');
+        return view('reportes.proyectos_index');
     }
 
-    public function getProyectos()
-    {
-        $sucursales = auth()->user()->sucursales;
-        foreach ($sucursales as $key => $value) {
-           $id_sucursales[] = $value->id;
+    public function proyectos_list(Request $request){   
+        $proyectos = [];
+        $tipo = $request->tipo;
+        if($request->tipo == 'general'){
+            $proyectos = Proyectogeneral::whereRaw($request->persona_id ? 'persona_id = '.$request->persona_id : 1)
+                            ->whereRaw($request->inicio ? 'date(fecharegistro) >= "'.$request->inicio.'"' : 1)
+                            ->whereRaw($request->fin ? 'date(fecharegistro) <= "'.$request->fin.'"' : 1)
+                            ->where('deleted_at', NULL)->get();
+        }else{
+            $proyectos = Proyectourbanizacion::whereRaw($request->persona_id ? 'persona_id = '.$request->persona_id : 1)
+                            ->whereRaw($request->inicio ? 'date(fecharegistro) >= "'.$request->inicio.'"' : 1)
+                            ->whereRaw($request->fin ? 'date(fecharegistro) <= "'.$request->fin.'"' : 1)
+                            ->where('deleted_at', NULL)->get();
         }
-        $udpersona = (auth()->user()->persona_id > 0) ? auth()->user()->persona_id : 0;
-        return datatables()
-            ->eloquent(Proyectogeneral::with('categoriageneral','persona')
-            ->whereHas('persona', function (Builder $query) {
-                if (!(auth()->user()->role == 'admin')) {
-                    $query->where('id',auth()->user()->persona_id);
-                }
-                })
-            ->where('estado','pendiente')
-            ->whereIn('sucursal_id',$id_sucursales))
-            ->toJson();
+        return view('reportes.proyectos_list', compact('proyectos', 'tipo'));
     }
 
-    public function proyectosurbaniz_index(){
-        return view('consultas.proyectos.urbanizacion_index');
+    public function ventas_index(){
+        return view('reportes.ventas_index');
     }
 
-    public function getProyectosUrbanizacion()
-    {
-        $sucursales = auth()->user()->sucursales;
-        foreach ($sucursales as $key => $value) {
-           $id_sucursales[] = $value->id;
-        }
-        $udpersona = (auth()->user()->persona_id > 0) ? auth()->user()->persona_id : 0;
-        
-        return datatables()
-            ->eloquent(Proyectourbanizacion::with('categoriaurbanizacion','persona')
-            ->whereHas('persona', function (Builder $query) {
-                if (!(auth()->user()->role == 'admin')) {
-                    $query->where('id',auth()->user()->persona_id);
-                }
-                })
-            ->where('estado','pendiente')
-            ->whereIn('sucursal_id',$id_sucursales)
-            ->orderBy('id','desc'))
-            ->toJson();
+    public function ventas_list(Request $request){   
+        $ventas = Ventaservicio::whereRaw($request->persona_id ? 'persona_id = '.$request->persona_id : 1)
+                    ->whereRaw($request->inicio ? 'date(fecharegistro) >= "'.$request->inicio.'"' : 1)
+                    ->whereRaw($request->fin ? 'date(fecharegistro) <= "'.$request->fin.'"' : 1)
+                    ->where('deleted_at', NULL)->get();
+        return view('reportes.ventas_list', compact('ventas'));
     }
 
-    public function deudas_index(){
-        return view('consultas.deudas.index');
+    public function mensualidades_index(){
+        return view('reportes.mensualidades_index');
     }
 
-    public function getdeuda()
-    {
-        $sucursales = auth()->user()->sucursales;
-        foreach ($sucursales as $key => $value) {
-           $id_sucursales[] = $value->id;
-        }
-
-        return datatables()->eloquent(Deuda::with('tipopago','persona')
-            ->whereHas('persona', function (Builder $query) {
-                if (!(auth()->user()->role == 'admin')) {
-                    $query->where('id',auth()->user()->persona_id);
-                }
-            })
-            ->where('montorestante','>',0)
-            ->whereIn('sucursal_id',$id_sucursales))
-            ->toJson();
-            
+    public function mensualidades_list(Request $request){   
+        $pagos = PersonasPago::where('persona_id', $request->persona_id)
+                            // ->whereRaw($request->gestion_id ? 'gestion_id = '.$request->gestion_id : 1)
+                            ->where('deleted_at', NULL)->get();
+        return view('reportes.mensualidades_list', compact('pagos'));
     }
 }

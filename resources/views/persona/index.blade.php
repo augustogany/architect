@@ -87,10 +87,12 @@
                  "url": '{!! asset('theme/plugins/datatables/espanol.json') !!}'
                   } ,
           ajax: '{!! route('getPersona') !!}',
+          // order: [[1, 'asc']],
           columns: [
-              { data: 'nombre', title: 'Nombre(s)' },
+              
               { data: 'apaterno', title: 'A. paterno' },
               { data: 'amaterno', title: 'A. materno' },
+              { data: 'nombre', title: 'Nombre(s)' },
               { data: 'numeroregistro', title: 'Nro. Registro' },
               { data: 'telefono', title: 'Telefono', css: 'text-align: right' },
               { data: 'direccion', title: 'Dirección' },

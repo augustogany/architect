@@ -82,12 +82,12 @@
                                 <input type="text" id="input-totalbs" name="totalbs" class="form-control" value="" readonly>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="proyecto">Nombre del proyecto</label>
-                                <textarea name="proyecto" class="form-control" rows="2" required></textarea>
-                            </div>
-                            <div class="form-group col-md-6">
                                 <label for="propietario">Nombre del propietario</label>
                                 <input type="text" name="propietario" class="form-control" required>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="proyecto">Nombre del proyecto</label>
+                                <textarea name="proyecto" class="form-control" rows="2" required></textarea>
                             </div>
 
                             <div class="col-md-12" style="margin-bottom: 20px">

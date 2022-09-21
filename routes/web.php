@@ -17,6 +17,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/arquitectos', function () {
+    return view('people');
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -131,15 +135,15 @@ Route::middleware(['auth'])->group(function () {
 	Route::resource('tiposervicios','TiposervicioController');
 	Route::get('gettiposervicio','TiposervicioController@gettiposervicio')->name('gettiposervicio');
 
-	//ruta para consultas
-	Route::get('consultageneral','ConsultasController@proyectos_index')->name('consult_general');
-	Route::get('getProyectos','ConsultasController@getProyectos')->name('getProyectos');
+	//ruta para reportes
+	Route::get('reportes/proyectos','ConsultasController@proyectos_index')->name('reportes.proyectos');
+	Route::post('reportes/proyectos/list','ConsultasController@proyectos_list')->name('reportes.proyectos.list');
 
-	Route::get('consultaurbanizaciones','ConsultasController@proyectosurbaniz_index')->name('consult_urb');
-	Route::get('getproyectosurbaniz','ConsultasController@getProyectosUrbanizacion')->name('getproyectosurbaniz');
+	Route::get('reportes/ventas','ConsultasController@ventas_index')->name('reportes.ventas');
+	Route::post('reportes/ventas/list','ConsultasController@ventas_list')->name('reportes.ventas.list');
 
-	Route::get('deudas','ConsultasController@deudas_index')->name('deudas');
-	Route::get('consulta_getdeudas','ConsultasController@getdeuda')->name('consulta_deudas');
+	Route::get('reportes/mensualidades','ConsultasController@mensualidades_index')->name('reportes.mensualidades');
+	Route::post('reportes/mensualidades/list','ConsultasController@mensualidades_list')->name('reportes.mensualidades.list');
 
 	//ruta para el kardex personal
 	Route::get('documentacion','DocumentacionController@index')->name('documentacion');

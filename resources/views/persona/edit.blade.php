@@ -97,7 +97,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="month" class="form-control form-control-sm" name="ultimo_pago" value="{{ $persona->ultimo_pago }}" @if($persona->ultimo_pago) readonly @endif required>
+                                    <input type="month" class="form-control form-control-sm" name="ultimo_pago" value="{{ $persona->ultimo_pago }}" @if($persona->ultimo_pago && Auth::user()->roles[0]->id != 1) readonly @endif required>
                                 </div>
                                 <small>Último mes pagado</small>
                             </div>
