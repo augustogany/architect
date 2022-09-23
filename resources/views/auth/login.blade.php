@@ -39,23 +39,24 @@
 
                             <div class="form-group row mb-0">
                                 <div class="col-md-8">
-                                    <button type="submit" class="btn btn-success">
-                                        {{ __('Iniciar') }}
-                                    </button>
-
-                                    <div class="form-check">
+                                    {{-- <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
 
                                         <label class="form-check-label" for="remember">
                                             {{ __('Recordar contraseña') }}
                                         </label>
-                                    </div>
+                                    </div> --}}
 
                                     @if (Route::has('password.request'))
                                         <a class="btn btn-link" href="{{ route('password.request') }}">
                                             {{ __('Olvidaste tu contraseña?') }}
                                         </a>
                                     @endif
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="submit" class="btn btn-success btn-block">
+                                        {{ __('Iniciar') }}
+                                    </button>
                                 </div>
                             </div>
                         </div>

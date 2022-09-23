@@ -43,6 +43,7 @@
                                             <td>{{ $item->observacion }}</td>
                                             <td>
                                                 <a href="{{ route('personas.pagomensualidad.print', $item->id) }}" target="_blank" title="Imprimir" class="btn btn-outline-success btn-sm"><i class="fas fa-print"></i></a>
+                                                <button title="Eliminar" data-toggle="modal" data-target="#modal-delete" type="button" class="btn btn-danger btn-sm btn-delete" data-id="{{ $item->id }}"><i class="fas fa-trash text-white"></i></button>
                                             </td>
                                         </tr>
                                     @empty
@@ -64,7 +65,7 @@
     <form action="{{ route('personas.pagomensualidad.store', $id) }}" method="POST">
         @csrf
         <div class="modal fade modal-slide-in-right" aria-hidden="true" role="dialog" tabindex="-1" id="modal-agregar">
-            <div class="modal-dialog modal-lg">
+            <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Agregar pago</h5>
@@ -172,6 +173,34 @@
             </div>
         </div>
     </form>
+
+    <div class="modal fade modal-slide-in-right" aria-hidden="true" role="dialog" tabindex="-1" id="modal-delete">
+        <div class="modal-dialog">
+            <div class="modal-content bg-danger">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmar si desea aplicar acción!</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hiden="true">x</span>
+                    </button>
+                </div>
+        
+                <form action="{{ route('personas.pagomensualidad.destroy', $id) }}" method="POST" id="deleteForm">
+                    @csrf
+                    <input type="hidden" name="id">
+                    <div class="modal-body">
+                        <h5>¿Desea anular este pago de mensualidades?</h5>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-outline-light" data-dismiss="modal">cerrar</button>
+                        <button type="submit" class="btn btn-outline-light">Confirmar</button>
+                    </div>
+                </form>
+            
+        
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @push ('styles')
@@ -230,12 +259,34 @@
                 });
             });
 
-            $('.checkbox-mes').click(function(){
+            $('.checkbox-mes').click(function(e){
                 let id = $(this).data('id');
+                var fail = false;
+
                 if($(this).is(':checked')){
+                    $('.checkbox-mes').each(function(){
+                        if (!$(this).is(':checked')) {
+                            if($(this).data('id') < id){
+                                e.preventDefault();
+                                fail = true;
+                            }
+                        }
+                    });
                     $(`#td-input-${id}`).append(`<input type="hidden" name="monto_pagado[]" value="${mensualidad}" id="input-monto_pagado-${id}" />`);
                 }else{
+                    $('.checkbox-mes').each(function(){
+                        if ($(this).is(':checked')) {
+                            if($(this).data('id') > id){
+                                e.preventDefault();
+                                fail = true;
+                            }
+                        }
+                    });
                     $(`#input-monto_pagado-${id}`).remove();
+                }
+
+                if(fail){
+                    return 0;
                 }
 
                 // Descuentos
@@ -268,6 +319,11 @@
                 $('#label-descuento').text(parseFloat(monto_descuento).toFixed(2));
                 $('#input-descuento').val(monto_descuento);
                 $('#label-total').text(parseFloat(subtotal - monto_descuento).toFixed(2));
+            });
+
+            $('.btn-delete').click(function(){
+                let id = $(this).data('id');
+                $('#deleteForm input[name="id"]').val(id)
             });
         });
     </script>

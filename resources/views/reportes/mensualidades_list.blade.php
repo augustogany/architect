@@ -32,7 +32,7 @@
                 @endphp
             @empty
                 <tr>
-                    <td colspan="4"><h5 class="text-muted text-center">No hay resultados</h5></td>
+                    <td colspan="5"><h5 class="text-muted text-center">No hay resultados</h5></td>
                 </tr>
             @endforelse
         </tbody>

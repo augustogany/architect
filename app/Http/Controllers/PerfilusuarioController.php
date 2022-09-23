@@ -67,7 +67,7 @@ class PerfilusuarioController extends Controller
                 $perfil->imagen = $this->agregar_imagenes($request->imagen);
             }
             if($request->cv){
-                $perfil->cv = $this->agregar_archivo($request->cv);
+                $perfil->cv = $this->agregar_archivo($request->cv, 'cv');
             }
             $perfil->update();
         }else{
@@ -84,7 +84,7 @@ class PerfilusuarioController extends Controller
                 $perfil->imagen = $this->agregar_imagenes($request->imagen);
             }
             if($request->cv){
-                $perfil->cv = $this->agregar_archivo($request->cv);
+                $perfil->cv = $this->agregar_archivo($request->cv, 'cv');
             }
             $perfil->user_id = Auth::user()->id;
             $perfil->save(); 
@@ -192,16 +192,5 @@ class PerfilusuarioController extends Controller
         $image_resize->save(public_path('storage/'.$path_small));
 
         return $imagen;
-    }
-
-    public function agregar_archivo($file){
-        Storage::makeDirectory('/public/cv/'.date('F').date('Y'));
-        $base_name = Str::random(20).'.'.$file->getClientOriginalExtension();
-
-        $path = $file->storeAs(
-            'cv/'.date('F').date('Y'), $base_name
-        );
-
-        return $path;
     }
 }

@@ -15,24 +15,20 @@
                         </li>
 
                         <!-- == -->
-                        @can('dropdown.categorias')
+                        {{-- @can('dropdown.categorias')
                         <li class="nav-item dropdown">
                             <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Categorías</a>
                             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="background-color: #BBDEBF">
-                                <!-- == -->
                                 @can('categoria_general.index')
                                 <li><a href="{{route('categoriageneral.index')}}" class="dropdown-item"><i class="fas fa-list-alt"></i> Viviendas, Servicios, Oficinas, Industrias</a></li>
                                 @endcan
-                                <!-- == -->
                                 <li class="dropdown-divider"></li>
-                                <!-- == -->
                                 @can('categoria_urbanizacion.index')
                                 <li><a href="{{route('categoriaurbanizacion.index')}}" class="dropdown-item"><i class="fas fa-list-alt"></i> Urbanizaciones</a></li>
                                 @endcan
-                                <!-- == -->
                             </ul>
                         </li>
-                        @endcan
+                        @endcan --}}
                         <!-- == -->
                         @can('dropdown.personas')
                         <li class="nav-item dropdown">
@@ -46,31 +42,26 @@
                                 <li><a href="{{route('exportExcel')}}" class="dropdown-item"><i class="fas fa-file-excel"></i> Arqtutectos.Excel</a></li>
                                 <li><a href="{{route('exportPDF')}}" class="dropdown-item" target="_blank"><i class="fas fa-file-pdf"></i> Arqtutectos.PDF</a></li>
                                 {{-- <li><a href="{{route('deudaarquitectos.index')}}" class="dropdown-item"><i class="fas fa-cash-register"></i> Deuda Arquitecto</a></li> --}}
-                                <li><a href="{{route('ventaservicio.index')}}" class="dropdown-item"><i class="fas fa-cash-register"></i> Venta de Servicios</a></li>
+                                {{-- <li><a href="{{route('ventaservicio.index')}}" class="dropdown-item"><i class="fas fa-cash-register"></i> Venta de Servicios</a></li> --}}
                                 <!-- == -->
                             </ul>
                         </li>
                         @endcan
                         <!-- == -->
-                        @can('dropdown.proyectos')
+                        {{-- @can('dropdown.proyectos')
                         <li class="nav-item dropdown">
                             <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Proyectos</a>
                             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="background-color: #BBDEBF">
-                                <!-- == -->
                                 @can('proyecto_general.index')
                                 <li><a href="{{route('proyectogeneral.index')}}" class="dropdown-item"><i class="fas fa-folder-open"></i> Viviendas, Servicios, Oficinas, Industrias</a></li>
                                 @endcan
-                                <!-- == -->
                                 <li class="dropdown-divider"></li>
-                                <!-- == -->
                                 @can('proyecto_urbanizacion.index')
                                 <li><a href="{{route('proyectourbanizacion.index')}}" class="dropdown-item"><i class="fas fa-folder-open"></i> Urbanizaciones</a></li>
                                 @endcan
-                                <!-- == -->
-                                
                             </ul>
                         </li>
-                        @endcan
+                        @endcan --}}
                         <!-- == -->
                         {{-- @can('dropdown.reportes')
                         <li class="nav-item dropdown">
@@ -95,17 +86,16 @@
                         </li>
                         @endcan --}}
                         <!-- == -->
-                        @can('invitado.index')
+                        {{-- @can('invitado.index')
                         <li class="nav-item">
                             <a href="{{route('visitante')}}" class="nav-link">Aviso del Sistema</a>
                         </li>
-                        @endcan
+                        @endcan --}}
                         <!-- == -->
                         @can('dropdown.reportes')
-                        <li class="nav-item dropdown">
+                        {{-- <li class="nav-item dropdown">
                             <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Reportes</a>
                             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="background-color: #BBDEBF">
-                                <!-- Level two dropdown-->
                                 <li class="dropdown-submenu dropdown-hover">
                                 <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Proy. Generales</a>
                                     <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow" style="background-color: #BBDEBF">
@@ -115,9 +105,6 @@
                                     </ul>
                                 </li>
                                 <li class="dropdown-divider"></li>
-                                <!-- End Level two -->
-
-                                <!-- Level three dropdown-->
                                 <li class="dropdown-submenu dropdown-hover">
                                 <a id="dropdownSubMenu3" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Proy. Urbanizaciones</a>
                                     <ul aria-labelledby="dropdownSubMenu3" class="dropdown-menu border-0 shadow" style="background-color: #BBDEBF">
@@ -127,11 +114,10 @@
                                     </ul>
                                 </li>
                                 <li class="dropdown-divider"></li>
-                                <!-- End Level three -->
                                 <li><a href="{{route('pagodeuda_rangofecha_view')}}" class="dropdown-item"><i class="fas fa-money-check"></i> Pago Deudas por Fechas</a></li>
                                 <li><a href="{{route('ventaservicio_rangofecha_view')}}" class="dropdown-item"><i class="fas fa-shopping-cart"></i> Ventas por Fechas</a></li>
                             </ul>
-                        </li>
+                        </li> --}}
                         @endcan
                         <!-- == -->
                         @can('dropdown.configuraciones')
@@ -140,17 +126,25 @@
                             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="background-color: #BBDEBF">
                                 {{-- @can('tipopago.index')
                                 <li><a href="{{route('tipopagos.index')}}" class="dropdown-item"><i class="fas fa-user-cog"></i> Tipos de Pago</a></li>
-                                @endcan
+                                @endcan --}}
                                 @can('tiposervicio.index')
                                 <li><a href="{{route('tiposervicios.index')}}" class="dropdown-item"><i class="fas fa-user-cog"></i> Tipos de Servicios</a></li>
-                                @endcan --}}
+                                @endcan
                                 {{-- @can('tiposervicio.index') --}}
                                 <li><a href="{{route('gestiones.index')}}" class="dropdown-item"><i class="fas fa-calendar"></i> Gestiones</a></li>
                                 {{-- @endcan --}}
+                                <li class="dropdown-divider"></li>
+                                @can('categoria_general.index')
+                                <li><a href="{{route('categoriageneral.index')}}" class="dropdown-item"><i class="fas fa-list-alt"></i> Viviendas, Servicios, Oficinas, Industrias</a></li>
+                                @endcan
+                                @can('categoria_urbanizacion.index')
+                                <li><a href="{{route('categoriaurbanizacion.index')}}" class="dropdown-item"><i class="fas fa-list-alt"></i> Urbanizaciones</a></li>
+                                @endcan
                             </ul>
                         </li>
                         @endcan
                         <!-- == -->
+                        @can('dropdown.reportes')
                         <li class="nav-item dropdown">
                             <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Reportes</a>
                             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="background-color: #BBDEBF">
@@ -159,6 +153,7 @@
                                 <li><a href="{{route('reportes.mensualidades')}}" class="dropdown-item"><i class="fas fa-folder-open"></i> Pago de mensualidades</a></li>
                             </ul>
                         </li>
+                        @endcan
 
                         <li class="nav-item dropdown">
                             <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Seguridad</a>

@@ -10,7 +10,7 @@
                         <i class="fas fa-th-list"></i> Lista de proyectos generales
                         <div class="card-tools">
                             <a href="{{ route('personas.index') }}" class="btn btn-outline-dark" title="Volver a la lista">Volver <i class="fas fa-list"></i></a>
-                            <a href="#" data-toggle="modal" data-target="#modal-agregar" class="btn btn-outline-success" title="Agregar nuevo pago">Agregar <i class="fas fa-plus"></i></a>
+                            <a href="#" data-toggle="modal" data-target="#modal-edit-add" class="btn btn-outline-success btn-add" title="Agregar nuevo pago">Agregar <i class="fas fa-plus"></i></a>
                             {{-- <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button> --}}
                         </div>
                     </div>
@@ -24,7 +24,6 @@
                                         <th>Fecha de registro</th>
                                         <th>Categoría</th>
                                         <th>Total</th>
-                                        <th>Observaciones</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
@@ -36,9 +35,9 @@
                                             <td>{{ date('d/M/Y', strtotime($item->fecharegistro)) }}</td>
                                             <td>{{ $item->categoriageneral->nombre }}</td>
                                             <td>{{ number_format($item->totalbs, 2, ',', '.') }}</td>
-                                            <td>{{ $item->observacion }}</td>
                                             <td>
                                                 <a href="{{ route('personas.proyectogenerales.print', $item->id) }}" target="_blank" title="Imprimir" class="btn btn-outline-success btn-sm"><i class="fas fa-print"></i></a>
+                                                <a href="#" data-toggle="modal" data-target="#modal-edit-add" data-item='@json($item)' title="Editar" class="btn btn-outline-success btn-sm btn-edit"><i class="fas fa-edit"></i></a>
                                             </td>
                                         </tr>
                                     @empty
@@ -57,18 +56,19 @@
         </div>
     </div>
 
-    <form action="{{ route('personas.proyectogenerales.store', $id) }}" method="POST" enctype="multipart/form-data">
+    <form id="form" action="" method="POST" enctype="multipart/form-data">
         @csrf
-        <div class="modal fade modal-slide-in-right" aria-hidden="true" role="dialog" tabindex="-1" id="modal-agregar">
+        <div class="modal fade modal-slide-in-right" aria-hidden="true" role="dialog" tabindex="-1" id="modal-edit-add">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Agregar proyecto</h5>
+                        <h5 class="modal-title"></h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hiden="true">x</span></button>
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="form-group col-md-6">
+                            <input type="hidden" name="id">
+                            <div class="form-group col-md-3 input-add">
                                 <label for="select-categoriageneral_id">Categoría</label>
                                 <select id="select-categoriageneral_id" name="categoriageneral_id" class="form-control" required>
                                     <option value="">Seleccione la categoría</option>
@@ -80,28 +80,55 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="input-precio">Precio por m<sup>2</sup></label>
-                                <input type="text" name="costocategoria" id="input-precio" class="form-control" value="" readonly>
-                            </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-3 input-add">
                                 <label for="superficiemts2">Superficie en m<sup>2</sup></label>
                                 <input type="number" name="superficiemts2" id="input-superficiemts2" class="form-control" value="" required>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-3 input-add">
+                                <label for="input-precio">Precio por m<sup>2</sup></label>
+                                <input type="text" name="costocategoria" id="input-precio" class="form-control" value="" readonly>
+                            </div>
+                            <div class="form-group col-md-3 input-add">
                                 <label for="input-totalbs">Costo Bs.</label>
                                 <input type="text" id="input-totalbs" name="totalbs" class="form-control" value="" readonly>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="proyecto">Nombre del proyecto</label>
-                                <textarea name="proyecto" class="form-control" rows="2" required></textarea>
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="form-group col-md-12">
+                                                <label for="proyecto">Nombre del proyecto</label>
+                                                <textarea name="proyecto" class="form-control" rows="5" required></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="form-group col-md-12">
+                                                <label for="propietario">Nombre del propietario</label>
+                                                <input type="text" name="propietario" class="form-control" required>
+                                            </div>
+                                            <div class="form-group col-md-12">
+                                                <label for="propietario">Documento</label>
+                                                <input type="file" name="archivo" class="form-control" accept="application/pdf">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="propietario">Nombre del propietario</label>
-                                <input type="text" name="propietario" class="form-control" required>
+                                <label for="sucursal_id">Sucursal</label>
+                                <select name="sucursal_id" class="form-control">
+                                    @foreach (App\Sucursal_user::where('user_id', Auth::user()->id)->get() as $item)
+                                    <option value="{{ $item->sucursal_id }}">{{ $item->sucursal->sucursal }}</option>
+                                    @endforeach
+                                </select>
                             </div>
-
-                            <div class="col-md-12" style="margin-bottom: 20px">
+                            <div class="form-group col-md-6">
+                                <label for="fecharegistro">Fecha de registro</label>
+                                <input type="date" name="fecharegistro" class="form-control" value="{{ date('Y-m-d') }}" max="{{ date('Y-m-d') }}" required>
+                            </div>
+                            <div class="col-md-12 div-mensualidades" style="margin-bottom: 20px">
                                 @php
                                     $gestion = App\Gestion::where('deleted_at', null)
                                                         ->whereRaw('((gestion >= '.date('Y', strtotime($persona->ultimo_pago.'-01')).' and 12 <> '.date('m', strtotime($persona->ultimo_pago.'-01')).') or gestion > '.date('Y', strtotime($persona->ultimo_pago.'-01')).')')
@@ -125,23 +152,6 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <label for="sucursal_id">Sucursal</label>
-                                <select name="sucursal_id" class="form-control">
-                                    @foreach (App\Sucursal_user::where('user_id', Auth::user()->id)->get() as $item)
-                                    <option value="{{ $item->sucursal_id }}">{{ $item->sucursal->sucursal }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="fecharegistro">Fecha de registro</label>
-                                <input type="date" name="fecharegistro" class="form-control" value="{{ date('Y-m-d') }}" max="{{ date('Y-m-d') }}" required>
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label for="observacion">Observaciones</label>
-                                <textarea name="observacion" class="form-control" rows="2"></textarea>
                             </div>
                         </div>
                     </div>
@@ -173,6 +183,29 @@
         $('#dataTable').DataTable({"order":[[0, 'desc']],"language":{"sEmptyTable":"No hay datos disponibles en la tabla","sInfo":"Mostrando _START_ a _END_ de _TOTAL_ entradas","sInfoEmpty":"Mostrando 0 a 0 de 0 entradas","sInfoFiltered":"(Filtrada de _MAX_ entradas totales)","sInfoPostFix":"","sInfoThousands":",","sLengthMenu":"Mostrar _MENU_ entradas","sLoadingRecords":"Cargando...","sProcessing":"Procesando...","sSearch":"Buscar:","sZeroRecords":"No se encontraron registros coincidentes","oPaginate":{"sFirst":"Primero","sLast":"\u00daltimo","sNext":"Siguiente","sPrevious":"Anterior"},"oAria":{"sSortAscending":": Activar para ordenar la columna ascendente","sSortDescending":": Activar para ordenar la columna descendente"}},"columnDefs":[{"targets":"dt-not-orderable","searchable":false,"orderable":false}]});
         
         $(document).ready(function(){
+
+            $('.btn-add').click(function(){
+                $('#form').attr('action', "{{ route('personas.proyectogenerales.store', $id) }}");
+                $('#modal-edit-add .modal-title').text('Agregar proyecto');
+                $('#modal-edit-add input').attr('required', 'required');
+                $('#modal-edit-add select').attr('required', 'required');
+                $('.input-add').fadeIn('fast');
+                $('.div-mensualidades').fadeIn('fast');
+            });
+
+            $('.btn-edit').click(function(){
+                let item = $(this).data('item');
+                $('#form').attr('action', "{{ route('personas.proyectogenerales.update', $id) }}");
+                $('#modal-edit-add .modal-title').text('Editar proyecto');
+                $('#modal-edit-add input').removeAttr('required');
+                $('#modal-edit-add select').removeAttr('required');
+                $('#modal-edit-add input[name="id"]').val(item.id);
+                $('#modal-edit-add input[name="propietario"]').val(item.propietario);
+                $('#modal-edit-add input[name="fecharegistro"]').val(item.fecharegistro);
+                $('#modal-edit-add textarea[name="proyecto"]').val(item.proyecto);
+                $('.input-add').fadeOut('fast');
+                $('.div-mensualidades').fadeOut('fast');
+            });
 
             $('#select-categoriageneral_id').change(function(){
                 let categoria = $('#select-categoriageneral_id option:selected').data('item');

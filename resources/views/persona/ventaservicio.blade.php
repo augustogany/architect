@@ -60,7 +60,7 @@
     <form action="{{ route('personas.ventaservicio.store', $id) }}" method="POST">
         @csrf
         <div class="modal fade modal-slide-in-right" aria-hidden="true" role="dialog" tabindex="-1" id="modal-agregar">
-            <div class="modal-dialog modal-lg">
+            <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Agregar venta</h5>
@@ -184,49 +184,56 @@
                 let item = $('#select-servicio_id option:selected').data('item');
                 let gestion = $('#select-servicio_id option:selected').data('gestion');
                 if(item){
-                    $('#tabla-detalles tbody').append(`
-                        <tr id="tr-${item.id}">
-                            <td>
-                                <input type="hidden" name="servicio_id[]" value="${item.id}" />
-                                <small>${item.nombre}</small>
-                            </td>
-                            <td>
-                                ${item.precio}
-                                <input type="hidden" name="precio[]" value="${item.precio}" />
-                            </td>
-                            <td>
-                                <input type="number" name="cantidad[]" class="form-control-sm input-cantidad" id="input-cantidad-${item.id}" onclick="calcular(${item.id})" data-precio="${item.precio}" value="1" min="1" step="1" style="width: 70px" required />
-                            </td>
-                            <td id="label-subtotal-${item.id}" class="label-subtotal text-right">${item.precio}</td>
-                            <td></td>
-                        </tr>
-                    `);
-                    $('#select-servicio_id').val('').trigger('change');
-
-                }else if(gestion){
-                    let persona = @json($persona);
-                    if(persona.ultimo_pago){
-                        let mes = parseInt(persona.ultimo_pago.slice(-2));
-                        mes = mes == 12 ? 0 : mes;
+                    if(!document.getElementById(`tr-${item.id}`)){
                         $('#tabla-detalles tbody').append(`
-                            <tr id="tr-gestion">
+                            <tr id="tr-${item.id}">
                                 <td>
-                                    <input type="hidden" name="gestion_id" value="${gestion.id}" />
-                                    <small>Mensualidad gestión ${gestion.gestion}</small>
+                                    <input type="hidden" name="servicio_id[]" value="${item.id}" />
+                                    <small>${item.nombre}</small>
                                 </td>
                                 <td>
-                                    ${gestion.mensualidad}
-                                    <input type="hidden" name="gestion_precio" value="${gestion.mensualidad}" />
-                                    <input type="hidden" name="gestion_mes" value="${mes +1}" />
+                                    ${item.precio}
+                                    <input type="hidden" name="precio[]" value="${item.precio}" />
                                 </td>
                                 <td>
-                                    <input type="number" name="gestion_cantidad" class="form-control-sm input-cantidad" id="input-cantidad-gestion" onclick="calcular('gestion')" data-precio="${gestion.mensualidad}" value="1" min="1" max="${12 - mes}" step="1" style="width: 70px" required />
+                                    <input type="number" name="cantidad[]" class="form-control-sm input-cantidad" id="input-cantidad-${item.id}" onclick="calcular(${item.id})" data-precio="${item.precio}" value="1" min="1" step="1" style="width: 70px" required />
                                 </td>
-                                <td id="label-subtotal-gestion" class="label-subtotal text-right">${gestion.mensualidad}</td>
-                                <td></td>
+                                <td id="label-subtotal-${item.id}" class="label-subtotal text-right">${item.precio}</td>
+                                <td>
+                                    <button onclick="deleteTr(${item.id})" title="Eliminar" type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash text-white"></i></button>
+                                </td>
                             </tr>
                         `);
                         $('#select-servicio_id').val('').trigger('change');
+                    }
+
+                }else if(gestion){
+                    if(!document.getElementById(`tr-gestion`)){
+                        let persona = @json($persona);
+                        if(persona.ultimo_pago){
+                            let mes = parseInt(persona.ultimo_pago.slice(-2));
+                            mes = mes == 12 ? 0 : mes;
+                            $('#tabla-detalles tbody').append(`
+                                <tr id="tr-gestion">
+                                    <td>
+                                        <input type="hidden" name="gestion_id" value="${gestion.id}" />
+                                        <small>Mensualidad gestión ${gestion.gestion}</small>
+                                    </td>
+                                    <td>
+                                        ${gestion.mensualidad}
+                                        <input type="hidden" name="gestion_precio" value="${gestion.mensualidad}" />
+                                        <input type="hidden" name="gestion_mes" value="${mes +1}" />
+                                    </td>
+                                    <td>
+                                        <input type="number" name="gestion_cantidad" class="form-control-sm input-cantidad" id="input-cantidad-gestion" onclick="calcular('gestion')" data-precio="${gestion.mensualidad}" value="1" min="1" max="${12 - mes}" step="1" style="width: 70px" required />
+                                    </td>
+                                    <td id="label-subtotal-gestion" class="label-subtotal text-right">${gestion.mensualidad}</td>
+                                    <td>
+                                        <button onclick="deleteTr('gestion')" title="Eliminar" type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash text-white"></i></button></td>
+                                </tr>
+                            `);
+                            $('#select-servicio_id').val('').trigger('change');
+                        }
                     }
                 }
                 calcularTotal();
@@ -248,6 +255,12 @@
             });
             $('#label-total').text(total.toFixed(2));
         }
+
+        function deleteTr(id){
+            $(`#tr-${id}`).remove();
+            calcularTotal();
+        }
+
     </script>
 @endpush
 

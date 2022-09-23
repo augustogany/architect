@@ -350,6 +350,13 @@ class PersonaController extends Controller
         return $pdf->stream('Recibo de pago de mensualidad.pdf');
     }
 
+    public function pagomensualidad_destroy($id, Request $request){
+        $pago = PersonasPago::where('id', '>', $request->id)->where('deleted_at', NULL)->first();
+        // dd($pago);
+        toast('Pago eliminado con éxito','success');
+        return redirect()->route('personas.pagomensualidad.index', $id);
+    }
+
     // ====================================================
 
     function ventaservicio_index($id){
@@ -461,7 +468,7 @@ class PersonaController extends Controller
                 'totalbs' => floatval($request->costocategoria) * $request->superficiemts2,
                 'descuento' => 0,
                 'fecharegistro' => $request->fecharegistro,
-                // 'archivo',
+                'archivo' => $this->agregar_archivo($request->archivo, 'proyectogenerales'),
             ]);
 
             // En caso de pagar alguna gestion en el registro de proyecto
@@ -509,6 +516,35 @@ class PersonaController extends Controller
         }
     }
 
+    function proyectogenerales_update($id, Request $request){
+        // dd($request->all());
+        DB::beginTransaction();
+        try {
+
+            $proyecto = Proyectogeneral::find($request->id);
+            $proyecto->sucursal_id = $request->sucursal_id;
+            $proyecto->proyecto = $request->proyecto;
+            $proyecto->propietario = $request->propietario;
+            $proyecto->fecharegistro = $request->fecharegistro;
+
+            if($request->archivo){
+                $proyecto->archivo = $this->agregar_archivo($request->archivo, 'proyectogenerales');
+            }
+            $proyecto->save();
+
+            DB::commit();
+
+            toast('Proyecto editado con éxito!','success');
+            return redirect()->route('personas.proyectogenerales.index', $id);
+
+        } catch (\Throwable $th) {
+            DB::rollback();
+            // dd($th);
+            toast('Ocurrió un error','error');
+            return redirect()->route('personas.proyectogenerales.index', $id);
+        }
+    }
+
     public function proyectogenerales_print($id){
         $proyecto = Proyectogeneral::find($id);
         // return view('persona.proyectogenerales-print', compact('proyecto'));
@@ -543,7 +579,7 @@ class PersonaController extends Controller
                 'totalbs' => floatval($request->costo_pu_categoria) * $request->superficiemts2,
                 'descuento' => 0,
                 'fecharegistro' => $request->fecharegistro,
-                // 'archivo',
+                'archivo' => $this->agregar_archivo($request->archivo, 'proyectourbanizacions'),
             ]);
 
             // En caso de pagar alguna gestion en el registro de proyecto
@@ -586,6 +622,35 @@ class PersonaController extends Controller
         } catch (\Throwable $th) {
             DB::rollback();
             throw $th;
+            toast('Ocurrió un error','error');
+            return redirect()->route('personas.proyectourbanizacions.index', $id);
+        }
+    }
+
+    function proyectourbanizacions_update($id, Request $request){
+        // dd($request->all());
+        DB::beginTransaction();
+        try {
+
+            $proyecto = Proyectourbanizacion::find($request->id);
+            $proyecto->sucursal_id = $request->sucursal_id;
+            $proyecto->proyecto = $request->proyecto;
+            $proyecto->propietario = $request->propietario;
+            $proyecto->fecharegistro = $request->fecharegistro;
+
+            if($request->archivo){
+                $proyecto->archivo = $this->agregar_archivo($request->archivo, 'proyectourbanizacions');
+            }
+            $proyecto->save();
+
+            DB::commit();
+
+            toast('Proyecto editado con éxito!','success');
+            return redirect()->route('personas.proyectourbanizacions.index', $id);
+
+        } catch (\Throwable $th) {
+            DB::rollback();
+            // throw $th;
             toast('Ocurrió un error','error');
             return redirect()->route('personas.proyectourbanizacions.index', $id);
         }
