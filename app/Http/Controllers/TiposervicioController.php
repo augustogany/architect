@@ -15,15 +15,8 @@ class TiposervicioController extends Controller
      */
     public function index()
     {
-        return view('configuracion.tiposervicio.index');
-    }
-
-    public function gettiposervicio()
-    {
-        return datatables()->eloquent(Servicio::query())
-            ->addColumn('btn_actions', 'configuracion.tiposervicio.partials.btn_actions')
-            ->rawColumns(['btn_actions'])
-            ->toJson();
+        $tiposervicio = Servicio::where('deleted_at', NULL)->get();
+        return view('configuracion.tiposervicio.index', compact('tiposervicio'));
     }
 
     /**

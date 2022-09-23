@@ -21,7 +21,8 @@ class Proyectogeneral extends Model
         'fecharegistro',
         'archivo',
         'condicion',
-        'condicion_aux'
+        'condicion_aux',
+        'estado'
     ];
 
     public function sucursal(){

@@ -530,6 +530,7 @@ class PersonaController extends Controller
             if($request->archivo){
                 $proyecto->archivo = $this->agregar_archivo($request->archivo, 'proyectogenerales');
             }
+            $proyecto->estado = $request->estado ? 'terminado' : 'pendiente';
             $proyecto->save();
 
             DB::commit();
@@ -641,6 +642,7 @@ class PersonaController extends Controller
             if($request->archivo){
                 $proyecto->archivo = $this->agregar_archivo($request->archivo, 'proyectourbanizacions');
             }
+            $proyecto->estado = $request->estado ? 'terminado' : 'pendiente';
             $proyecto->save();
 
             DB::commit();

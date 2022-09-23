@@ -3,8 +3,7 @@ agregar campo imagen y cv, email  a la tabla de pefiles
 
 **Cambios**
 - editar proyectos *
-- mostrar el estado de pendiente o listo de los proyectos o urbanizaciones en el perfil del arquitecto
 - editar CRUD de tipo de servicios
 - exportar reportes a pdf
-- boton de cambiar estado de proyecto
+- boton de cambiar estado de proyecto *
 - perfil: proyectos, mensualidades

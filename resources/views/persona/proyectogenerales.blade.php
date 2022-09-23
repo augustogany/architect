@@ -153,6 +153,11 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group col-md-12">
+                                <div class="checkbox">
+                                    <input id="input-switch" type="checkbox" name="estado" data-toggle="toggle" data-on="Terminado" data-off="Pendiente" data-width="100" data-offstyle="success">
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between">
@@ -168,6 +173,7 @@
 @push ('styles')
     <link href="{{ asset('theme/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
     <link href="{{ asset('theme/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('theme/plugins/bootstrap-toggle/bootstrap-toggle.min.css') }}" rel="stylesheet">
     <style>
 
     </style>
@@ -178,6 +184,7 @@
     <script src="{{asset('theme/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
     <script src="{{asset('theme/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
     <script src="{{asset('theme/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('theme/plugins/bootstrap-toggle/bootstrap-toggle.min.js')}}"></script>
 
     <script>
         $('#dataTable').DataTable({"order":[[0, 'desc']],"language":{"sEmptyTable":"No hay datos disponibles en la tabla","sInfo":"Mostrando _START_ a _END_ de _TOTAL_ entradas","sInfoEmpty":"Mostrando 0 a 0 de 0 entradas","sInfoFiltered":"(Filtrada de _MAX_ entradas totales)","sInfoPostFix":"","sInfoThousands":",","sLengthMenu":"Mostrar _MENU_ entradas","sLoadingRecords":"Cargando...","sProcessing":"Procesando...","sSearch":"Buscar:","sZeroRecords":"No se encontraron registros coincidentes","oPaginate":{"sFirst":"Primero","sLast":"\u00daltimo","sNext":"Siguiente","sPrevious":"Anterior"},"oAria":{"sSortAscending":": Activar para ordenar la columna ascendente","sSortDescending":": Activar para ordenar la columna descendente"}},"columnDefs":[{"targets":"dt-not-orderable","searchable":false,"orderable":false}]});
@@ -187,10 +194,11 @@
             $('.btn-add').click(function(){
                 $('#form').attr('action', "{{ route('personas.proyectogenerales.store', $id) }}");
                 $('#modal-edit-add .modal-title').text('Agregar proyecto');
-                $('#modal-edit-add input').attr('required', 'required');
+                $('#modal-edit-add input[type="number"]').attr('required', 'required');
                 $('#modal-edit-add select').attr('required', 'required');
                 $('.input-add').fadeIn('fast');
                 $('.div-mensualidades').fadeIn('fast');
+                $('#input-switch').bootstrapToggle('off');
             });
 
             $('.btn-edit').click(function(){
@@ -205,6 +213,11 @@
                 $('#modal-edit-add textarea[name="proyecto"]').val(item.proyecto);
                 $('.input-add').fadeOut('fast');
                 $('.div-mensualidades').fadeOut('fast');
+                if(item.estado == 'pendiente'){
+                    $('#input-switch').bootstrapToggle('off');
+                }else{
+                    $('#input-switch').bootstrapToggle('on');
+                }
             });
 
             $('#select-categoriageneral_id').change(function(){
