@@ -6,15 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Perfil extends Model
 {
-	protected $fillable = ['user_id','nombre','apaterno','amaterno','ci','telefono','direccion'];
+	protected $fillable = ['user_id','nombre_completo','telefono','email','direccion','imagen','cv'];
 
-	public function user()
-    {
+	public function user(){
         return $this->belongsTo(User::class);
-    }
-
-    public function expedicion()
-    {
-        return $this->belongsTo(Expedicion::class);
     }
 }

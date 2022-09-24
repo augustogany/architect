@@ -44,7 +44,7 @@
                     <td>{{$item->observacion}}</td>
                     <td>
                       {{-- @can('categoria_general.edit') --}}
-                      <a href="{{route('gestiones.edit',$item->id)}}" class="btn btn-success" title="Editar gestión"><i class="fas fa-edit"></i></a>
+                      <a href="{{route('gestiones.edit',$item->id)}}" class="btn btn-outline-success" title="Editar gestión"><i class="fas fa-edit"></i></a>
                       {{-- @endcan --}}
                     </td>
                   </tr>

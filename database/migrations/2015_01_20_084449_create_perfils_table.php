@@ -15,21 +15,14 @@ class CreatePerfilsTable extends Migration
     {
         Schema::create('perfils', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('expedicion_id')->unsigned();
-            $table->string('imagen', 100)->nullable();
-            $table->string('nombre', 100)->nullable();
-            $table->string('apaterno', 50)->nullable();
-            $table->string('amaterno', 50)->nullable();
-            $table->string('ci', 15);
-            $table->string('telefono', 10);
-            $table->string('direccion', 100)->nullable();
+            $table->foreignId('user_id')->nullable()->constrained('users');
+            $table->string('nombre_completo')->nullable();
+            $table->string('telefono')->nullable();
+            $table->string('email')->nullable();
+            $table->text('direccion')->nullable();
+            $table->string('imagen')->nullable();
             $table->text('cv')->nullable();
-            $table->boolean('condicion')->default(1);
             $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('expedicion_id')->references('id')->on('expedicions');
         });
     }
 

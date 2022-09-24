@@ -1,9 +1,8 @@
-agregar campo imagen y cv, email  a la tabla de pefiles
-
+eliminar la tabla perfil y volver a ejecutar las migraciones
 
 **Cambios**
 - editar proyectos *
-- editar CRUD de tipo de servicios
+- editar CRUD de tipo de servicios *
 - exportar reportes a pdf
 - boton de cambiar estado de proyecto *
 - perfil: proyectos, mensualidades

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Hash;
 use App\Perfil;
 use App\Persona;
+use App\user;
 use DB;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Storage;
@@ -51,52 +52,7 @@ class PerfilusuarioController extends Controller
      */
     public function store(Request $request)
     {
-        $user = auth()->user();
-        $perfil = Perfil::where('user_id',$user->id)->first();
 
-        if ($perfil) {
-            $perfil->nombre = $request->nombre;
-            $perfil->apaterno = $request->apaterno;
-            $perfil->amaterno = $request->amaterno;
-            $perfil->ci = $request->ci;
-            $perfil->expedicion_id = $request->expedicion_id;
-            $perfil->telefono = $request->telefono;
-            $perfil->direccion = $request->direccion;
-            $perfil->email = $request->email;
-            if($request->imagen){
-                $perfil->imagen = $this->agregar_imagenes($request->imagen);
-            }
-            if($request->cv){
-                $perfil->cv = $this->agregar_archivo($request->cv, 'cv');
-            }
-            $perfil->update();
-        }else{
-            $perfil = new Perfil;
-            $perfil->nombre = $request->nombre;
-            $perfil->apaterno = $request->apaterno;
-            $perfil->amaterno = $request->amaterno;
-            $perfil->ci = $request->ci;
-            $perfil->expedicion_id = $request->expedicion_id;
-            $perfil->telefono = $request->telefono;
-            $perfil->direccion = $request->direccion;
-            $perfil->email = $request->email;
-            if($request->imagen){
-                $perfil->imagen = $this->agregar_imagenes($request->imagen);
-            }
-            if($request->cv){
-                $perfil->cv = $this->agregar_archivo($request->cv, 'cv');
-            }
-            $perfil->user_id = Auth::user()->id;
-            $perfil->save(); 
-        }
-        
-        if ($request->get('password')) {
-            $user->password = Hash::make($request->get('password'));
-        }
-        $user->update();
-
-        toast('Registro insertado con éxito!','success');
-        return redirect()->route('perfilusuario.index');
     }
 
     /**
@@ -118,8 +74,7 @@ class PerfilusuarioController extends Controller
      */
     public function edit($id)
     {
-        $perfil = Perfil::findOrFail($id);
-        return view("perfilusuario.edit", compact('perfil'));
+
     }
 
     /**
@@ -131,17 +86,32 @@ class PerfilusuarioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $perfil = Perfil::findOrFail($id);
-        $perfil->nombre = $request->nombre;
-        $perfil->apaterno = $request->apaterno;
-        $perfil->amaterno = $request->amaterno;
-        $perfil->ci = $request->ci;
-        $perfil->telefono = $request->telefono;
-        $perfil->direccion = $request->direccion;
-        $perfil->update();
+        try {
+            $perfil = Perfil::findOrFail($id);
+            $perfil->nombre_completo = $request->nombre_completo;
+            $perfil->telefono = $request->telefono;
+            $perfil->email = $request->email;
+            $perfil->direccion = $request->direccion;
+            if($request->imagen){
+                $perfil->imagen = $this->agregar_imagenes($request->imagen);
+            }
+            if($request->cv){
+                $perfil->cv = $this->agregar_archivo($request->cv, 'cv');
+            }
+            $perfil->update();
 
-        toast('Registro actualizado con éxito!','success');
-        return redirect()->route('perfilusuario.index');
+            if ($request->password) {
+                $user = User::findOrFail($perfil->user_id);
+                $user->password = Hash::make($request->password);
+                $user->update();
+            }
+
+            toast('Información actualizado con éxito!','success');
+            return redirect()->route('home');
+        } catch (\Throwable $th) {
+            toast('Ocurrió un error!','error');
+            return redirect()->route('home');
+        }
     }
 
     /**

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Editar Tipo de Servicio')
+@section('title','Editar tipo de trámite')
 
 @section('content')
 
@@ -7,14 +7,14 @@
 @csrf @method('PATCH')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card" style="background-color: #8FBC8F">
+        <div class="col-md-8">
+            <div class="card">
                 <div class="card-header">
-                    <i class="fas fa-pencil-alt"></i>
-                    Registrar Tipo de Servicio.
+                    <i class="fas fa-edit"></i>
+                    Editar tipo de trámite
                 </div>
 
-                <div class="card-body" style="background-color: #F0F8FF">
+                <div class="card-body">
                     @if(Session::has('notice'))
                     <div class="alert alert-danger">
                       <ul>

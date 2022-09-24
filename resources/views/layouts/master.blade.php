@@ -67,7 +67,15 @@
                       <li><a href="#">Dropdown 4</a></li>
                     </ul>
                   </li>
-                <li><a href="{{ url('home') }}">Iniciar sesión</a></li>
+                <li>
+                    <a href="{{ url('home') }}">
+                        @guest
+                            Iniciar sesión
+                        @else
+                            Perfil
+                        @endguest
+                    </a>
+                </li>
                 </ul>
             </nav><!-- .navbar -->
 

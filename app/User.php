@@ -22,7 +22,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'persona_id'
     ];
 
     /**
@@ -47,8 +47,7 @@ class User extends Authenticatable
         return $this->belongsToMany(Sucursal::class);
     }
 
-    public function perfiles()
-    {
-        return $this->hasMany(Perfil::class);
+    public function persona(){
+        return $this->belongsTo(Persona::class, 'persona_id');
     }
 }

@@ -13,8 +13,10 @@
                 <div class="card">
                     <div class="card-header">
                         @if ($type == 'create')
+                            <i class="fas fa-pencil-alt"></i>
                             Registrar nueva gestión
                         @else
+                            <i class="fas fa-edit"></i>
                             Editar gestión
                         @endif
                         

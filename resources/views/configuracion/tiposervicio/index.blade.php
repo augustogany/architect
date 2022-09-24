@@ -20,7 +20,7 @@
         <i class="fas fa-list"></i>
           Tipos de trámite
             <div class="card-tools">
-                <a href="{{ route('gestiones.create') }}" class="btn btn-primary" title="Crear nueva gestión"><i class="fas fa-plus"></i></a>
+                <a href="{{ route('tiposervicios.create') }}" class="btn btn-primary" title="Crear nueva gestión"><i class="fas fa-plus"></i></a>
             </div>
         </div>
         <div class="card-body">
@@ -46,7 +46,7 @@
                       @endcan
                       
                       @can('tiposervicio.destroy')
-                      <a data-target="#modal-delete{{ $item->id }}" data-toggle="modal" title="Habilitar/Inhabilitar tipo de servicio." type="button" class="btn btn-danger text-white"><i class="fas fa-trash"></i></a>
+                      {{-- <a data-target="#modal-delete{{ $item->id }}" data-toggle="modal" title="Habilitar/Inhabilitar tipo de servicio." type="button" class="btn btn-danger text-white"><i class="fas fa-trash"></i></a> --}}
                       @endcan
                     </td>
                   </tr>

@@ -48,7 +48,7 @@
     
                 <div class="row">
         
-                    @forelse (App\Perfil::where('condicion', 1)->get() as $item)
+                    @forelse (App\Perfil::all() as $item)
                         <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
                             <a href="{{ $item->cv ? url('storage/'.$item->cv) : '#' }}" title="Ver Curriculúm Vitae" target="_blank">
                                 <div class="member">
@@ -68,7 +68,8 @@
                                         </div> --}}
                                     </div>
                                     <div class="member-info">
-                                        <h4>{{ $item->nombre }} {{ $item->apaterno }} {{ $item->amaterno }}</h4>
+                                        <h4>{{ $item->nombre_completo }}</h4>
+                                        <span>{{ $item->telefono }}</span>
                                         <span>{{ $item->email }}</span>
                                     </div>
                                 </div>

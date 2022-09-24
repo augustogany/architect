@@ -68,7 +68,7 @@ class PersonaController extends Controller
                 $meses = $ultimo_pago->diffInMonths($fecha_actual) % 12;
                 return '
                     '.date('M \d\e Y', strtotime($row->ultimo_pago)).' <br>
-                    '.(date('Ym', strtotime($row->ultimo_pago)) < date('Ym') ? '<small> Debe '.($anios ? $anios.' año(s)' : '').($anios && $meses ? ' y ' : ' ').($meses ? $meses.' meses' : '').'</small>' : '').'
+                    '.(date('Ym', strtotime($row->ultimo_pago)) < date('Ym') ? '<small> Debe '.($anios ? $anios.' año(s)' : '').($anios && $meses ? ' y ' : ' ').($meses ? $meses.' meses' : '').'</small>' : '<small>Sin deuda</small>').'
                 ';
             })
             ->addColumn('deuda', function($row){
