@@ -137,13 +137,13 @@ class PerfilusuarioController extends Controller
     }
 
     public function agregar_imagenes($file){
-        Storage::makeDirectory('/public/perfil/'.date('F').date('Y'));
+        Storage::makeDirectory('perfil/'.date('F').date('Y'));
         $base_name = Str::random(20);
 
         // imagen normal
         $filename = $base_name.'.'.$file->getClientOriginalExtension();
         $image_resize = Image::make($file->getRealPath())->orientate();
-        $image_resize->resize(1000, null, function ($constraint) {
+        $image_resize->fit(1000, null, function ($constraint) {
             $constraint->aspectRatio();
             $constraint->upsize();
         });
@@ -154,7 +154,7 @@ class PerfilusuarioController extends Controller
         // imagen pequeña
         $filename_small = $base_name.'_small.'.$file->getClientOriginalExtension();
         $image_resize = Image::make($file->getRealPath())->orientate();
-        $image_resize->resize(256, 256, function ($constraint) {
+        $image_resize->fit(256, 256, function ($constraint) {
             $constraint->aspectRatio();
             $constraint->upsize();
         });

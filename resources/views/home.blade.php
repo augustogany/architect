@@ -18,13 +18,14 @@
 
                 <nav>
                   <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Perfil de usuario</a>
-                    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Pagos de mensualidades</a>
-                    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Proyectos</a>
+                    <a class="nav-item nav-link active" id="nav-pefil-tab" data-toggle="tab" href="#nav-pefil" role="tab" aria-controls="nav-pefil" aria-selected="true">Perfil de usuario</a>
+                    <a class="nav-item nav-link" id="nav-mensualidades-tab" data-toggle="tab" href="#nav-mensualidades" role="tab" aria-controls="nav-mensualidades" aria-selected="false">Pagos de mensualidades</a>
+                    <a class="nav-item nav-link" id="nav-proyectogenerals-tab" data-toggle="tab" href="#nav-proyectogenerals" role="tab" aria-controls="nav-proyectogenerals" aria-selected="false">Proyectos generales</a>
+                    <a class="nav-item nav-link" id="nav-proyectourbanizacions-tab" data-toggle="tab" href="#nav-proyectourbanizacions" role="tab" aria-controls="nav-proyectourbanizacions" aria-selected="false">Proyectos de urbanización</a>
                   </div>
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
-                  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                  <div class="tab-pane fade show active" id="nav-pefil" role="tabpanel" aria-labelledby="nav-pefil-tab">
                     @php
                       $perfil = App\Perfil::where('user_id', Auth::user()->id)->first();
                       if(!$perfil){
@@ -134,7 +135,7 @@
                       </form>
                     </div>
                   </div>
-                  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                  <div class="tab-pane fade" id="nav-mensualidades" role="tabpanel" aria-labelledby="nav-mensualidades-tab">
                     @php
                         $pagos = App\PersonasPago::where('persona_id', $perfil->user->persona_id)->where('deleted_at', NULL)->get();
                     @endphp
@@ -187,7 +188,72 @@
                       </table>
                     </div>
                   </div>
-                  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+                  <div class="tab-pane fade" id="nav-proyectogenerals" role="tabpanel" aria-labelledby="nav-proyectogenerals-tab">
+                    <div class="table-responsive" style="margin-top: 20px">
+                      <table class="table table-bordered table-hover dataTable">
+                        <thead>
+                            <tr>
+                              <th>N&deg; de recibo</th>
+                              {{-- <th>Sucursal</th> --}}
+                              <th>Fecha</th>
+                              <th>Proyecto</th>
+                              <th>Categoría</th>
+                              <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php
+                                $proyectos = App\Proyectogeneral::where('persona_id', $perfil->user->persona_id)->where('deleted_at', NULL)->get();
+                            @endphp
+                            @forelse ($proyectos as $item)
+                              <tr>
+                                <td>{{ str_pad($item->id, 5, "0", STR_PAD_LEFT) }}</td>
+                                {{-- <td>{{ $item->sucursal->sucursal }}</td> --}}
+                                <td>{{ date('d/M/Y', strtotime($item->fecharegistro)) }}</td>
+                                <td>{{ $item->categoriageneral->nombre }}</td>
+                                <td>{{ $item->proyecto }} <hr style="margin:0px"> <small>{{ $item->superficiemts2 }} M<sup>2</sup> - {{ $item->propietario }}</small> </td>
+                                <td>{{ number_format($item->totalbs, 2, ',', '.') }}</td>
+                              </tr>
+                            @empty
+                                
+                            @endforelse
+                        </tbody>
+                    </table>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="nav-proyectourbanizacions" role="tabpanel" aria-labelledby="nav-proyectourbanizacions-tab">
+                    <div class="table-responsive" style="margin-top: 20px">
+                      <table class="table table-bordered table-hover dataTable">
+                        <thead>
+                            <tr>
+                              <th>N&deg; de recibo</th>
+                              <th>Sucursal</th>
+                              <th>Fecha de registro</th>
+                              <th>Proyecto</th>
+                              <th>Precio unit.</th>
+                              <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php
+                                $proyectos = App\Proyectourbanizacion::where('persona_id', $perfil->user->persona_id)->where('deleted_at', NULL)->get();
+                            @endphp
+                            @forelse ($proyectos as $item)
+                              <tr>
+                                <td>{{ str_pad($item->id, 5, "0", STR_PAD_LEFT) }}</td>
+                                <td>{{ $item->sucursal->sucursal }}</td>
+                                <td>{{ date('d/M/Y', strtotime($item->fecharegistro)) }}</td>
+                                <td>{{ $item->proyecto }} <hr style="margin:0px"> <small>{{ $item->superficiemts2 }} M<sup>2</sup> - {{ $item->propietario }}</small> </td>
+                                <td>{{ number_format($item->costo_pu_categoria, 2, ',', '.') }}</td>
+                                <td>{{ number_format($item->totalbs, 2, ',', '.') }}</td>
+                              </tr>
+                            @empty
+                                
+                            @endforelse
+                        </tbody>
+                    </table>
+                    </div>
+                  </div>
                 </div>
                   
               @else
@@ -270,6 +336,6 @@
   <script src="{{asset('theme/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
   <script src="{{asset('theme/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
   <script>
-    $('#dataTable').DataTable({"order":[[0, 'desc']],"language":{"sEmptyTable":"No hay datos disponibles en la tabla","sInfo":"Mostrando _START_ a _END_ de _TOTAL_ entradas","sInfoEmpty":"Mostrando 0 a 0 de 0 entradas","sInfoFiltered":"(Filtrada de _MAX_ entradas totales)","sInfoPostFix":"","sInfoThousands":",","sLengthMenu":"Mostrar _MENU_ entradas","sLoadingRecords":"Cargando...","sProcessing":"Procesando...","sSearch":"Buscar:","sZeroRecords":"No se encontraron registros coincidentes","oPaginate":{"sFirst":"Primero","sLast":"\u00daltimo","sNext":"Siguiente","sPrevious":"Anterior"},"oAria":{"sSortAscending":": Activar para ordenar la columna ascendente","sSortDescending":": Activar para ordenar la columna descendente"}},"columnDefs":[{"targets":"dt-not-orderable","searchable":false,"orderable":false}]});
+    $('.dataTable').DataTable({"order":[[0, 'desc']],"language":{"sEmptyTable":"No hay datos disponibles en la tabla","sInfo":"Mostrando _START_ a _END_ de _TOTAL_ entradas","sInfoEmpty":"Mostrando 0 a 0 de 0 entradas","sInfoFiltered":"(Filtrada de _MAX_ entradas totales)","sInfoPostFix":"","sInfoThousands":",","sLengthMenu":"Mostrar _MENU_ entradas","sLoadingRecords":"Cargando...","sProcessing":"Procesando...","sSearch":"Buscar:","sZeroRecords":"No se encontraron registros coincidentes","oPaginate":{"sFirst":"Primero","sLast":"\u00daltimo","sNext":"Siguiente","sPrevious":"Anterior"},"oAria":{"sSortAscending":": Activar para ordenar la columna ascendente","sSortDescending":": Activar para ordenar la columna descendente"}},"columnDefs":[{"targets":"dt-not-orderable","searchable":false,"orderable":false}]});
   </script>
 @endpush

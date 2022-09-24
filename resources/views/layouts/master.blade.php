@@ -61,10 +61,10 @@
                 <li><a href="{{ url('') }}#projects">Proyectos</a></li>
                 <li class="dropdown"><a href="#"><span>Archivos</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
                     <ul>
-                      <li><a href="#">Dropdown 1</a></li>
-                      <li><a href="#">Dropdown 2</a></li>
-                      <li><a href="#">Dropdown 3</a></li>
-                      <li><a href="#">Dropdown 4</a></li>
+                        <li><a href="{{ url('docs/LEY 1373.pdf') }}" target="_blank">LEY 1373</a></li>
+                        <li><a href="{{ url('docs/DECRETO REGLAMENTARIO LEY 1373.pdf') }}" target="_blank">DECRETO REGLAMENTARIO LEY 1373</a></li>
+                      {{-- <li><a href="#">Dropdown 3</a></li>
+                      <li><a href="#">Dropdown 4</a></li> --}}
                     </ul>
                   </li>
                 <li>

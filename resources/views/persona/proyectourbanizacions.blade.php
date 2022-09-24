@@ -2,7 +2,7 @@
 @section('title','Pago de mensualidad')
 
 @section('content')
-    <div class="container">
+    <div class="col-md-12">
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
@@ -22,9 +22,10 @@
                                         <th>N&deg; de recibo</th>
                                         <th>Sucursal</th>
                                         <th>Fecha de registro</th>
+                                        <th>Proyecto</th>
                                         <th>Precio unit.</th>
                                         <th>Total</th>
-                                        <th>Observaciones</th>
+                                        {{-- <th>Observaciones</th> --}}
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
@@ -34,9 +35,10 @@
                                             <td>{{ str_pad($item->id, 5, "0", STR_PAD_LEFT) }}</td>
                                             <td>{{ $item->sucursal->sucursal }}</td>
                                             <td>{{ date('d/M/Y', strtotime($item->fecharegistro)) }}</td>
+                                            <td>{{ $item->proyecto }} <hr style="margin:0px"> <small>{{ $item->superficiemts2 }} M<sup>2</sup> - {{ $item->propietario }}</small> </td>
                                             <td>{{ number_format($item->costo_pu_categoria, 2, ',', '.') }}</td>
                                             <td>{{ number_format($item->totalbs, 2, ',', '.') }}</td>
-                                            <td>{{ $item->observacion }}</td>
+                                            {{-- <td>{{ $item->observacion }}</td> --}}
                                             <td>
                                                 <a href="{{ route('personas.proyectourbanizacions.print', $item->id) }}" target="_blank" title="Imprimir" class="btn btn-outline-success btn-sm"><i class="fas fa-print"></i></a>
                                                 <a href="#" data-toggle="modal" data-target="#modal-edit-add" data-item='@json($item)' title="Editar" class="btn btn-outline-success btn-sm btn-edit"><i class="fas fa-edit"></i></a>

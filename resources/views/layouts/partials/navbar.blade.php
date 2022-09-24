@@ -99,8 +99,8 @@
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" style="background-color: #BBDEBF">
-                    <a class="dropdown-item" href="{{ route('deudores_pdf') }}" target="_blank"><i class="fas fa-bell"></i> Deudores</a>
-                    <a class="dropdown-item" href="{{ route('perfilusuario.index') }}"><i class="fas fa-user-circle"></i> Perfil Usuario</a>
+                    {{-- <a class="dropdown-item" href="{{ route('deudores_pdf') }}" target="_blank"><i class="fas fa-bell"></i> Deudores</a>
+                    <a class="dropdown-item" href="{{ route('perfilusuario.index') }}"><i class="fas fa-user-circle"></i> Perfil Usuario</a> --}}
                     
                     <a class="dropdown-item" href="{{ route('logout') }}"
                         onclick="event.preventDefault();

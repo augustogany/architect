@@ -1,8 +1,7 @@
-eliminar la tabla perfil y volver a ejecutar las migraciones
-
 **Cambios**
 - editar proyectos *
 - editar CRUD de tipo de servicios *
 - exportar reportes a pdf
 - boton de cambiar estado de proyecto *
-- perfil: proyectos, mensualidades
+- perfil: proyectos, mensualidades *
+- Error al editar contraseña (luke)
