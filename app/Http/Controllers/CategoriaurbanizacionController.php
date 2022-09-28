@@ -82,7 +82,7 @@ class CategoriaurbanizacionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd($request);
+        // dd($request);
         $categoriaurbanizacion = Categoriaurbanizacion::findOrFail($id);
         $categoriaurbanizacion->mt2_inicio = $request->mt2_inicio;
         $categoriaurbanizacion->mt2_fin = $request->mt2_fin;

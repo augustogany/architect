@@ -49,7 +49,7 @@
           <div class="float-right d-none d-sm-block">
             <b>Version</b> 1.2
           </div>
-          <strong>Copyright &copy; 2022 <a href="#">C@DBENI</a>.</strong> odos los derechos reservados
+          <strong>Copyright &copy; 2022 <a href="#">CADBENI</a>.</strong> odos los derechos reservados
         </div>
       </div>
     </div>

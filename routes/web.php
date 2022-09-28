@@ -72,16 +72,19 @@ Route::middleware(['auth'])->group(function () {
 
 	Route::get('personas/{id}/ventaservicio','PersonaController@ventaservicio_index')->name('personas.ventaservicio.index');
 	Route::post('personas/{id}/ventaservicio/store','PersonaController@ventaservicio_store')->name('personas.ventaservicio.store');
+	Route::post('personas/{id}/ventaservicio/destroy','PersonaController@ventaservicio_destroy')->name('personas.ventaservicio.destroy');
 	Route::get('personas/ventaservicio/{id}/print','PersonaController@ventaservicio_print')->name('personas.ventaservicio.print');
 
 	Route::get('personas/{id}/proyectogenerales','PersonaController@proyectogenerales_index')->name('personas.proyectogenerales.index');
 	Route::post('personas/{id}/proyectogenerales/store','PersonaController@proyectogenerales_store')->name('personas.proyectogenerales.store');
 	Route::post('personas/{id}/proyectogenerales/update','PersonaController@proyectogenerales_update')->name('personas.proyectogenerales.update');
+	Route::post('personas/{id}/proyectogenerales/destroy','PersonaController@proyectogenerales_destroy')->name('personas.proyectogenerales.destroy');
 	Route::get('personas/proyectogenerales/{id}/print','PersonaController@proyectogenerales_print')->name('personas.proyectogenerales.print');
 
 	Route::get('personas/{id}/proyectourbanizacions','PersonaController@proyectourbanizacions_index')->name('personas.proyectourbanizacions.index');
 	Route::post('personas/{id}/proyectourbanizacions/store','PersonaController@proyectourbanizacions_store')->name('personas.proyectourbanizacions.store');
 	Route::post('personas/{id}/proyectourbanizacions/update','PersonaController@proyectourbanizacions_update')->name('personas.proyectourbanizacions.update');
+	Route::post('personas/{id}/proyectourbanizacions/destroy','PersonaController@proyectourbanizacions_destroy')->name('personas.proyectourbanizacions.destroy');
 	Route::get('personas/proyectourbanizacions/{id}/print','PersonaController@proyectourbanizacions_print')->name('personas.proyectourbanizacions.print');
 	
 	Route::get('getPersona','PersonaController@getPersona')->name('getPersona');

@@ -39,9 +39,9 @@
                     <td>{{$categoriageneral->nombre}}</td>
                     <td>{{$categoriageneral->costo}}</td>
                     <td>
-                      <a data-toggle="modal" data-target="#modal-calcular_precios" data-item='@json($categoriageneral)' class="btn btn-success btn-calculate" title="Calcular Monto de Mts2"><i class="fas fa-calculator text-white"></i></a>
+                      <a data-toggle="modal" data-target="#modal-calcular_precios" data-item='@json($categoriageneral)' class="btn btn-success btn-sm btn-calculate" title="Calcular Monto de Mts2"><i class="fas fa-calculator text-white"></i></a>
                       @can('categoria_general.edit')
-                      <a href="{{route('categoriageneral.edit',$categoriageneral->id)}}" class="btn btn-success" title="Editar categoría general"><i class="fas fa-edit"></i></a>
+                      <a href="{{route('categoriageneral.edit',$categoriageneral->id)}}" class="btn btn-primary btn-sm" title="Editar categoría general"><i class="fas fa-edit"></i></a>
                       @endcan
                     </td>
                   </tr>
@@ -63,7 +63,7 @@
             <div class="float-right d-none d-sm-block">
               <b>Version</b> 1.2
             </div>
-            <strong>Copyright &copy; 2022 <a href="#">C@DBENI</a>.</strong> Todos los derechos reservados.
+            <strong>Copyright &copy; 2022 <a href="#">CADBENI</a>.</strong> Todos los derechos reservados.
           </div>
         </div>
     </div>

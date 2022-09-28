@@ -17,8 +17,9 @@
                         <div class="row">
                             <div class="col-md-8"></div>
                             <div class="col-md-4">
-                                <form id="form" action="{{ route('reportes.proyectos.list') }}" method="post">
+                                <form id="form" name="form" action="{{ route('reportes.proyectos.list') }}" method="post">
                                     @csrf
+                                    <input type="hidden" name="type">
                                     <div class="row">
                                         <div class="form-group col-md-6">
                                             <input type="date" name="inicio" class="form-control form-control-sm">
@@ -33,7 +34,7 @@
                                             </select>
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <select name="persona_id" class="form-control form-control-sm">
+                                            <select name="persona_id" class="form-control form-control-sm select2">
                                                 <option value="">Todos los afiliados</option>
                                                 @foreach (App\Persona::orderBy('nombre')->get() as $item)
                                                 <option value="{{ $item->id }}">{{ $item->full_name }}</option>
@@ -55,7 +56,7 @@
                         <div class="float-right d-none d-sm-block">
                             <b>Version</b> 1.2
                         </div>
-                        <strong>Copyright &copy; 2022 <a href="#">C@DBENI</a>.</strong> Todos los derechos reservados.
+                        <strong>Copyright &copy; 2022 <a href="#">CADBENI</a>.</strong> Todos los derechos reservados.
                     </div>
                 </div>
 
@@ -65,12 +66,14 @@
 @endsection
 
 @push ('styles')
-    
+    <link rel="stylesheet" href="{{asset('theme/plugins/select2/css/select2.min.css')}}">
 @endpush
 
 @push ('script')
+    <script src="{{asset('theme/plugins/select2/js/select2.full.min.js')}}"></script>
     <script>
         $(document).ready(function() {
+            $('.select2').select2();
             $('#form').submit(function(e){
                 e.preventDefault();
                 $.post($(this).attr('action'), $(this).serialize(), function(res){
@@ -78,6 +81,14 @@
                 });
             });
         });
+
+        function report_export(type){
+            $('#form').attr('target', '_blank');
+            $('#form input[name="type"]').val(type);
+            window.form.submit();
+            $('#form').removeAttr('target');
+            $('#form input[name="type"]').val('');
+        }
     </script>
 @endpush
 

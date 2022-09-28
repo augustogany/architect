@@ -21,7 +21,7 @@ class ConsultasController extends Controller
     public function proyectos_list(Request $request){   
         $proyectos = [];
         $tipo = $request->tipo;
-        if($request->tipo == 'general'){
+        if($tipo == 'general'){
             $proyectos = Proyectogeneral::whereRaw($request->persona_id ? 'persona_id = '.$request->persona_id : 1)
                             ->whereRaw($request->inicio ? 'date(fecharegistro) >= "'.$request->inicio.'"' : 1)
                             ->whereRaw($request->fin ? 'date(fecharegistro) <= "'.$request->fin.'"' : 1)
@@ -31,6 +31,11 @@ class ConsultasController extends Controller
                             ->whereRaw($request->inicio ? 'date(fecharegistro) >= "'.$request->inicio.'"' : 1)
                             ->whereRaw($request->fin ? 'date(fecharegistro) <= "'.$request->fin.'"' : 1)
                             ->where('deleted_at', NULL)->get();
+        }
+        if ($request->type == 'pdf') {
+            // return view('reportes.proyectos_pdf', compact('proyectos', 'tipo'));
+            $pdf = \PDF::loadview('reportes.proyectos_pdf', compact('proyectos', 'tipo'));
+            return $pdf->stream('Reporte de proyectos.pdf');
         }
         return view('reportes.proyectos_list', compact('proyectos', 'tipo'));
     }
@@ -44,6 +49,11 @@ class ConsultasController extends Controller
                     ->whereRaw($request->inicio ? 'date(fecharegistro) >= "'.$request->inicio.'"' : 1)
                     ->whereRaw($request->fin ? 'date(fecharegistro) <= "'.$request->fin.'"' : 1)
                     ->where('deleted_at', NULL)->get();
+        if ($request->type == 'pdf') {
+            // return view('reportes.ventas_pdf', compact('ventas'));
+            $pdf = \PDF::loadview('reportes.ventas_pdf', compact('ventas'));
+            return $pdf->stream('Reporte de ventas.pdf');
+        }
         return view('reportes.ventas_list', compact('ventas'));
     }
 
@@ -55,6 +65,11 @@ class ConsultasController extends Controller
         $pagos = PersonasPago::where('persona_id', $request->persona_id)
                             // ->whereRaw($request->gestion_id ? 'gestion_id = '.$request->gestion_id : 1)
                             ->where('deleted_at', NULL)->get();
+        if ($request->type == 'pdf') {
+            // return view('reportes.mensualidades_pdf', compact('pagos'));
+            $pdf = \PDF::loadview('reportes.mensualidades_pdf', compact('pagos'));
+            return $pdf->stream('Reporte de mensualidades.pdf');
+        }
         return view('reportes.mensualidades_list', compact('pagos'));
     }
 }

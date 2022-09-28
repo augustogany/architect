@@ -31,7 +31,8 @@
               <tr>
                 <th>De</th>
                 <th>A</th>
-                <th>Costo</th>
+                <th>Arancel</th>
+                <th>Porcentaje</th>
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -40,10 +41,11 @@
                 <tr>
                   <td>{{ $item->mt2_inicio }}</td>
                   <td>{{ $item->mt2_fin }}</td>
-                  <td>{{ number_format($item->costo_pu, 2 , ',', '.') }}</td>
+                  <td>{{ number_format($item->arancel, 4 , ',', '.') }}</td>
+                  <td>{{ number_format($item->porcentaje_cab, 4 , ',', '.') }}</td>
                   <td>
                     @can('categoria_urbanizacion.edit')
-                    <a href="{{ route('categoriaurbanizacion.edit', $item->id) }}" title="Editar" class="btn btn-success"><i class="fas fa-edit"></i></a>
+                    <a href="{{ route('categoriaurbanizacion.edit', $item->id) }}" title="Editar" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                     @endcan
                   </td>
                 </tr>
@@ -55,7 +57,7 @@
           <div class="float-right d-none d-sm-block">
             <b>Version</b> 1.2
           </div>
-          <strong>Copyright &copy; 2022 <a href="#">C@DBENI</a>.</strong> Todos los derechos reservados.
+          <strong>Copyright &copy; 2022 <a href="#">CADBENI</a>.</strong> Todos los derechos reservados.
         </div>
       </div>
     </div>
@@ -73,28 +75,36 @@
             <div class="modal-body">
               <!-- === -->
               <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                   <div class="form-group">
                     <div class="form-line">
                       <input type="number" class="form-control form-control-sm" required id="mts2" min="0" placeholder=" Ingresar Mt2." autocomplete="off">
                     </div>
-                    <small>Superficie Mt2.</small>
+                    <small>Superficie Mt2</small>
                   </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                   <div class="form-group">
-                      <div class="form-line">
-                          <input type="text" readonly id="costo" class="form-control form-control-sm" required placeholder="Precio Categoría" autocomplete="off">
-                      </div>
-                      <small>Precio Categoría.</small>
+                    <div class="form-line">
+                      <input type="text" class="form-control form-control-sm" readonly id="arancel" placeholder="Costo Bs.">
+                    </div>
+                    <small>Arancel Bs.</small>
                   </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <div class="form-line">
+                      <input type="text" class="form-control form-control-sm" readonly id="porcentaje" placeholder="Costo Bs.">
+                    </div>
+                    <small>Porcentaje</small>
+                  </div>
+                </div>
+                <div class="col-sm-6">
                   <div class="form-group">
                     <div class="form-line">
                       <input type="text" class="form-control form-control-sm" readonly id="totalbs" placeholder="Costo Bs.">
                     </div>
-                    <small>Costo Superficie Mt2.</small>
+                    <small>Costo total Bs.</small>
                   </div>
                 </div>
               </div>
@@ -147,8 +157,9 @@
           });
 
           if(categoria){
-            $('#costo').val(new Intl.NumberFormat().format(parseFloat(categoria.costo_pu).toFixed(2)));
-            $('#totalbs').val(new Intl.NumberFormat().format(parseFloat(cantidad * categoria.costo_pu).toFixed(2)));
+            $('#arancel').val(new Intl.NumberFormat().format(parseFloat(categoria.arancel).toFixed(4)));
+            $('#porcentaje').val(new Intl.NumberFormat().format(parseFloat(categoria.porcentaje_cab).toFixed(4)));
+            $('#totalbs').val(new Intl.NumberFormat().format(parseFloat(cantidad * categoria.arancel * categoria.porcentaje_cab).toFixed(4)));
           }else{
             $('#costo').val('');
             $('#totalbs').val('');

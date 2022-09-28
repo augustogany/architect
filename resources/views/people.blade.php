@@ -68,7 +68,10 @@
                                         </div> --}}
                                     </div>
                                     <div class="member-info">
-                                        <h4>{{ $item->nombre_completo }}</h4>
+                                        <h4>
+                                            {{ $item->nombre_completo }} <br>
+                                            <small>N&deg;{{ $item->user->persona->numeroregistro }}</small>
+                                        </h4>
                                         <span>{{ $item->telefono }}</span>
                                         <span>{{ $item->email }}</span>
                                     </div>

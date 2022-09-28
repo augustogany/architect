@@ -72,6 +72,10 @@
                 <td style="width: 200px"><b><small>Cédula de identidad:</small></b></td>
                 <td>{{ $proyecto->persona->ci ?? '' }}</td>
             </tr>
+            <tr>
+                <td style="width: 200px"><b><small>Propietario del proyecto:</small></b></td>
+                <td>{{ $proyecto->propietario }}</td>
+            </tr>
         </table>
     </div>
     <div class="body">

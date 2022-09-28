@@ -42,7 +42,7 @@
                     <td>{{ $item->estado }}</td>
                     <td>
                       @can('tiposervicio.edit')
-                      <a href="{{ route('tiposervicios.edit', $item->id) }}" title="Editar tipo de servicio." class="btn btn-outline-success"><i class="fas fa-edit"></i></a>
+                      <a href="{{ route('tiposervicios.edit', $item->id) }}" title="Editar tipo de servicio." class="btn btn-primary btn-sm "><i class="fas fa-edit"></i></a>
                       @endcan
                       
                       @can('tiposervicio.destroy')
@@ -61,7 +61,7 @@
             <div class="float-right d-none d-sm-block">
               <b>Version</b> 1.2
             </div>
-            <strong>Copyright &copy; 2022 <a href="#">C@DBENI</a>.</strong> Todos los derechos reservados.
+            <strong>Copyright &copy; 2022 <a href="#">CADBENI</a>.</strong> Todos los derechos reservados.
           </div>
         </div>
     </div>

@@ -44,7 +44,7 @@
                     <td>{{$item->observacion}}</td>
                     <td>
                       {{-- @can('categoria_general.edit') --}}
-                      <a href="{{route('gestiones.edit',$item->id)}}" class="btn btn-outline-success" title="Editar gestión"><i class="fas fa-edit"></i></a>
+                      <a href="{{route('gestiones.edit',$item->id)}}" class="btn btn-primary btn-sm" title="Editar gestión"><i class="fas fa-edit"></i></a>
                       {{-- @endcan --}}
                     </td>
                   </tr>
@@ -59,7 +59,7 @@
             <div class="float-right d-none d-sm-block">
               <b>Version</b> 1.2
             </div>
-            <strong>Copyright &copy; 2022 <a href="#">C@DBENI</a>.</strong> Todos los derechos reservados.
+            <strong>Copyright &copy; 2022 <a href="#">CADBENI</a>.</strong> Todos los derechos reservados.
           </div>
         </div>
     </div>

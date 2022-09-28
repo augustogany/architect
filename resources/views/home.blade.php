@@ -101,13 +101,13 @@
                                     <h5 class="text-right text-muted">Datos profesionales</h5>
                                   </div>
                                   <div class="row">
-                                    <div class="col-md-10 mt-3">
+                                    <div class="col-md-9 mt-3">
                                       <label class="labels">Hoja de vida</label>
                                       <input type="file" name="cv" class="form-control" accept="application/pdf">
                                     </div>
-                                    <div class="col-md-2 mt-3" style="padding-top: 40px">
+                                    <div class="col-md-3 mt-3" style="padding-top: 40px">
                                       @if ($perfil->cv)
-                                        <a href="{{ url('storage/'.$perfil->cv) }}" target="_blank">Ver</a>
+                                        <a href="{{ url('storage/'.$perfil->cv) }}" target="_blank">Ver <i class="fas fa-search"></i> </a>
                                       @endif
                                     </div>
                                   </div>

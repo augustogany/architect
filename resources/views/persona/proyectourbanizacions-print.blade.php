@@ -72,6 +72,10 @@
                 <td style="width: 200px"><b><small>Cédula de identidad:</small></b></td>
                 <td>{{ $proyecto->persona->ci ?? '' }}</td>
             </tr>
+            <tr>
+                <td style="width: 200px"><b><small>Propietario del proyecto:</small></b></td>
+                <td>{{ $proyecto->propietario }}</td>
+            </tr>
         </table>
     </div>
     <div class="body">
@@ -91,7 +95,7 @@
                 @endphp
                 <tr>
                     <td>1</td>
-                    <td>{{ $proyecto->nombre }}</td>
+                    <td>{{ $proyecto->proyecto }}</td>
                     <td style="text-align: right">{{ number_format($proyecto->costocategoria, 2, ',', '.') }}</td>
                     <td style="text-align: right">{{ intval($proyecto->superficiemts2) }}</td>
                     <td style="text-align: right">{{ number_format($proyecto->totalbs, 2, ',', '.') }}</td>

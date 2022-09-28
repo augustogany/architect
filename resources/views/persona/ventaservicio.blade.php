@@ -35,10 +35,19 @@
                                             <td>{{ $item->sucursal->sucursal }}</td>
                                             <td>{{ date('d/M/Y', strtotime($item->fecharegistro)) }}</td>
                                             <td>{{ $item->detalle->count() + ($item->persona_pago ? 1 : 0) }}</td>
-                                            <td>{{ number_format($item->detalle->sum('precio') * $item->detalle->sum('cantidad'), 2, ',', '.') }}</td>
+                                            <td>
+                                                @php
+                                                    $total = 0;
+                                                    foreach($item->detalle as $detalle){
+                                                        $total += $detalle->precio * $detalle->cantidad;
+                                                    }
+                                                @endphp
+                                                {{ number_format($total, 2, ',', '.') }}
+                                            </td>
                                             <td>{{ $item->observacion }}</td>
                                             <td>
                                                 <a href="{{ route('personas.ventaservicio.print', $item->id) }}" target="_blank" title="Imprimir" class="btn btn-outline-success btn-sm"><i class="fas fa-print"></i></a>
+                                                <button title="Eliminar" data-toggle="modal" data-target="#modal-delete" type="button" class="btn btn-danger btn-sm btn-delete" data-id="{{ $item->id }}"><i class="fas fa-trash text-white"></i></button>
                                             </td>
                                         </tr>
                                     @empty
@@ -158,6 +167,33 @@
             </div>
         </div>
     </form>
+
+    <div class="modal fade modal-slide-in-right" aria-hidden="true" role="dialog" tabindex="-1" id="modal-delete">
+        <div class="modal-dialog">
+            <div class="modal-content bg-danger">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmar si desea aplicar acción!</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hiden="true">x</span>
+                    </button>
+                </div>
+        
+                <form action="{{ route('personas.ventaservicio.destroy', $id) }}" method="POST" id="deleteForm">
+                    @csrf
+                    <input type="hidden" name="id">
+                    <div class="modal-body">
+                        <h5>¿Desea anular este registro de venta?</h5>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-outline-light" data-dismiss="modal">cerrar</button>
+                        <button type="submit" class="btn btn-outline-light">Confirmar</button>
+                    </div>
+                </form>
+            
+        
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push ('styles')
@@ -237,6 +273,11 @@
                     }
                 }
                 calcularTotal();
+            });
+
+            $('.btn-delete').click(function(){
+                let id = $(this).data('id');
+                $('#deleteForm input[name="id"]').val(id)
             });
         });
 

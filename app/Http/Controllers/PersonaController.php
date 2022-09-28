@@ -351,10 +351,44 @@ class PersonaController extends Controller
     }
 
     public function pagomensualidad_destroy($id, Request $request){
-        $pago = PersonasPago::where('id', '>', $request->id)->where('deleted_at', NULL)->first();
-        // dd($pago);
-        toast('Pago eliminado con éxito','success');
-        return redirect()->route('personas.pagomensualidad.index', $id);
+        DB::beginTransaction();
+        try {
+            $pago = PersonasPago::where('id', '>', $request->id)->where('persona_id', $id)->where('deleted_at', NULL)->first();
+            if($pago){
+                toast('No puede eliminar el pago','error');
+                return redirect()->route('personas.pagomensualidad.index', $id);    
+            }
+
+            $pago = PersonasPago::find($request->id);
+            $mensualidad = $pago->mensualidades[0];
+            if($mensualidad->mes == 1){
+                $ultima_gestion = Gestion::where('deleted_at', NULL)->where('gestion', '<', $mensualidad->gestion->gestion)->orderBy('gestion', 'DESC')->first();
+                $ultimo_pago = $ultima_gestion->gestion.'-12';
+            }else{
+                $ultimo_pago = $mensualidad->gestion->gestion.'-'.str_pad($mensualidad->mes -1, 2, "0", STR_PAD_LEFT);
+            }
+
+            $persona = Persona::find($id);
+            $persona->ultimo_pago = $ultimo_pago;
+            $persona->update();
+
+            $pago->deleted_at = Carbon::now();
+            $pago->update();
+
+            PersonasPagosMensualidades::where('personas_pago_id', $pago->id)->update([
+                'deleted_at' => Carbon::now()
+            ]);
+
+            DB::commit();
+
+            toast('Pago eliminado con éxito','success');
+            return redirect()->route('personas.pagomensualidad.index', $id);
+        } catch (\Throwable $th) {
+            DB::rollback();
+            throw $th;
+            toast('Ocurrió un error','error');
+            return redirect()->route('personas.pagomensualidad.index', $id);
+        }
     }
 
     // ====================================================
@@ -437,9 +471,33 @@ class PersonaController extends Controller
 
     public function ventaservicio_print($id){
         $venta = Ventaservicio::find($id);
-        // return view('persona.ventaservicio-print', compact('venta'));
+        return view('persona.ventaservicio-print', compact('venta'));
         $pdf = \PDF::loadview('persona.ventaservicio-print', compact('venta'));
         return $pdf->stream('Recibo de pago de servicio.pdf');
+    }
+
+    public function ventaservicio_destroy($id, Request $request){
+        // dd($request->all());
+        DB::beginTransaction();
+        try {
+            $venta = Ventaservicio::find($request->id);
+            $venta->deleted_at = Carbon::now();
+            $venta->update();
+
+            Detalleventaservicio::where('ventaservicio_id', $venta->id)->update([
+                'deleted_at' => Carbon::now()
+            ]);
+
+            DB::commit();
+            toast('Registro de venta anulado con éxito!','success');
+            return redirect()->route('personas.ventaservicio.index', $id);
+
+        } catch (\Throwable $th) {
+            DB::rollback();
+            // dd($th);
+            toast('Ocurrió un error','error');
+            return redirect()->route('personas.ventaservicio.index', $id);
+        }
     }
 
     // ===================================
@@ -553,6 +611,16 @@ class PersonaController extends Controller
         return $pdf->stream('Recibo de registro de proyecto.pdf');
     }
 
+    public function proyectogenerales_destroy($id, Request $request){
+        // dd($request->all());
+        $proyecto = Proyectogeneral::find($request->id);
+        $proyecto->deleted_at = Carbon::now();
+        $proyecto->update();
+
+        toast('Proyecto anulado con éxito!','success');
+        return redirect()->route('personas.proyectogenerales.index', $id);
+    }
+
     // ===================================
 
     function proyectourbanizacions_index($id){
@@ -573,11 +641,11 @@ class PersonaController extends Controller
                 'sucursal_id' => $request->sucursal_id,
                 'persona_id' => $id,
                 'categoriaurbanizacion_id' => $request->categoriaurbanizacion_id,
-                'costo_pu_categoria' => $request->costo_pu_categoria,
+                'costo_pu_categoria' => 0,
                 'proyecto' => $request->proyecto,
                 'propietario' => $request->propietario,
                 'superficiemts2' => $request->superficiemts2,
-                'totalbs' => floatval($request->costo_pu_categoria) * $request->superficiemts2,
+                'totalbs' => $request->totalbs,
                 'descuento' => 0,
                 'fecharegistro' => $request->fecharegistro,
                 'archivo' => $this->agregar_archivo($request->archivo, 'proyectourbanizacions'),
@@ -660,9 +728,19 @@ class PersonaController extends Controller
 
     public function proyectourbanizacions_print($id){
         $proyecto = Proyectourbanizacion::find($id);
-        // return view('persona.proyectogenerales-print', compact('proyecto'));
-        $pdf = \PDF::loadview('persona.proyectogenerales-print', compact('proyecto'));
+        // return view('persona.proyectourbanizacions-print', compact('proyecto'));
+        $pdf = \PDF::loadview('persona.proyectourbanizacions-print', compact('proyecto'));
         return $pdf->stream('Recibo de registro de proyecto.pdf');
+    }
+
+    public function proyectourbanizacions_destroy($id, Request $request){
+        // dd($request->all());
+        $proyecto = Proyectourbanizacion::find($request->id);
+        $proyecto->deleted_at = Carbon::now();
+        $proyecto->update();
+
+        toast('Proyecto anulado con éxito!','success');
+        return redirect()->route('personas.proyectourbanizacions.index', $id);
     }
 
     // ===================================

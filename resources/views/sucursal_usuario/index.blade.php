@@ -39,7 +39,7 @@
                               <td>{{$sucursales_usuario->sucursal}}</td>
                               <td>{{$sucursales_usuario->name}}</td>
                               <td>
-                                 <a data-target="#modal-delete{{$sucursales_usuario->id}}" data-toggle="modal" title="Eliminar asignación de sucursal" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                 <a data-target="#modal-delete{{$sucursales_usuario->id}}" data-toggle="modal" title="Eliminar asignación de sucursal" class="btn btn-danger btn-sm text-white"><i class="fas fa-trash"></i></a>
                               </td>
                             </tr>
                             @include("sucursal_usuario.modal")

@@ -48,9 +48,9 @@
                               <td>{{$sucursal->sucursal}}</td>
                               <td>{{$sucursal->ubicacion}}</td>
                               <td style="width: 120px">
-                                <a href="{{route('sucursales.edit',$sucursal->id)}}" title="Editar sucursal" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                                <a href="{{route('sucursales.edit',$sucursal->id)}}" title="Editar sucursal" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
 
-                                <a data-target="#modal-delete{{$sucursal->id}}" data-toggle="modal" title="Eliminar sucursal" type="button" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                <a data-target="#modal-delete{{$sucursal->id}}" data-toggle="modal" title="Eliminar sucursal" type="button" class="btn btn-danger btn-sm text-white"><i class="fas fa-trash"></i></a>
                               </td>
                             </tr>
                             @include('sucursales.modal')

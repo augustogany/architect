@@ -37,15 +37,15 @@
 
                                 <td style="width: 120pt">
                                     @can('roles.show')
-                                    <a href="{{ route('roles.show', $role->id) }}" title="Ver Rol" class="btn btn-primary"><i class="fas fa-eye"></i></a>
+                                    <a href="{{ route('roles.show', $role->id) }}" title="Ver Rol" class="btn btn-warning btn-sm"><i class="fas fa-eye"></i></a>
                                     @endcan
 
                                     @can('roles.edit')
-                                    <a href="{{ route('roles.edit', $role->id) }}" title="Editar Rol" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                                    <a href="{{ route('roles.edit', $role->id) }}" title="Editar Rol" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                     @endcan
 
                                     @can('roles.destroy')
-                                    <a data-target="#modal-delete{{$role->id}}" data-toggle="modal" title="Eliminar usuario" type="button" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                    <a data-target="#modal-delete{{$role->id}}" data-toggle="modal" title="Eliminar usuario" type="button" class="btn btn-danger btn-sm text-white"><i class="fas fa-trash"></i></a>
                                     @endcan
                                 </td>
                             </tr>

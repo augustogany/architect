@@ -74,7 +74,6 @@ class ProyectourbanizacionController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request);
         $monto_inicial = $request->visado_bs;
         $descuento = $request->descuento;
 

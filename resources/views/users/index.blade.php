@@ -35,15 +35,15 @@
 
                                 <td style="width: 120pt">
                                     @can('users.show')
-                                    <a href="{{ route('users.show', $user->id) }}" title="Ver usuario" class="btn btn-primary"><i class="fas fa-eye"></i></a>
+                                    <a href="{{ route('users.show', $user->id) }}" title="Ver usuario" class="btn btn-warning btn-sm"><i class="fas fa-eye"></i></a>
                                     @endcan
 
                                     @can('users.edit')
-                                    <a href="{{ route('users.edit', $user->id) }}" title="Editar usuario" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                                    <a href="{{ route('users.edit', $user->id) }}" title="Editar usuario" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                     @endcan
 
                                     @can('users.destroy')
-                                    <a data-target="#modal-delete{{$user->id}}" data-toggle="modal" title="Eliminar usuario" type="button" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                    <a data-target="#modal-delete{{$user->id}}" data-toggle="modal" title="Eliminar usuario" type="button" class="btn btn-danger btn-sm text-white"><i class="fas fa-trash"></i></a>
                                     @endcan
                                 </td>
                             </tr>
