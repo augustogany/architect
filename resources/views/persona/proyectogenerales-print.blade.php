@@ -11,6 +11,7 @@
         body {
             margin: 0px;
             font-family: 'Trebuchet MS', sans-serif;
+            font-size: 11px
         }
         .header{
             padding: 30px 20px;
@@ -44,8 +45,8 @@
                 <td>
                     <span><b style="font-size: 20px">CADBENI</b></span>
                     <p>COLEGIO DE ARQUITECTOS DEL BENI</p>
-                    <p>456464 - 785454</p>
-                    <p>Av. 6 de agosto N&deg; 454, zona Central</p>
+                    <p>346 - 21299</p>
+                    <p>Avenida 6 de agosto #541 - Zona San Antonio</p>
                     <p>Santísima Trinidad - Beni - Bolivia</p>
                 </td>
                 <td style="text-align: right">
@@ -76,10 +77,14 @@
                 <td style="width: 200px"><b><small>Propietario del proyecto:</small></b></td>
                 <td>{{ $proyecto->propietario }}</td>
             </tr>
+            <tr>
+                <td style="width: 200px"><b><small>Fecha:</small></b></td>
+                <td>{{ date('d/m/Y', strtotime($proyecto->fecharegistro)) }}</td>
+            </tr>
         </table>
     </div>
     <div class="body">
-        <table border="1" style="width: 100%" cellpadding="5">
+        <table border="1" style="width: 100%" cellpadding="3">
             <thead>
                 <tr>
                     <th>N&deg;</th>

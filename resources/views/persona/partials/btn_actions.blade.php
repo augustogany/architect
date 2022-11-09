@@ -2,7 +2,7 @@
     <button class="btn btn-outline-success btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-plus"></i></button>
     <div class="dropdown-menu">
         <a href="{{ route('personas.pagomensualidad.index', $id) }}" title="Pagos de mensualidad" class="dropdown-item">Pagos de mensualidad</a>
-        <a href="{{ route('personas.proyectogenerales.index', $id) }}" title="Proyectos generales" class="dropdown-item">Proyectos generales</a>
+        <a href="{{ route('personas.proyectogenerales.index', $id) }}" title="Proyectos generales" class="dropdown-item">Visaciones</a>
         <a href="{{ route('personas.proyectourbanizacions.index', $id) }}" title="Proyectos de urbanización" class="dropdown-item">Proyectos de urbanización</a>
         <a href="{{ route('personas.ventaservicio.index', $id) }}" title="Venta de carpetas" class="dropdown-item">Venta de carpetas</a>
     </div>

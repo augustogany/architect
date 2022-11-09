@@ -25,7 +25,7 @@
                                         <th>Proyecto</th>
                                         <th>Precio unit.</th>
                                         <th>Total</th>
-                                        {{-- <th>Observaciones</th> --}}
+                                        <th>Archivos</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
@@ -39,6 +39,19 @@
                                             <td>{{ number_format($item->costo_pu_categoria, 2, ',', '.') }}</td>
                                             <td>{{ number_format($item->totalbs, 2, ',', '.') }}</td>
                                             {{-- <td>{{ $item->observacion }}</td> --}}
+                                            <td>
+                                                @php
+                                                    $cont = 1;
+                                                @endphp
+                                                @forelse (json_decode($item->archivo) as $archivo)
+                                                    <a href="{{ url('storage/'.$archivo) }}" target="_blank">Archivo {{ $cont }}</a> <br>
+                                                    @php
+                                                        $cont++;
+                                                    @endphp
+                                                @empty
+                                                    <span>Ninguno</span>
+                                                @endforelse
+                                            </td>
                                             <td>
                                                 <a href="{{ route('personas.proyectourbanizacions.print', $item->id) }}" target="_blank" title="Imprimir" class="btn btn-outline-success btn-sm"><i class="fas fa-print"></i></a>
                                                 <a href="#" data-toggle="modal" data-target="#modal-edit-add" data-item='@json($item)' title="Editar" class="btn btn-primary btn-sm btn-edit"><i class="fas fa-edit"></i></a>
@@ -76,7 +89,7 @@
                             <input type="hidden" name="id">
                             <div class="form-group col-md-6 input-add">
                                 <label for="superficiemts2">Superficie en m<sup>2</sup></label>
-                                <input type="number" name="superficiemts2" id="input-superficiemts2" class="form-control" value="" required>
+                                <input type="number" name="superficiemts2" id="input-superficiemts2" step="0.1" class="form-control" value="" required>
                             </div>
                             {{-- <div class="form-group col-md-4 input-add">
                                 <label for="input-precio">Precio por m<sup>2</sup></label>
@@ -96,7 +109,7 @@
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <label for="propietario">Documento</label>
-                                                <input type="file" name="archivo" class="form-control" accept="application/pdf">
+                                                <input type="file" name="archivo[]" multiple class="form-control" accept="application/pdf">
                                             </div>
                                         </div>
                                     </div>
@@ -294,9 +307,3 @@
         }
     </script>
 @endpush
-
-
-
-
-
-

@@ -471,7 +471,7 @@ class PersonaController extends Controller
 
     public function ventaservicio_print($id){
         $venta = Ventaservicio::find($id);
-        return view('persona.ventaservicio-print', compact('venta'));
+        // return view('persona.ventaservicio-print', compact('venta'));
         $pdf = \PDF::loadview('persona.ventaservicio-print', compact('venta'));
         return $pdf->stream('Recibo de pago de servicio.pdf');
     }
@@ -514,6 +514,14 @@ class PersonaController extends Controller
         DB::beginTransaction();
         try {
 
+            $archivos = [];
+
+            if($request->archivo){
+                for ($i=0; $i < count($request->archivo); $i++) { 
+                    array_push($archivos, $this->agregar_archivo($request->archivo[$i], 'proyectogenerales'));
+                }
+            }
+
             $proyecto = Proyectogeneral::create([
                 'user_id' => Auth::user()->id,
                 'sucursal_id' => $request->sucursal_id,
@@ -526,7 +534,7 @@ class PersonaController extends Controller
                 'totalbs' => floatval($request->costocategoria) * $request->superficiemts2,
                 'descuento' => 0,
                 'fecharegistro' => $request->fecharegistro,
-                'archivo' => $this->agregar_archivo($request->archivo, 'proyectogenerales'),
+                'archivo' => json_encode($archivos),
             ]);
 
             // En caso de pagar alguna gestion en el registro de proyecto
@@ -586,7 +594,13 @@ class PersonaController extends Controller
             $proyecto->fecharegistro = $request->fecharegistro;
 
             if($request->archivo){
-                $proyecto->archivo = $this->agregar_archivo($request->archivo, 'proyectogenerales');
+                $archivos = json_decode($proyecto->archivo);
+                if($request->archivo){
+                    for ($i=0; $i < count($request->archivo); $i++) { 
+                        array_push($archivos, $this->agregar_archivo($request->archivo[$i], 'proyectogenerales'));
+                    }
+                }
+                $proyecto->archivo = json_encode($archivos);
             }
             $proyecto->estado = $request->estado ? 'terminado' : 'pendiente';
             $proyecto->save();
@@ -636,6 +650,14 @@ class PersonaController extends Controller
         DB::beginTransaction();
         try {
 
+            $archivos = [];
+
+            if($request->archivo){
+                for ($i=0; $i < count($request->archivo); $i++) { 
+                    array_push($archivos, $this->agregar_archivo($request->archivo[$i], 'proyectourbanizacions'));
+                }
+            }
+
             $proyecto = Proyectourbanizacion::create([
                 'user_id' => Auth::user()->id,
                 'sucursal_id' => $request->sucursal_id,
@@ -648,7 +670,7 @@ class PersonaController extends Controller
                 'totalbs' => $request->totalbs,
                 'descuento' => 0,
                 'fecharegistro' => $request->fecharegistro,
-                'archivo' => $this->agregar_archivo($request->archivo, 'proyectourbanizacions'),
+                'archivo' => json_encode($archivos),
             ]);
 
             // En caso de pagar alguna gestion en el registro de proyecto
@@ -708,7 +730,13 @@ class PersonaController extends Controller
             $proyecto->fecharegistro = $request->fecharegistro;
 
             if($request->archivo){
-                $proyecto->archivo = $this->agregar_archivo($request->archivo, 'proyectourbanizacions');
+                $archivos = json_decode($proyecto->archivo);
+                if($request->archivo){
+                    for ($i=0; $i < count($request->archivo); $i++) { 
+                        array_push($archivos, $this->agregar_archivo($request->archivo[$i], 'proyectourbanizacions'));
+                    }
+                }
+                $proyecto->archivo = json_encode($archivos);
             }
             $proyecto->estado = $request->estado ? 'terminado' : 'pendiente';
             $proyecto->save();

@@ -64,6 +64,8 @@ Route::middleware(['auth'])->group(function () {
 	//Personas - Arquitectos
 	Route::resource('personas','PersonaController');
 
+	Route::resource('galerias','GaleriaController');
+
 	Route::get('personas/{id}/pagomensualidad','PersonaController@pagomensualidad_index')->name('personas.pagomensualidad.index');
 	Route::get('personas/{id}/pagomensualidad/list/{gestion_id}','PersonaController@pagomensualidad_list');
 	Route::post('personas/{id}/pagomensualidad/store','PersonaController@pagomensualidad_store')->name('personas.pagomensualidad.store');

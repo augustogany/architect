@@ -10,9 +10,6 @@ use App\Perfil;
 use App\Persona;
 use App\user;
 use DB;
-use Intervention\Image\ImageManagerStatic as Image;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class PerfilusuarioController extends Controller
 {
@@ -93,7 +90,7 @@ class PerfilusuarioController extends Controller
             $perfil->email = $request->email;
             $perfil->direccion = $request->direccion;
             if($request->imagen){
-                $perfil->imagen = $this->agregar_imagenes($request->imagen);
+                $perfil->imagen = $this->agregar_imagenes($request->imagen, 'perfil');
             }
             if($request->cv){
                 $perfil->cv = $this->agregar_archivo($request->cv, 'cv');
@@ -134,33 +131,5 @@ class PerfilusuarioController extends Controller
 
         $pdf = \PDF::loadview('pdf.deudores', compact('deudores'));
         return $pdf->stream('LISTA DEUDORES - '.date('d-m-Y').'.pdf');
-    }
-
-    public function agregar_imagenes($file){
-        Storage::makeDirectory('perfil/'.date('F').date('Y'));
-        $base_name = Str::random(20);
-
-        // imagen normal
-        $filename = $base_name.'.'.$file->getClientOriginalExtension();
-        $image_resize = Image::make($file->getRealPath())->orientate();
-        $image_resize->fit(1000, null, function ($constraint) {
-            $constraint->aspectRatio();
-            $constraint->upsize();
-        });
-        $path =  'perfil/'.date('F').date('Y').'/'.$filename;
-        $image_resize->save(public_path('storage/'.$path));
-        $imagen = $path;
-
-        // imagen pequeña
-        $filename_small = $base_name.'_small.'.$file->getClientOriginalExtension();
-        $image_resize = Image::make($file->getRealPath())->orientate();
-        $image_resize->fit(256, 256, function ($constraint) {
-            $constraint->aspectRatio();
-            $constraint->upsize();
-        });
-        $path_small = 'perfil/'.date('F').date('Y').'/'.$filename_small;
-        $image_resize->save(public_path('storage/'.$path_small));
-
-        return $imagen;
     }
 }

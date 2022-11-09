@@ -50,6 +50,10 @@
                 @can('categoria_urbanizacion.index')
                 <li><a href="{{route('categoriaurbanizacion.index')}}" class="dropdown-item"><i class="fas fa-list-alt"></i> Urbanizaciones</a></li>
                 @endcan
+                <li class="dropdown-divider"></li>
+                @can('categoria_general.index')
+                <li><a href="{{ route('galerias.index') }}" class="dropdown-item"><i class="far fa-images"></i> Galería</a></li>
+                @endcan
             </ul>
         </li>
         @endcan
