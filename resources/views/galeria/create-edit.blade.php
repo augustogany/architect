@@ -37,10 +37,12 @@
                                 <div class="form-group">
                                     <div class="form-line">
                                         <select name="tipo" id="select-tipo" class="form-control form-control-sm" required>
-                                            <option value="Construcciones civiles">Construcciones civiles</option>
+                                            @foreach (App\Galeria::where('deleted_at', NULL)->groupBy('tipo')->get() as $item)
+                                            <option value="{{ $item->tipo }}">{{ $item->tipo }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
-                                    <small>Sucursal</small>
+                                    <small>Categoría</small>
                                 </div>
                             </div>
                             <!-- === -->
@@ -82,11 +84,19 @@
 </form>
 @endsection
 
+@push ('styles')
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{asset('theme/plugins/select2/css/select2.min.css')}}">
+@endpush
+
 @push ('script')
+    <!-- Select2 -->
+    <script src="{{asset('theme/plugins/select2/js/select2.full.min.js')}}"></script>
     <script>
         $(document).ready(function(){
+            $('#select-tipo').select2({tags: true});
             @isset($imagen)
-                $('#select-tipo').val('{{ $imagen->tipo }}')
+                $('#select-tipo').val('{{ $imagen->tipo }}').trigger('change');
             @endisset
         });
     </script>
