@@ -106,9 +106,9 @@
                         <div class="col-sm-2">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" readonly id="visado_sus" name="visado_sus" value="{{$proyectourbanizacion->visado_sus_categoria}}" class="form-control form-control-sm" required placeholder="Visado $US." autocomplete="off">
+                                    <input type="text" readonly id="visado_sus" name="visado_sus" value="{{$proyectourbanizacion->visado_sus_categoria}}" class="form-control form-control-sm" required placeholder="Visado Bs." autocomplete="off">
                                 </div>
-                                <small>Visado $US.</small>
+                                <small>Visado Bs.</small>
                             </div>
                         </div>
                         <!-- === -->

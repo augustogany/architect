@@ -31,11 +31,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @php
+                                        $months = ['', 'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+                                    @endphp
                                     @forelse ($pagos as $item)
                                         <tr>
                                             <td>{{ str_pad($item->id, 5, "0", STR_PAD_LEFT) }}</td>
                                             <td>{{ $item->sucursal->sucursal }}</td>
-                                            <td>{{ date('d/M/Y', strtotime($item->fecha_pago)) }}</td>
+                                            <td>{{ date('d', strtotime($item->fecha_pago)).'/'.$months[intval(date('m', strtotime($item->fecha_pago)))].'/'.date('Y', strtotime($item->fecha_pago)) }}</td>
                                             <td>{{ $item->mensualidades->count() }}</td>
                                             <td>{{ number_format($item->mensualidades->sum('monto_pagado'), 2, ',', '.') }}</td>
                                             <td>{{ number_format($item->descuento, 2, ',', '.') }}</td>
@@ -310,9 +313,9 @@
                 });
 
                 let monto_descuento = 0;
-                if(descuento){
-                    monto_descuento = descuento.monto;
-                }
+                // if(descuento){
+                //     monto_descuento = descuento.monto;
+                // }
 
                 let subtotal = cont * mensualidad
                 $('#label-subtotal').text(parseFloat(subtotal).toFixed(2));

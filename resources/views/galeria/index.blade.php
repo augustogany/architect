@@ -41,7 +41,11 @@
                     <td>{{ $item->tipo }}</td>
                     <td>{{ $item->titulo }}</td>
                     <td>{{ $item->detalles }}</td>
-                    <td></td>
+                    <td>
+                      @if ($item->archivo)
+                        <img src="{{ asset('storage/'.$item->archivo) }}" width="80px" alt="">
+                      @endif
+                    </td>
                     <td>
                       {{-- @can('categoria_general.edit') --}}
                       <a href="{{route('galerias.edit',$item->id)}}" class="btn btn-primary btn-sm" title="Editar gestión"><i class="fas fa-edit"></i></a>

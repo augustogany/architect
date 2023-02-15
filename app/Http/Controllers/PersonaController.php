@@ -49,17 +49,18 @@ class PersonaController extends Controller
 
     public function getPersona()
     {
+        $months = ['', 'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
         return datatables()
             ->eloquent(Persona::query()->orderBy('apaterno'))
             ->addColumn('btn_actions', 'persona.partials.btn_actions')
             ->addColumn('nombre_completo', function($row){
                 return $row->nombre.' '.$row->apaterno.' '.$row->amaterno;
             })
-            ->addColumn('fecha_afiliacion', function($row){
+            ->addColumn('fecha_afiliacion', function($row) use($months){
                 if(!$row->fecha_afiliacion) return null;
-                return date('d/M/Y', strtotime($row->fecha_afiliacion));
+                return date('d', strtotime($row->fecha_afiliacion)).'/'.$months[intval(date('m', strtotime($row->fecha_afiliacion)))].'/'.date('Y', strtotime($row->fecha_afiliacion));
             })
-            ->addColumn('ultimo_pago', function($row){
+            ->addColumn('ultimo_pago', function($row) use($months){
                 if(!$row->ultimo_pago) return null;
 
                 $ultimo_pago = Carbon::parse($row->ultimo_pago)->floorMonth();
@@ -67,7 +68,7 @@ class PersonaController extends Controller
                 $anios = intval($ultimo_pago->diffInMonths($fecha_actual) / 12);
                 $meses = $ultimo_pago->diffInMonths($fecha_actual) % 12;
                 return '
-                    '.date('M \d\e Y', strtotime($row->ultimo_pago)).' <br>
+                    '.$months[intval(date('m', strtotime($row->ultimo_pago)))].' de '.date('Y', strtotime($row->ultimo_pago)).' <br>
                     '.(date('Ym', strtotime($row->ultimo_pago)) < date('Ym') ? '<small> Debe '.($anios ? $anios.' año(s)' : '').($anios && $meses ? ' y ' : ' ').($meses ? $meses.' meses' : '').'</small>' : '<small>Sin deuda</small>').'
                 ';
             })

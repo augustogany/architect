@@ -56,7 +56,7 @@
                 <th>Arancel</th>
                 <th>Costo PU.</th>
                 <th>Porcentaje CADBENI.</th>
-                <th>Visado $US.</th>
+                <th>Visado Bs.</th>
                 <th>Visado Bs.</th>
             </tr>
             <?php $numeroitems = 0; ?>

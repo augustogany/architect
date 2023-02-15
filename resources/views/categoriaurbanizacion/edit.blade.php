@@ -65,7 +65,7 @@
                                 <div class="form-line">
                                     <input type="number" step="0.01" class="form-control form-control-sm" name="visado_sus" value="{{$categoriaurbanizacion->visado_sus}}" required placeholder="COSTO." autocomplete="off">
                                 </div>
-                                <small>Visado $US.</small>
+                                <small>Visado Bs.</small>
                             </div>
                         </div> --}}
                         <!-- === -->

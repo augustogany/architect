@@ -118,9 +118,9 @@
                         <div class="col-sm-2">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" readonly id="visado_sus" name="visado_sus" class="form-control form-control-sm" required placeholder="VISADO $US." autocomplete="off">
+                                    <input type="text" readonly id="visado_sus" name="visado_sus" class="form-control form-control-sm" required placeholder="VISADO Bs." autocomplete="off">
                                 </div>
-                                <small>Visado $US. precio a 6.86</small>
+                                <small>Visado Bs. precio a 6.86</small>
                             </div>
                         </div>
                         <!-- === -->
