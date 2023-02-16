@@ -54,7 +54,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="number" step="0.01" class="form-control form-control-sm" name="porcentaje_cab" value="{{$categoriaurbanizacion->porcentaje_cab}}" required placeholder="COSTO." autocomplete="off">
+                                    <input type="number" step="0.001" class="form-control form-control-sm" name="porcentaje_cab" value="{{$categoriaurbanizacion->porcentaje_cab}}" required placeholder="COSTO." autocomplete="off">
                                 </div>
                                 <small>Porcentaj C.A.B.</small>
                             </div>

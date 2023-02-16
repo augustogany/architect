@@ -18,6 +18,7 @@
             <tbody>
                 @php
                     $cont = 1;
+                    $total = 0;
                 @endphp
                 @forelse ($pagos as $item)
                     <tr>
@@ -30,17 +31,22 @@
                                 @endforeach
                             </ul>
                         </td>
-                        <td>{{ $item->descuento }}</td>
-                        <td>{{ $item->mensualidades->sum('monto_pagado') - $item->descuento }}</td>
+                        <td class="text-right">{{ $item->descuento }}</td>
+                        <td class="text-right">{{ $item->mensualidades->sum('monto_pagado') - $item->descuento }}</td>
                     </tr>
                     @php
                         $cont++;
+                        $total += $item->mensualidades->sum('monto_pagado') - $item->descuento;
                     @endphp
                 @empty
                     <tr>
                         <td colspan="5"><h5 class="text-muted text-center">No hay resultados</h5></td>
                     </tr>
                 @endforelse
+                <tr>
+                    <td colspan="4"><b>TOTAL</b></td>
+                    <td class="text-right"><b>{{ number_format($total, 2, ',', '.') }}</b></td>
+                </tr>
             </tbody>
         </table>
     </div>

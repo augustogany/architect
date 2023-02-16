@@ -159,7 +159,7 @@
           if(categoria){
             $('#arancel').val(new Intl.NumberFormat().format(parseFloat(categoria.arancel).toFixed(4)));
             $('#porcentaje').val(new Intl.NumberFormat().format(parseFloat(categoria.porcentaje_cab).toFixed(4)));
-            $('#totalbs').val(new Intl.NumberFormat().format(parseFloat(cantidad * categoria.arancel * categoria.porcentaje_cab).toFixed(4)));
+            $('#totalbs').val(new Intl.NumberFormat().format(parseFloat(cantidad * categoria.arancel * categoria.porcentaje_cab * 6.96).toFixed(4)));
           }else{
             $('#costo').val('');
             $('#totalbs').val('');

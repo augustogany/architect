@@ -5,6 +5,7 @@
         <a href="{{ route('personas.proyectogenerales.index', $id) }}" title="Proyectos generales" class="dropdown-item">Visaciones</a>
         <a href="{{ route('personas.proyectourbanizacions.index', $id) }}" title="Proyectos de urbanización" class="dropdown-item">Proyectos de urbanización</a>
         <a href="{{ route('personas.ventaservicio.index', $id) }}" title="Venta de carpetas" class="dropdown-item">Venta de carpetas</a>
+        <a href="{{ route('personas.pagoanual.index', $id) }}" title="Pagos de mensualidad" class="dropdown-item">Pago CENACAB</a>
     </div>
 </div>
 

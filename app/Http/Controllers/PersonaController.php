@@ -22,6 +22,7 @@ use App\Detalledeuda;
 use App\Sucursal;
 use App\PersonasPago;
 use App\PersonasPagosMensualidades;
+use App\personasPagosAnual;
 use App\Gestion;
 use App\Ventaservicio;
 use App\Detalleventaservicio;
@@ -390,6 +391,53 @@ class PersonaController extends Controller
             toast('Ocurrió un error','error');
             return redirect()->route('personas.pagomensualidad.index', $id);
         }
+    }
+
+    // ===================================================
+
+    function pagoanual_index($id){
+        $persona = Persona::find($id);
+        $pagos = personasPagosAnual::where('persona_id', $id)
+                    ->where('deleted_at', NULL)->get();
+        return view('persona.pagoanual', compact('id', 'persona', 'pagos'));
+    }
+
+    function pagoanual_store($id, Request $request){
+        // dd($request->all());
+        
+        $pago = personasPagosAnual::where('persona_id', $id)->where('gestion_id', $request->gestion_id)->where('deleted_at', NULL)->first();
+        if($pago){
+            toast('La gestión ya se pago','warning');
+            return redirect()->route('personas.pagoanual.index', $id);
+        }
+        
+        personasPagosAnual::create([
+            'user_id' => Auth::user()->id,
+            'sucursal_id' => $request->sucursal_id,
+            'persona_id' => $id,
+            'gestion_id' => $request->gestion_id,
+            'monto_pagado' => $request->monto_pagado,
+            'monto_descuento' => $request->monto_descuento,
+            'fecha_pago' => $request->fecha_pago,
+            'observaciones' => $request->observaciones
+        ]);
+        toast('Pago registrado con éxito','success');
+        return redirect()->route('personas.pagoanual.index', $id);
+    }
+
+    public function pagoanual_print($id){
+        $pago = personasPagosAnual::find($id);
+        return view('persona.pagoanual-print', compact('pago'));
+        $pdf = \PDF::loadview('persona.pagoanual-print', compact('pago'));
+        return $pdf->stream('Recibo de pago de pago anual.pdf');
+    }
+
+    public function pagoanual_destroy($id, Request $request){
+        personasPagosAnual::where('id', $id)->update([
+            'deleted_at' => Carbon::now()
+        ]);
+        toast('Pago eliminado con éxito','success');
+        return redirect()->route('personas.pagoanual.index', $id);
     }
 
     // ====================================================

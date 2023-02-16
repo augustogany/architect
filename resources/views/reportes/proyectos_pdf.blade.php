@@ -53,38 +53,44 @@
                 <thead>
                     <tr>
                         <th>N&deg;</th>
+                        <th>Fecha de registro</th>
                         <th>Afiliado</th>
                         <th>Proyecto</th>
                         <th>Categoría</th>
                         <th>Precio Unit.</th>
                         <th>Superficie</th>
                         <th>Total</th>
-                        <th>Fecha de registro</th>
                     </tr>
                 </thead>
                 <tbody>
                     @php
                         $cont = 1;
+                        $total = 0;
                     @endphp
                     @forelse ($proyectos as $item)
                         <tr>
                             <td>{{ $cont }}</td>
+                            <td>{{ date('d/m/Y', strtotime($item->fecharegistro)) }}</td>
                             <td>{{ $item->persona->full_name }}</td>
                             <td>{{ $item->proyecto }}</td>
                             <td>{{ $item->categoriageneral->nombre }}</td>
                             <td>{{ $item->costocategoria }}</td>
                             <td>{{ $item->superficiemts2 }}</td>
-                            <td>{{ $item->totalbs }}</td>
-                            <td>{{ date('d/m/Y', strtotime($item->fecharegistro)) }}</td>
+                            <td style="text-align:right">{{ $item->totalbs }}</td>
                         </tr>
                         @php
                             $cont++;
+                            $total += $item->totalbs;
                         @endphp
                     @empty
                         <tr>
                             <td colspan="8"><h5>No hay resultados</h5></td>
                         </tr>
                     @endforelse
+                    <tr>
+                        <td colspan="7"><b>TOTAL</b></td>
+                        <td style="text-align:right"><b>{{ number_format($total, 2, ',', '.') }}</b></td>
+                    </tr>
                 </tbody>
             </table>
         @else

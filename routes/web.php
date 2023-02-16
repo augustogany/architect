@@ -72,6 +72,11 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('personas/pagomensualidad/{id}/print','PersonaController@pagomensualidad_print')->name('personas.pagomensualidad.print');
 	Route::post('personas/{id}/pagomensualidad/destroy','PersonaController@pagomensualidad_destroy')->name('personas.pagomensualidad.destroy');
 
+	Route::get('personas/{id}/pagoanual','PersonaController@pagoanual_index')->name('personas.pagoanual.index');
+	Route::post('personas/{id}/pagoanual/store','PersonaController@pagoanual_store')->name('personas.pagoanual.store');
+	Route::get('personas/pagoanual/{id}/print','PersonaController@pagoanual_print')->name('personas.pagoanual.print');
+	Route::post('personas/{id}/pagoanual/destroy','PersonaController@pagoanual_destroy')->name('personas.pagoanual.destroy');
+
 	Route::get('personas/{id}/ventaservicio','PersonaController@ventaservicio_index')->name('personas.ventaservicio.index');
 	Route::post('personas/{id}/ventaservicio/store','PersonaController@ventaservicio_store')->name('personas.ventaservicio.store');
 	Route::post('personas/{id}/ventaservicio/destroy','PersonaController@ventaservicio_destroy')->name('personas.ventaservicio.destroy');
