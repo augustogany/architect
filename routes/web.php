@@ -172,4 +172,8 @@ Route::middleware(['auth'])->group(function () {
 
 	//Ruta para agregar pagos atrasados
 	Route::post('addpayment/{id}','DeudaarquitectoController@addpayment')->name('add.payment');
+
+	//Ruta para exportar las planillas de ingresos a excel
+	Route::get('planillas-ingresos-excel','PersonaController@exportPlanillasExcel')->name('exportPlanillaExcel');
+
 });

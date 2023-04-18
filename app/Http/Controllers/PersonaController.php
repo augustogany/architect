@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PersonasExport;
+use App\Exports\Planilla;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -896,5 +897,10 @@ class PersonaController extends Controller
 
         $pdf = \PDF::loadview('pdf.arquitecto_pagodeuda_rangofecha', compact('pagodeudas','deudatotal_Pagos','sucursal'));
         return $pdf->stream('PAGO DEUDAS ARQUITECTOS - '.date('d-m-Y').'.pdf');
+    }
+
+    public function exportPlanillasExcel()
+    {
+        return Excel::download(new Planilla, 'planillas-list.xlsx');
     }
 }
