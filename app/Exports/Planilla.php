@@ -10,9 +10,11 @@ use Maatwebsite\Excel\Concerns\WithCustomStartCell;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\BeforeExport;
 use Maatwebsite\Excel\Events\AfterSheet;
+use Maatwebsite\Excel\Concerns\WithTitle;
 use \DB;
 
-class Planilla implements FromCollection,WithHeadings,ShouldAutoSize,WithCustomStartCell,WithEvents
+class Planilla implements FromCollection,WithHeadings,ShouldAutoSize,
+WithCustomStartCell,WithTitle,WithEvents
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -21,7 +23,7 @@ class Planilla implements FromCollection,WithHeadings,ShouldAutoSize,WithCustomS
     {
         return collect(DB::select('CALL ingresos_planillas_procedures()'));
     }
-
+    
     public function headings(): array
     {
         return[
@@ -97,5 +99,12 @@ class Planilla implements FromCollection,WithHeadings,ShouldAutoSize,WithCustomS
                 $event->sheet->getStyle('A5:P5')->ApplyFromArray($borderThin);
             }
         ];
+    }
+    /**
+     * @return string
+     */
+    public function title(): string
+    {
+        return 'INGRESO DIA';
     }
 }
