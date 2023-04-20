@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PersonasExport;
-use App\Exports\Planilla;
+use App\Exports\PlanillaExport;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -901,6 +901,6 @@ class PersonaController extends Controller
 
     public function exportPlanillasExcel()
     {
-        return Excel::download(new Planilla, 'planillas-list.xlsx');
+        return Excel::download(new PlanillaExport, 'planillas-list.xlsx');
     }
 }
