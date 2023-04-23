@@ -23,8 +23,8 @@ class CreateIngresosPlanillasProcedures extends Migration
             +rep.CarpProyectos+rep.CarpAvaluo+rep.CuotaMensual+rep.CuotaAnual AS TotalIngresos
             FROM
             (
-            SELECT per.id
-                ,CONCAT(per.nombre, ' ', per.apaterno, ' ', per.amaterno) AS Arquitecto
+            SELECT 
+                CONCAT(per.nombre, ' ', per.apaterno, ' ', per.amaterno) AS Arquitecto
                 ,SUM(CASE WHEN pg.categoriageneral_id = 1 THEN pg.totalbs ELSE 0 END) AS VisacFamiliar
                 ,SUM(CASE WHEN pg.categoriageneral_id = 3 THEN pg.totalbs ELSE 0 END) AS VisacComercio
                 ,SUM(CASE WHEN pg.categoriageneral_id IN (2, 4) THEN pg.totalbs ELSE 0 END) AS VisacOtros
@@ -43,8 +43,8 @@ class CreateIngresosPlanillasProcedures extends Migration
                 AND pg.deleted_at IS NULL AND DATE(pg.created_at)= CURDATE()
                 GROUP BY per.id
             UNION 
-            select p.id
-                    ,CONCAT(p.nombre, ' ', p.apaterno, ' ', p.amaterno) AS Arquitecto
+            select 
+                CONCAT(p.nombre, ' ', p.apaterno, ' ', p.amaterno) AS Arquitecto
                     ,0 VisacFamiliar
                     ,0 VisacComercio
                     ,0 VisacOtros
@@ -63,8 +63,8 @@ class CreateIngresosPlanillasProcedures extends Migration
                     INNER JOIN detalleventaservicios dv ON vs.id = dv.ventaservicio_id AND dv.deleted_at IS NULL
                     GROUP BY p.id
             UNION 
-            select p.id
-                    ,CONCAT(p.nombre, ' ', p.apaterno, ' ', p.amaterno) AS Arquitecto
+            select 
+                    CONCAT(p.nombre, ' ', p.apaterno, ' ', p.amaterno) AS Arquitecto
                     ,0 VisacFamiliar
                     ,0 VisacComercio
                     ,0 VisacOtros
@@ -86,8 +86,8 @@ class CreateIngresosPlanillasProcedures extends Migration
                     GROUP BY p.id	
 
             UNION 
-            select p.id
-                ,CONCAT(p.nombre, ' ', p.apaterno, ' ', p.amaterno) AS Arquitecto
+            select 
+                CONCAT(p.nombre, ' ', p.apaterno, ' ', p.amaterno) AS Arquitecto
                 ,0 VisacFamiliar
                 ,0 VisacComercio
                 ,0 VisacOtros
