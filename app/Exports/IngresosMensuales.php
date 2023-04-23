@@ -70,6 +70,77 @@ ShouldAutoSize,WithCustomStartCell,WithTitle,WithEvents
         // Agregar la nueva fila al final de la colección de datos
         $data->push($total_row);
 
+        //agregar 1 filas vacias
+        $row_emty = ['','','','','','','', '','','', '', '','', '', ''
+                ,'','','','','','','', '','','', '', '','', '', '','','',''
+        ];
+        $data->push($row_emty);
+        //agregar filas para total otros ingresos
+        $row_total = ['OTROS IGRESOS','0','0','0','0','0','0', '0','0','0', '0', '0','0', '0', '0'
+                ,'0','0','0','0','0','0','0', '0','0','0', '0', '0','0', '0', '0','0','0','0'
+        ];
+        $data->push($row_total);
+        //agregar filas para total GASTOS
+        $row_total = ['TOTAL GASTOS','0','0','0','0','0','0', '0','0','0', '0', '0','0', '0', '0'
+                ,'0','0','0','0','0','0','0', '0','0','0', '0', '0','0', '0', '0','0','0','0'
+        ];
+        $data->push($row_total);
+        //agregar filas para trasferencias
+        $row_total = ['TRANSFERENCIAS','0','0','0','0','0','0', '0','0','0', '0', '0','0', '0', '0'
+                ,'0','0','0','0','0','0','0', '0','0','0', '0', '0','0', '0', '0','0','0','0'
+        ];
+        $data->push($row_total);
+        //agregar filas para total efectivo caja
+        $row_total = ['TOTAL EFEC. CAJA','0','0','0','0','0','0', '0','0','0', '0', '0','0', '0', '0'
+                ,'0','0','0','0','0','0','0', '0','0','0', '0', '0','0', '0', '0','0','0','0'
+        ];
+        $data->push($row_total);
+        //agregar filas para total deposito cta corriente
+        $row_total = ['DEPOSITO CUENTA CORRIENTE','0','0','0','0','0','0', '0','0','0', '0', '0','0', '0', '0'
+                ,'0','0','0','0','0','0','0', '0','0','0', '0', '0','0', '0', '0','0','0','0'
+        ];
+        $data->push($row_total);
+        //agregar filas para total deposito BNB procede
+        $row_total = ['DEPOSITO BNB(PROCEDE)','0','0','0','0','0','0', '0','0','0', '0', '0','0', '0', '0'
+                ,'0','0','0','0','0','0','0', '0','0','0', '0', '0','0', '0', '0','0','0','0'
+        ];
+        $data->push($row_total);
+        //agregar filas para total deposito bnb ins dep
+        $row_total = ['DEPOSITO DEPOSITO BNB(INS. DEP.)','0','0','0','0','0','0', '0','0','0', '0', '0','0', '0', '0'
+                ,'0','0','0','0','0','0','0', '0','0','0', '0', '0','0', '0', '0','0','0','0'
+        ];
+        $data->push($row_total);
+        // agregar 1 fila vecia
+        $row_emty = ['','','','','','','', '','','', '', '','', '', ''
+                ,'','','','','','','', '','','', '', '','', '', '','','',''
+        ];
+        $data->push($row_emty);
+
+        //agregar filas para total ingresos
+        $row_total = ['TOTAL IGRESOS',$total_column33,'','','','','', '','','', '', '','', '', ''
+                ,'','','','','','','', '','','', '', '','', '', '','','',''
+            ];
+        $data->push($row_total);
+        //agregar filas para total transferecias
+        $row_transf = ['TRASFERENCIAS','0','','','','','', '','','', '', '','', '', ''
+                ,'','','','','','','', '','','', '', '','', '', '','','',''
+            ];
+        $data->push($row_transf);
+        //agregar filas para total gastos directos de caja
+        $row_caja = ['GASTOS DIRECTOS DE CAJA','0','','','','','', '','','', '', '','', '', ''
+                ,'','','','','','','', '','','', '', '','', '', '','','',''
+            ];
+        $data->push($row_caja);
+        //agregar filas para total gastos retiros
+        $row_retiros = ['GASTOS POR RETIROS DE CTA BANCO','0','','','','','', '','','', '', '','', '', ''
+                ,'','','','','','','', '','','', '', '','', '', '','','',''
+            ];
+        $data->push($row_retiros);
+        //agregar filas para total utilidad mensual
+        $row_retiros = ['UTILIDAD MENSUAL',$total_column33,'','','','','', '','','', '', '','', '', ''
+                ,'','','','','','','', '','','', '', '','', '', '','','',''
+            ];
+        $data->push($row_retiros);
         return $data;
     }
     public function headings(): array
