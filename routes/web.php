@@ -174,6 +174,7 @@ Route::middleware(['auth'])->group(function () {
 	Route::post('addpayment/{id}','DeudaarquitectoController@addpayment')->name('add.payment');
 
 	//Ruta para exportar las planillas de ingresos a excel
-	Route::get('planillas-ingresos-excel','PersonaController@exportPlanillasExcel')->name('exportPlanillaExcel');
+	Route::get('reporte-planillas','ReportesController@ingresos_planillas_index')->name('indexplanillas');
+	Route::post('planillas-ingresos-excel','PersonaController@exportPlanillasExcel')->name('exportPlanillaExcel');
 
 });

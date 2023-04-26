@@ -21,12 +21,20 @@ use \DB;
 class Planilla implements FromCollection,WithHeadings,ShouldAutoSize,
 WithCustomStartCell,WithTitle,WithEvents,WithDrawings
 {
+    protected $fechaInicio;
+    protected $fechaFin;
+
+    public function __construct($fechaInicio, $fechaFin)
+    {
+        $this->fechaInicio = $fechaInicio;
+        $this->fechaFin = $fechaFin;
+    }
     /**
     * @return \Illuminate\Support\Collection
     */
     public function collection()
     {
-        $data = collect(DB::select('CALL ingresos_planillas_procedures()'));
+        $data = collect(DB::select("CALL ingresos_planillas_procedures(?,?)",array($this->fechaInicio,$this->fechaFin)));
         // Calcular la suma de cada columna
         $total_score = $data->sum('VisacFamiliar');
         $total_column3 = $data->sum('VisacComercio');
@@ -44,7 +52,7 @@ WithCustomStartCell,WithTitle,WithEvents,WithDrawings
         $total_column15 = $data->sum('TotalIngresos');
         
         // Crear una nueva fila con los totales de cada columna
-        $total_row = ['',$total_score, $total_column3, $total_column4, 
+        $total_row = ['','',$total_score, $total_column3, $total_column4, 
             $total_column5, $total_column6,$total_column7, $total_column8
             ,$total_column9, $total_column10, $total_column11, $total_column12
             ,$total_column13, $total_column14, $total_column15
@@ -54,29 +62,29 @@ WithCustomStartCell,WithTitle,WithEvents,WithDrawings
         $data->push($total_row);
         //agregar 7 filas vacias
         for ($i=0; $i < 7; $i++) { 
-            $row_emty = ['','','','','','','', '','','', '', '','', '', ''];
+            $row_emty = ['','','','','','','','', '','','', '', '','', '', ''];
             $data->push($row_emty);
         }
         //agregar las cuetas
-        $row_account = ['','','','','','','', '','','', '', 'CUETA','DEPOSITO', '', 'TOTAL'];
+        $row_account = ['','','','','','','','', '','','', '', 'CUETA','DEPOSITO', '', 'TOTAL'];
         $data->push($row_account);
         //Agregar suma de la primer cuenta
-        $row_account_CTA_CTE = ['','','','',''
+        $row_account_CTA_CTE = ['','','','','',''
             ,'','', '','','', '', 'CTA CTE','BANCO NACIONAL DE BOLIVIA', 'Nº 80000-17095', '0'
         ];
         $data->push($row_account_CTA_CTE);
         //Agregar suma de la segunda cuenta
-        $row_account_PROCEDE = ['ELABORADO POR','','','',''
+        $row_account_PROCEDE = ['','ELABORADO POR','','','',''
             ,'','', '','','', '', 'PROCEDE','BANCO NACIONAL DE BOLIVIA', 'Nº 850-0212226', '0'
         ];
         $data->push($row_account_PROCEDE);
         //Agregar suma de la tercer cuenta
-        $row_account_FDODEP = ['','','','',''
+        $row_account_FDODEP = ['','','','','',''
             ,'','', '','','', '', 'FDO DEP','BANCO NACIONAL DE BOLIVIA', 'Nº 850-0444887', '0'
         ];
         $data->push($row_account_FDODEP);
          //Agregar suma del total depositado
-         $row_account_total = ['','','','',''
+         $row_account_total = ['','','','','',''
          ,'','', '','','', '', '','TOTAL DEPOSITADO', '', $total_column15
      ];
      $data->push($row_account_total);
@@ -90,6 +98,7 @@ WithCustomStartCell,WithTitle,WithEvents,WithDrawings
             ['CORRESPONDIENTES AL MES ACTUAL'], 
             [''],
             [
+                '#',
                 'Arquitecto',
                 'VisacFamiliar',
                 'VisacComercio',
@@ -150,7 +159,7 @@ WithCustomStartCell,WithTitle,WithEvents,WithDrawings
                 ['A4:O4',
                 'A5:O5' // Fila intermedia
                 ]);
-                $event->sheet->getStyle('A7:O7')->applyFromArray($this->getStyleArray());
+                $event->sheet->getStyle('A7:P7')->applyFromArray($this->getStyleArray());
                 $event->sheet->getDelegate()->freezePane('A6'); //Congela las filas anteriores
                 $event->sheet->getStyle('A4:O4')->ApplyFromArray($colCenter);
                 $event->sheet->getStyle('A5:O5')->ApplyFromArray($colCenter);
@@ -173,7 +182,7 @@ WithCustomStartCell,WithTitle,WithEvents,WithDrawings
         $styleArray = [
             'font' => [
                 'bold' => true,
-                'size' => 13,
+                'size' => 12,
                 'color' => ['argb' => 'FFFDFD'],
             ],
             'fill' => [
@@ -202,7 +211,7 @@ WithCustomStartCell,WithTitle,WithEvents,WithDrawings
         $drawing->setDescription('logo');
         $drawing->setPath(public_path('/theme/dist/img/logo.png'));
         $drawing->setHeight(90);
-        $drawing->setCoordinates('A1');
+        $drawing->setCoordinates('B1');
 
         return $drawing;
     }

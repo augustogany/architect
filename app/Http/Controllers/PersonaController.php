@@ -899,8 +899,10 @@ class PersonaController extends Controller
         return $pdf->stream('PAGO DEUDAS ARQUITECTOS - '.date('d-m-Y').'.pdf');
     }
 
-    public function exportPlanillasExcel()
+    public function exportPlanillasExcel(Request $request)
     {
-        return Excel::download(new PlanillaExport, 'planillas-list.xlsx');
+        $inicio=$request->inicio;
+        $fin=$request->fin;
+        return Excel::download(new PlanillaExport($inicio,$fin), 'planillas-list.xlsx');
     }
 }
