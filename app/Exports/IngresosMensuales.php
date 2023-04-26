@@ -239,7 +239,7 @@ ShouldAutoSize,WithCustomStartCell,WithTitle,WithEvents
         $styleArray = [
             'font' => [
                 'bold' => true,
-                'size' => 13,
+                'size' => 12,
                 'color' => ['argb' => 'FFFDFD'],
             ],
             'fill' => [
