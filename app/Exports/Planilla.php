@@ -51,6 +51,35 @@ WithCustomStartCell,WithTitle,WithEvents,WithDrawings
         $total_column14 = $data->sum('CuotaAnual');
         $total_column15 = $data->sum('TotalIngresos');
         
+        $sum_carp_inscripcion = $data->sum('CantCertInscripcion');
+        $sum_carp_traslado = $data->sum('CantCertTraslado');
+        $sum_carp_proyectos = $data->sum('CantCarpProyectos');
+        $sum_carp_transf = $data->sum('CantCarpTransferencia');
+        $sum_carp_avaluo = $data->sum('CantCarpAvaluo');
+        $sum_carp_contrato = $data->sum('CantFormContrato');
+
+        $coleccion = $data->map(function ($row) {
+            return [
+                "ID"=>$row->ID,
+                "Arquitecto"=>$row->Arquitecto,
+                "VisacFamiliar"=>$row->VisacFamiliar ,
+                "VisacComercio" =>$row->VisacComercio,
+                "VisacOtros" =>$row->VisacOtros,
+                "CertRegistro" =>$row->CertRegistro,
+                "TimbreFort" =>$row->TimbreFort,
+                "CertInscripcion" =>$row->CertInscripcion,
+                "CertTraslado" =>$row->CertTraslado,
+                "CarpTransferencia" =>$row->CarpTransferencia,
+                "FormContrato" =>$row->FormContrato,
+                "CarpProyectos" =>$row->CarpProyectos,
+                "CarpAvaluo" =>$row->CarpAvaluo,
+                "CuotaMensual" =>$row->CuotaMensual,
+                "CuotaAnual" =>$row->CuotaAnual,
+                "TotalIngresos" =>$row->TotalIngresos,
+            ];
+        });
+        $total_bnb=$sum_carp_inscripcion+$sum_carp_traslado+$sum_carp_proyectos+$sum_carp_transf+$sum_carp_avaluo+$sum_carp_contrato;
+        $total_dep=$sum_carp_proyectos+$sum_carp_transf+$sum_carp_avaluo;
         // Crear una nueva fila con los totales de cada columna
         $total_row = ['','',$total_score, $total_column3, $total_column4, 
             $total_column5, $total_column6,$total_column7, $total_column8
@@ -59,36 +88,39 @@ WithCustomStartCell,WithTitle,WithEvents,WithDrawings
         ];
 
         // Agregar la nueva fila al final de la colección de datos
-        $data->push($total_row);
+        $coleccion->push($total_row);
         //agregar 7 filas vacias
         for ($i=0; $i < 7; $i++) { 
             $row_emty = ['','','','','','','','', '','','', '', '','', '', ''];
-            $data->push($row_emty);
+            $coleccion->push($row_emty);
         }
         //agregar las cuetas
         $row_account = ['','','','','','','','', '','','', '', 'CUETA','DEPOSITO', '', 'TOTAL'];
-        $data->push($row_account);
+        $coleccion->push($row_account);
         //Agregar suma de la primer cuenta
         $row_account_CTA_CTE = ['','','','','',''
             ,'','', '','','', '', 'CTA CTE','BANCO NACIONAL DE BOLIVIA', 'Nº 80000-17095', '0'
         ];
-        $data->push($row_account_CTA_CTE);
+        $coleccion->push($row_account_CTA_CTE);
+        $tb=$total_bnb*5;
         //Agregar suma de la segunda cuenta
         $row_account_PROCEDE = ['','ELABORADO POR','','','',''
-            ,'','', '','','', '', 'PROCEDE','BANCO NACIONAL DE BOLIVIA', 'Nº 850-0212226', '0'
+            ,'','', '','','', '', 'PROCEDE','BANCO NACIONAL DE BOLIVIA', 'Nº 850-0212226', $tb
         ];
-        $data->push($row_account_PROCEDE);
+        $coleccion->push($row_account_PROCEDE);
+        $td=$total_dep*5;
         //Agregar suma de la tercer cuenta
         $row_account_FDODEP = ['','','','','',''
-            ,'','', '','','', '', 'FDO DEP','BANCO NACIONAL DE BOLIVIA', 'Nº 850-0444887', '0'
+            ,'','', '','','', '', 'FDO DEP','BANCO NACIONAL DE BOLIVIA', 'Nº 850-0444887', $td
         ];
-        $data->push($row_account_FDODEP);
+        $coleccion->push($row_account_FDODEP);
+        $total=$total_column15-$tb-$td;
          //Agregar suma del total depositado
          $row_account_total = ['','','','','',''
-         ,'','', '','','', '', '','TOTAL DEPOSITADO', '', $total_column15
+         ,'','', '','','', '', '','TOTAL DEPOSITADO', '', $tb + $td
      ];
-     $data->push($row_account_total);
-        return $data;
+     $coleccion->push($row_account_total);
+        return $coleccion;
     }
     
     public function headings(): array
