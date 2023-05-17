@@ -23,7 +23,7 @@ class UptateIngresosPlanillasProc extends Migration
             BEGIN
             SET @numero=0;
             SELECT 
-			@numero:=@numero+1 AS `#`
+			@numero:=@numero+1 AS `ID`
 			,rep.*
             ,rep.VisacFamiliar + rep.VisacComercio + rep.VisacOtros + rep.CertRegistro
             +rep.TimbreFort+rep.CertInscripcion+rep.CertTraslado+rep.CarpTransferencia+rep.FormContrato
@@ -47,8 +47,8 @@ class UptateIngresosPlanillasProc extends Migration
                 ,0 CuotaAnual
                 FROM personas per
                 INNER JOIN proyectogenerals pg ON per.id=pg.persona_id 
-                AND pg.deleted_at IS NULL 
-					 AND pg.created_at BETWEEN fecha_inicio AND fecha_fin
+                AND pg.deleted_at IS NULL
+                AND DATE(pg.created_at) BETWEEN CAST(fecha_inicio AS DATE) AND CAST(fecha_fin AS DATE) 
                 GROUP BY per.id
             UNION 
             select 
@@ -67,7 +67,8 @@ class UptateIngresosPlanillasProc extends Migration
                     ,0 CuotaMensual
                     ,0 CuotaAnual
                     FROM personas p
-                    INNER JOIN  ventaservicios vs ON p.id = vs.persona_id AND vs.deleted_at IS NULL  AND vs.created_at BETWEEN fecha_inicio AND fecha_fin
+                    INNER JOIN  ventaservicios vs ON p.id = vs.persona_id AND vs.deleted_at IS NULL
+                    AND DATE(vs.created_at) BETWEEN CAST(fecha_inicio AS DATE) AND CAST(fecha_fin AS DATE) 
                     INNER JOIN detalleventaservicios dv ON vs.id = dv.ventaservicio_id AND dv.deleted_at IS NULL
                     GROUP BY p.id
             UNION 
@@ -89,8 +90,9 @@ class UptateIngresosPlanillasProc extends Migration
                     FROM personas p
                     INNER JOIN personas_pagos pp ON pp.persona_id=p.id 
                     INNER JOIN personas_pagos_mensualidades pm ON pp.id = pm.personas_pago_id 
-                    AND  pm.created_at BETWEEN fecha_inicio AND fecha_fin
-                    AND pp.deleted_at IS NULL AND pp.created_at BETWEEN fecha_inicio AND fecha_fin
+                    AND DATE(pm.created_at) BETWEEN CAST(fecha_inicio AS DATE) AND CAST(fecha_fin AS DATE)
+                    AND pp.deleted_at IS NULL 
+                    AND DATE(pp.created_at) BETWEEN CAST(fecha_inicio AS DATE) AND CAST(fecha_fin AS DATE)
                     GROUP BY p.id	
 
             UNION 
@@ -110,7 +112,8 @@ class UptateIngresosPlanillasProc extends Migration
                 ,0 CuotaMensual
                 ,SUM(pa.monto_pagado) AS CuotaAnual
                 FROM personas p
-                INNER JOIN personas_pagos_anuales pa ON pa.persona_id=p.id AND pa.deleted_at IS NULL AND pa.created_at BETWEEN fecha_inicio AND fecha_fin	
+                INNER JOIN personas_pagos_anuales pa ON pa.persona_id=p.id AND pa.deleted_at IS NULL 
+                AND DATE(pa.created_at) BETWEEN CAST(fecha_inicio AS DATE) AND CAST(fecha_fin AS DATE)	
                 GROUP BY p.id
 
             ) AS rep; 
