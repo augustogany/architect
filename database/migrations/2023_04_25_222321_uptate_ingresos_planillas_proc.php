@@ -45,6 +45,12 @@ class UptateIngresosPlanillasProc extends Migration
                 ,0 CarpAvaluo
                 ,0 CuotaMensual
                 ,0 CuotaAnual
+                ,0 CantCertInscripcion
+                ,0 CantCertTraslado
+                ,0 CantCarpTransferencia
+                ,0 CantFormContrato
+                ,0 CantCarpProyectos
+                ,0 CantCarpAvaluo
                 FROM personas per
                 INNER JOIN proyectogenerals pg ON per.id=pg.persona_id 
                 AND pg.deleted_at IS NULL
@@ -66,6 +72,12 @@ class UptateIngresosPlanillasProc extends Migration
                     ,SUM(CASE WHEN dv.servicio_id = 7 THEN (dv.precio * dv.cantidad) ELSE 0 END) AS CarpAvaluo
                     ,0 CuotaMensual
                     ,0 CuotaAnual
+                    ,SUM(CASE WHEN dv.servicio_id = 3 THEN (dv.cantidad) ELSE 0 END) AS CantCertInscripcion
+                    ,SUM(CASE WHEN dv.servicio_id = 4 THEN (dv.cantidad) ELSE 0 END) AS CantCertTraslado
+                    ,SUM(CASE WHEN dv.servicio_id = 6 THEN (dv.cantidad) ELSE 0 END) AS CantCarpTransferencia
+                    ,SUM(CASE WHEN dv.servicio_id = 8 THEN (dv.cantidad) ELSE 0 END) AS CantFormContrato
+                    ,SUM(CASE WHEN dv.servicio_id = 5 THEN (dv.cantidad) ELSE 0 END) AS CantCarpProyectos
+                    ,SUM(CASE WHEN dv.servicio_id = 7 THEN (dv.cantidad) ELSE 0 END) AS CantCarpAvaluo
                     FROM personas p
                     INNER JOIN  ventaservicios vs ON p.id = vs.persona_id AND vs.deleted_at IS NULL
                     AND DATE(vs.created_at) BETWEEN CAST(fecha_inicio AS DATE) AND CAST(fecha_fin AS DATE) 
@@ -87,6 +99,12 @@ class UptateIngresosPlanillasProc extends Migration
                     ,0 CarpAvaluo
                     ,SUM(pm.monto_pagado) AS CuotaMensual
                     ,0 CuotaAnual
+                    ,0 CantCertInscripcion
+                    ,0 CantCertTraslado
+                    ,0 CantCarpTransferencia
+                    ,0 CantFormContrato
+                    ,0 CantCarpProyectos
+                    ,0 CantCarpAvaluo
                     FROM personas p
                     INNER JOIN personas_pagos pp ON pp.persona_id=p.id 
                     INNER JOIN personas_pagos_mensualidades pm ON pp.id = pm.personas_pago_id 
@@ -111,6 +129,12 @@ class UptateIngresosPlanillasProc extends Migration
                 ,0 CarpAvaluo
                 ,0 CuotaMensual
                 ,SUM(pa.monto_pagado) AS CuotaAnual
+                ,0 CantCertInscripcion
+                ,0 CantCertTraslado
+                ,0 CantCarpTransferencia
+                ,0 CantFormContrato
+                ,0 CantCarpProyectos
+                ,0 CantCarpAvaluo
                 FROM personas p
                 INNER JOIN personas_pagos_anuales pa ON pa.persona_id=p.id AND pa.deleted_at IS NULL 
                 AND DATE(pa.created_at) BETWEEN CAST(fecha_inicio AS DATE) AND CAST(fecha_fin AS DATE)	
