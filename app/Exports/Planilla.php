@@ -132,20 +132,20 @@ WithCustomStartCell,WithTitle,WithEvents,WithDrawings
             [
                 '#',
                 'Arquitecto',
-                'VisacFamiliar',
-                'VisacComercio',
-                'VisacOtros',
-                'CertRegistro',
+                'Familiar',
+                'Comercio',
+                'Otros',
+                'Registro',
                 'TimbreFort',
-                'CertInscripcion',
-                'CertTraslado',
-                'CarpTransferencia',
-                'FormContrato',
-                'CarpProyectos',
-                'CarpAvaluo',
-                'CuotaMensual',
-                'CuotaAnual',
-                'TotalIngresos'
+                'Inscripcion',
+                'Traslado',
+                'Transferencia',
+                'Contrato',
+                'Proyectos',
+                'Avaluo',
+                'Mes',
+                'Anual',
+                'Total'
             ]
         ];
     }
