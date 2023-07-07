@@ -188,8 +188,7 @@ WithCustomStartCell,WithTitle,WithEvents,WithDrawings
         return [
             AfterSheet::class => function(AfterSheet $event) use($borderDashed,$colCenter,$rowCenter,$borderThin){
                 $event->sheet->getDelegate()->setMergeCells( //Combina celdas
-                ['A4:O4',
-                'A5:O5' // Fila intermedia
+                ['A4:O4','A5:O5','C6:E6','F6:I6','J6:M6','N6:O6'
                 ]);
                 $event->sheet->getStyle('A7:P7')->applyFromArray($this->getStyleArray());
                 $event->sheet->getDelegate()->freezePane('A6'); //Congela las filas anteriores
