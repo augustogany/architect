@@ -99,19 +99,19 @@ WithCustomStartCell,WithTitle,WithEvents,WithDrawings
         $coleccion->push($row_account);
         //Agregar suma de la primer cuenta
         $row_account_CTA_CTE = ['','','','','',''
-            ,'','', '','','', '', 'CTA CTE','BANCO NACIONAL DE BOLIVIA', 'Nº 80000-17095', '0'
+            ,'','', '','','', '', 'CTA CTE','BNB', 'Nº 80000-17095', '0'
         ];
         $coleccion->push($row_account_CTA_CTE);
         $tb=$total_bnb*5;
         //Agregar suma de la segunda cuenta
         $row_account_PROCEDE = ['','ELABORADO POR','','','',''
-            ,'','', '','','', '', 'PROCEDE','BANCO NACIONAL DE BOLIVIA', 'Nº 850-0212226', $tb
+            ,'','', '','','', '', 'PROCEDE','BNB', 'Nº 850-0212226', $tb
         ];
         $coleccion->push($row_account_PROCEDE);
         $td=$total_dep*5;
         //Agregar suma de la tercer cuenta
         $row_account_FDODEP = ['','','','','',''
-            ,'','', '','','', '', 'FDO DEP','BANCO NACIONAL DE BOLIVIA', 'Nº 850-0444887', $td
+            ,'','', '','','', '', 'FDO DEP','BNB', 'Nº 850-0444887', $td
         ];
         $coleccion->push($row_account_FDODEP);
         $total=$total_column15-$tb-$td;
