@@ -128,7 +128,7 @@ WithCustomStartCell,WithTitle,WithEvents,WithDrawings
         return[
             ['PLANILLA DE INGRESOS'],
             ['CORRESPONDIENTES AL MES ACTUAL'], 
-             ['','','VISACIONES','','','CERTIFICADOS','','','','CARPETAS Y PROYECTOS','','','','CUOTAS'],
+            ['','','VISACIONES','','','CERTIFICADOS','','','','CARPETAS Y PROYECTOS','','','','CUOTAS'],
             [
                 '#',
                 'Arquitecto',

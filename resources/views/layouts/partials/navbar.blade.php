@@ -66,6 +66,7 @@
                 <li><a href="{{route('reportes.ventas')}}" class="dropdown-item"><i class="fas fa-folder-open"></i> Ventas de carpeta</a></li>
                 <li><a href="{{route('reportes.mensualidades')}}" class="dropdown-item"><i class="fas fa-folder-open"></i> Pago de mensualidades</a></li>
                 <li><a href="{{route('indexplanillas')}}" class="dropdown-item"><i class="fas fa-folder-open"></i> Planilla de Ingresos</a></li>
+                <li><a href="{{route('report_diario')}}" class="dropdown-item" target="_blanck"><i class="fas fa-folder-open"></i> Reporte diario de Ingresos</a></li>
             </ul>
         </li>
         @endcan

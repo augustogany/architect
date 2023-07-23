@@ -177,4 +177,7 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('reporte-planillas','ReportesController@ingresos_planillas_index')->name('indexplanillas');
 	Route::post('planillas-ingresos-excel','PersonaController@exportPlanillasExcel')->name('exportPlanillaExcel');
 
+	//reporte diario de ingresos
+	Route::get('report_diario','ConsultasController@reporte_diario')->name('report_diario');
+
 });
